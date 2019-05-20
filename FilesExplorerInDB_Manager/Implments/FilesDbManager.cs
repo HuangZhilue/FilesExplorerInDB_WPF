@@ -4,10 +4,14 @@ using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using FilesExplorerInDB_Models.Models;
 
 namespace FilesExplorerInDB_Manager.Implments
@@ -81,7 +85,13 @@ namespace FilesExplorerInDB_Manager.Implments
             return _dbService.SaveChanges();
         }
 
-        public ExplorerProperty SetExplorerItems_Files(Files file, ImageSource imageSource)
+        /// <summary>
+        /// 设置文件信息
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <param name="defaultBitmap">默认的文件类型图标</param>
+        /// <returns>文件信息</returns>
+        public ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap)
         {
             _property = UnityContainerHelp.GetServer<ExplorerProperty>();
             _property.Id = file.FileId;
@@ -93,11 +103,16 @@ namespace FilesExplorerInDB_Manager.Implments
             _property.ModifyTime = file.ModifyTime.ToString("yyyy/MM/dd HH:mm");
             _property.Size = file.Size;
             _property.Type = file.FileType;
-            if (imageSource != null)
-                _property.ImageSource = imageSource;
+            _property.ImageSource = GetImage(file.RealName != null ? Icon.ExtractAssociatedIcon(file.RealName)?.ToBitmap() : defaultBitmap);
             return _property;
         }
 
+        /// <summary>
+        /// 设置文件夹信息
+        /// </summary>
+        /// <param name="folder">文件夹</param>
+        /// <param name="imageSource">文件夹图标</param>
+        /// <returns>文件夹信息</returns>
         public ExplorerProperty SetExplorerItems_Folders(Folders folder,ImageSource imageSource)
         {
             _property = UnityContainerHelp.GetServer<ExplorerProperty>();
@@ -462,6 +477,26 @@ namespace FilesExplorerInDB_Manager.Implments
 
 
         #endregion
+
+        #endregion
+
+        #region 获取文件图标
+
+        /// <summary>
+        /// 通过本地化的资源图像文件，返回适用于Image控件的图像
+        /// </summary>
+        /// <param name="imageBitmap">System.Drawing.Bitmap 类型的本地化资源</param>
+        /// <returns>图像的System.Windows.Media.ImageSource</returns>
+        public ImageSource GetImage(Bitmap imageBitmap)
+        {
+            if (imageBitmap == null) return null;
+            return Imaging.CreateBitmapSourceFromHBitmap(
+                imageBitmap.GetHbitmap(),
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions()
+            );
+        }
 
         #endregion
     }

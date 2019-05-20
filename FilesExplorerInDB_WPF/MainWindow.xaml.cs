@@ -3,15 +3,12 @@ using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Manager.Interface;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Properties;
 using Unity.Injection;
@@ -130,7 +127,8 @@ namespace FilesExplorerInDB_WPF
             {
                 item = new ListViewItem
                 {
-                    Content = _filesDbManager.SetExplorerItems_Folders(folder, GetImage(Properties.Resources.folder))
+                    Content = _filesDbManager.SetExplorerItems_Folders(folder,
+                        _filesDbManager.GetImage(Properties.Resources.folder))
                 };
                 item.MouseDoubleClick += ListView_Explorer_Folder_MouseDoubleClick; //添加鼠标双击事件（打开文件夹）
                 item.PreviewMouseLeftButtonDown +=
@@ -146,7 +144,7 @@ namespace FilesExplorerInDB_WPF
             {
                 item = new ListViewItem
                 {
-                    Content = _filesDbManager.SetExplorerItems_Files(file, GetImage(GetAnyTypeOfImage(file.FileType)))
+                    Content = _filesDbManager.SetExplorerItems_Files(file, Properties.Resources.DEFAULT)
                 };
                 item.PreviewMouseLeftButtonDown +=
                     ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
@@ -264,7 +262,7 @@ namespace FilesExplorerInDB_WPF
                 Label_Other_3.Text = "修改时间：" + _folderNow.ModifyTime;
                 Label_Other_4.Text = "包含的文件夹数量：" + _folderNow.FolderIncludeCount;
                 Label_Other_5.Text = "包含的文件数量：" + _folderNow.FileIncludeCount;
-                Image_PropertyType.Source = GetImage(Properties.Resources.folder);
+                Image_PropertyType.Source = _filesDbManager.GetImage(Properties.Resources.folder);
             }
             else
             {
@@ -275,7 +273,7 @@ namespace FilesExplorerInDB_WPF
                 Label_Other_3.Text = "";
                 Label_Other_4.Text = "";
                 Label_Other_5.Text = "";
-                Image_PropertyType.Source = GetImage(Properties.Resources.explorer);
+                Image_PropertyType.Source = _filesDbManager.GetImage(Properties.Resources.explorer);
             }
 
             ListView_Explorer.Focus();
@@ -853,33 +851,5 @@ namespace FilesExplorerInDB_WPF
                     }
             }
         }
-
-        #region 图像处理
-
-        /// <summary>
-        /// 通过本地化的资源图像文件，返回适用于Image控件的图像
-        /// </summary>
-        /// <param name="imageBitmap">System.Drawing.Bitmap 类型的本地化资源</param>
-        /// <returns>图像的System.Windows.Media.ImageSource</returns>
-        private ImageSource GetImage(Bitmap imageBitmap)
-        {
-            if (imageBitmap == null) return null;
-            return Imaging.CreateBitmapSourceFromHBitmap(
-                imageBitmap.GetHbitmap(),
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions()
-            );
-        }
-
-        private Bitmap GetAnyTypeOfImage(string type)
-        {
-            object obj = Properties.Resources.ResourceManager.GetObject(type.ToUpper(), Properties.Resources.Culture);
-            if (obj == null)
-                return (Bitmap) Properties.Resources.ResourceManager.GetObject("DEFAULT", Properties.Resources.Culture);
-            return (Bitmap) obj;
-        }
-
-        #endregion
     }
 }

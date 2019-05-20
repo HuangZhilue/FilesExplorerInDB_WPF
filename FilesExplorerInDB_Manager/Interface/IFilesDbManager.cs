@@ -1,6 +1,7 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -21,9 +22,7 @@ namespace FilesExplorerInDB_Manager.Interface
 
         IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
 
-        int SaveChanges();
-
-        ExplorerProperty SetExplorerItems_Files(Files file, ImageSource imageSource);
+        ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap);
 
         ExplorerProperty SetExplorerItems_Folders(Folders file, ImageSource imageSource);
 
@@ -39,10 +38,12 @@ namespace FilesExplorerInDB_Manager.Interface
 
         Stack<Folders> GetRelativePath_Folder(int folderId);
 
-        Folders CreateFolders(int ParentFoldersId);
+        Folders CreateFolders(int parentFoldersId);
 
         Folders SetFoldersProperty(int foldersId);
 
         Files SetFilesProperty(int filesId);
+
+        ImageSource GetImage(Bitmap imageBitmap);
     }
 }

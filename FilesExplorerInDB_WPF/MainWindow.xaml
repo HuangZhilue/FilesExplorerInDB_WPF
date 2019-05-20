@@ -109,15 +109,15 @@
                 </ScrollViewer>
             </Grid>-->
             <TextBox x:Name="Label_Name" Text="Name" Grid.Column="2" Margin="10,10,10,0" VerticalAlignment="Top" Height="25" FontSize="15" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
-            <TextBox x:Name="Label_Type" Text="Type" Grid.Column="2" Margin="10,35,10,0" VerticalAlignment="Top" FontSize="8" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
+            <TextBox x:Name="Label_Type" Text="Type" Grid.Column="2" Margin="10,35,10,0" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
             <Border BorderBrush="#7F7C7C7C" BorderThickness="1" Grid.Column="2" HorizontalAlignment="Left" Height="60" Margin="10,60,0,0" VerticalAlignment="Top" Width="60">
                 <Image x:Name="Image_PropertyType"/>
             </Border>
-            <TextBox x:Name="Label_Other_1" Text="Label" Grid.Column="2" Margin="10,125,10,0" VerticalAlignment="Top" FontSize="8" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
-            <TextBox x:Name="Label_Other_2" Text="Label" Grid.Column="2" Margin="10,145,10,0" VerticalAlignment="Top" FontSize="8" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
-            <TextBox x:Name="Label_Other_3" Text="Label" Grid.Column="2" Margin="10,165,10,0" VerticalAlignment="Top" FontSize="8" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
-            <TextBox x:Name="Label_Other_4" Text="Label" Grid.Column="2" Margin="10,185,10,0" VerticalAlignment="Top" FontSize="8" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
-            <TextBox x:Name="Label_Other_5" Text="Label" Grid.Column="2" Margin="10,205,10,0" VerticalAlignment="Top" FontSize="8" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
+            <TextBox x:Name="Label_Other_1" Text="Label" Grid.Column="2" Margin="10,125,10,0" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
+            <TextBox x:Name="Label_Other_2" Text="Label" Grid.Column="2" Margin="10,145,10,0" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
+            <TextBox x:Name="Label_Other_3" Text="Label" Grid.Column="2" Margin="10,165,10,0" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
+            <TextBox x:Name="Label_Other_4" Text="Label" Grid.Column="2" Margin="10,185,10,0" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
+            <TextBox x:Name="Label_Other_5" Text="Label" Grid.Column="2" Margin="10,205,10,0" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" IsReadOnly="True" BorderThickness="0"/>
         </Grid>
         <Border BorderThickness="1" Grid.Row="3" Background="#FF74E6FF" BorderBrush="#FF74E6FF"/>
 
