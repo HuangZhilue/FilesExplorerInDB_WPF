@@ -19,6 +19,7 @@ namespace FilesExplorerInDB_Manager.Implments
     public class FilesDbManager : IFilesDbManager
     {
         private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
+        private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
         private ExplorerProperty _property;
         private FilesDbManager _filesDbManager;
 
@@ -28,6 +29,7 @@ namespace FilesExplorerInDB_Manager.Implments
             {
                 Directory.CreateDirectory(pathForSave);
             }
+
             Files files = UnityContainerHelp.GetServer<Files>();
             files.FolderLocalId = folderLocalId;
             files.AccessTime = fileInfo.LastAccessTime;
@@ -103,7 +105,9 @@ namespace FilesExplorerInDB_Manager.Implments
             _property.ModifyTime = file.ModifyTime.ToString("yyyy/MM/dd HH:mm");
             _property.Size = file.Size;
             _property.Type = file.FileType;
-            _property.ImageSource = GetImage(file.RealName != null ? Icon.ExtractAssociatedIcon(file.RealName)?.ToBitmap() : defaultBitmap);
+            _property.ImageSource = GetImage(file.RealName != null
+                ? _fileIcon.GetBitmapFromFilePath(file.RealName, FileIcon.IconSizeEnum.ExtraLargeIcon)
+                : defaultBitmap);
             return _property;
         }
 
@@ -113,7 +117,7 @@ namespace FilesExplorerInDB_Manager.Implments
         /// <param name="folder">文件夹</param>
         /// <param name="imageSource">文件夹图标</param>
         /// <returns>文件夹信息</returns>
-        public ExplorerProperty SetExplorerItems_Folders(Folders folder,ImageSource imageSource)
+        public ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
         {
             _property = UnityContainerHelp.GetServer<ExplorerProperty>();
             _property.Id = folder.FolderId;

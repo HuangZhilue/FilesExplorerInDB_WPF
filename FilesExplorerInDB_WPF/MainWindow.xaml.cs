@@ -16,8 +16,8 @@ using static System.Double;
 
 namespace FilesExplorerInDB_WPF
 {
-    //WPF 获取 ListView DataTemplate 中控件值
-    //https://blog.csdn.net/song_qingwei/article/details/50475191
+    //查找DataTemplate生成的元素
+    //https://docs.microsoft.com/en-us/dotnet/framework/wpf/data/how-to-find-datatemplate-generated-elements
 
     //WPF ListView 自动调整列宽
     //https://blog.csdn.net/djc11282/article/details/42261677
@@ -79,6 +79,11 @@ namespace FilesExplorerInDB_WPF
         /// 原文件名（文件夹名），用于恢复
         /// </summary>
         private string _nameBackup;
+
+        /// <summary>
+        /// 搜索控件时指示的当前索引值（为0）
+        /// </summary>
+        private int _defaultIndexOfObj = 0;
 
         #endregion
 
@@ -604,11 +609,14 @@ namespace FilesExplorerInDB_WPF
                 _selectItems.Clear();
                 ExplorerProperty property = item.Content as ExplorerProperty;
                 _selectItems.Add(property);
+                _defaultIndexOfObj = 0;
 
                 var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
 
                 // Getting the ContentPresenter of myListBoxItem
-                var myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
+                var myContentPresenter =
+                    FindVisualChild<ContentPresenter>(myListBoxItem,
+                        1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
 
                 // Finding textBlock from the DataTemplate that is set on that ContentPresenter
                 DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
@@ -636,17 +644,30 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 寻找子标签（子控件）
         /// </summary>
-        private TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
+        /// <typeparam name="TChildItem">子控件类型</typeparam>
+        /// <param name="obj">子控件</param>
+        /// <param name="indexOfObj">该控件的索引</param>
+        /// <returns>子控件</returns>
+        private TChildItem FindVisualChild<TChildItem>(DependencyObject obj, int indexOfObj)
             where TChildItem : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(obj, i);
                 if (child is TChildItem item)
-                    return item;
+                {
+                    if (_defaultIndexOfObj == indexOfObj) return item;
+                    else
+                    {
+                        _defaultIndexOfObj++;
+                        TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
+                        if (childOfChild != null)
+                            return childOfChild;
+                    }
+                }
                 else
                 {
-                    TChildItem childOfChild = FindVisualChild<TChildItem>(child);
+                    TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
                     if (childOfChild != null)
                         return childOfChild;
                 }

@@ -53,9 +53,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implments\FileIcon.cs" />
     <Compile Include="Implments\FilesDbManager.cs" />
+    <Compile Include="Interface\IFileIcon.cs" />
     <Compile Include="Interface\IFilesDbManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Implments\Shell\IImageList.cs" />
+    <Compile Include="Implments\Shell\IMAGEINFO.cs" />
+    <Compile Include="Implments\Shell\IMAGELISTDRAWPARAMS.cs" />
+    <Compile Include="Implments\Shell\POINT.cs" />
+    <Compile Include="Implments\Shell\RECT.cs" />
+    <Compile Include="Implments\Shell\SHFILEINFO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
