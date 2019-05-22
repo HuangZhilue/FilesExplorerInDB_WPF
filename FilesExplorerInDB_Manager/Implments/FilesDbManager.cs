@@ -42,8 +42,7 @@ namespace FilesExplorerInDB_Manager.Implments
             files = FilesAdd(files, true);
             fileInfo = fileInfo.CopyTo(pathForSave + "\\" + files.FileId + "." + files.FileType, true);
             files.RealName = fileInfo.FullName;
-            FilesModified(files);
-            SaveChanges();
+            FilesModified(files, true);
 
             return files;
         }
@@ -84,14 +83,16 @@ namespace FilesExplorerInDB_Manager.Implments
             return _dbService.LoadFoldersEntites(where);
         }
 
-        private void FilesModified(Files files)
+        private void FilesModified(Files files,bool isSave=false)
         {
             _dbService.FilesModified(files);
+            if (isSave) SaveChanges();
         }
 
-        private void FoldersModified(Folders folder)
+        private void FoldersModified(Folders folder, bool isSave=false)
         {
             _dbService.FoldersModified(folder);
+            if (isSave) SaveChanges();
         }
 
         private int SaveChanges()
@@ -175,6 +176,7 @@ namespace FilesExplorerInDB_Manager.Implments
         /// <returns>是否成功</returns>
         public bool Paste(int folderForPaste, List<ExplorerProperty> items, bool isCutting)
         {
+            int lid = 0;
             foreach (ExplorerProperty item in items)
             {
                 if (isCutting) //剪切
@@ -216,9 +218,13 @@ namespace FilesExplorerInDB_Manager.Implments
                         FilesAdd(file, false);
                     }
                 }
+
+                lid = item.FolderLocalId;
             }
 
-            return SaveChanges() > 0;
+            int s = SaveChanges();
+            SetParentFoldersProperty(lid);
+            return s > 0;
         }
 
         /// <summary>
@@ -277,6 +283,7 @@ namespace FilesExplorerInDB_Manager.Implments
         /// <returns>成功状态</returns>
         public bool SetDeleteState(List<ExplorerProperty> items)
         {
+            int lid = 0;
             foreach (ExplorerProperty item in items)
             {
                 if (item.IsFolder)
@@ -291,10 +298,13 @@ namespace FilesExplorerInDB_Manager.Implments
                     file.IsDelete = true;
                     FilesModified(file);
                 }
+
+                lid = item.FolderLocalId;
             }
 
-            SaveChanges();
-            return SaveChanges() > 0;
+            int s = SaveChanges();
+            SetParentFoldersProperty(lid);
+            return s > 0;
         }
 
         /// <summary>
@@ -306,9 +316,9 @@ namespace FilesExplorerInDB_Manager.Implments
         {
             Files file = FilesFind(filesForDelete);
             file.IsDelete = true;
-            FilesModified(file);
-            SaveChanges();
-            return SaveChanges() > 0;
+            FilesModified(file, true);
+            SetParentFoldersProperty(file.FolderLocalId);
+            return true;
         }
 
         #endregion
@@ -365,6 +375,7 @@ namespace FilesExplorerInDB_Manager.Implments
             folder.ModifyTime = DateTime.Now;
             folder.Size = 0;
             folder = FoldersAdd(folder, true);
+            SetParentFoldersProperty(parentFoldersId);
             return folder;
         }
 
@@ -374,6 +385,11 @@ namespace FilesExplorerInDB_Manager.Implments
 
         #region 设置文件夹属性
 
+        /// <summary>
+        /// 刷新子文件夹的属性
+        /// </summary>
+        /// <param name="foldersId">父文件夹ID</param>
+        /// <returns>父文件夹</returns>
         public Folders SetFoldersProperty(int foldersId)
         {
             Folders parentFolders = FoldersFind(foldersId);
@@ -429,6 +445,29 @@ namespace FilesExplorerInDB_Manager.Implments
             return parentFolders;
         }
 
+        /// <summary>
+        /// 刷新父文件夹的属性
+        /// </summary>
+        /// <param name="foldersId">子项目所在文件夹</param>
+        /// <returns>父文件夹</returns>
+        private Folders SetParentFoldersProperty(int foldersId)
+        {
+            if (foldersId == -1)
+            {
+                SaveChanges();
+                return null;
+            }
+            List<Folders> folders =
+                LoadFoldersEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
+            List<Files> files = LoadFilesEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
+            Folders folder = FoldersFind(foldersId);
+            folder.FileIncludeCount = folders.Sum(f => f.FileIncludeCount) + files.Count;
+            folder.FolderIncludeCount = folders.Sum(f => f.FolderIncludeCount) + folders.Count;
+            folder.Size = folders.Sum(f => f.Size) + files.Sum(f => f.Size);
+            FoldersModified(folder);
+            return SetParentFoldersProperty(folder.FolderLocalId);
+        }
+
         #endregion
 
         #region 设置文件属性
@@ -449,9 +488,7 @@ namespace FilesExplorerInDB_Manager.Implments
                     files.AccessTime = fileInfo.LastAccessTime;
                     files.CreationTime = fileInfo.CreationTime;
                     files.ModifyTime = fileInfo.LastWriteTime;
-                    FilesModified(files);
-
-                    SaveChanges();
+                    FilesModified(files,true);
                     return files;
                 }
             }
