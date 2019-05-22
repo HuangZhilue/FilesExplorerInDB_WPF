@@ -11,12 +11,13 @@ namespace FilesExplorerInDB_WPF
     /// </summary>
     public partial class PropertyWindow : Window
     {
-        private readonly IFilesDbManager _filesDbManager = UnityContainerHelp.GetServer<IFilesDbManager>();
+        private readonly IFilesDbManager _filesDbManager;
         private readonly bool _isFolder;
         private readonly int _id;
 
-        public PropertyWindow(object sender, bool isFolder)
+        public PropertyWindow(object sender, bool isFolder, IFilesDbManager filesDbManager)
         {
+            _filesDbManager = filesDbManager;
             _isFolder = isFolder;
             InitializeComponent();
             if (isFolder && sender is Folders folders)

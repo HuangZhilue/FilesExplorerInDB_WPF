@@ -126,7 +126,8 @@ namespace FilesExplorerInDB_WPF
         {
             _folderNow = _filesDbManager.FoldersFind(folderId);
             ListView_Explorer.Items.Clear();
-            List<Folders> explorerFolders = _folders.Where(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
+            List<Folders> explorerFolders =
+                _filesDbManager.LoadFoldersEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
             ListViewItem item;
             foreach (var folder in explorerFolders)
             {
@@ -240,8 +241,8 @@ namespace FilesExplorerInDB_WPF
                 if (property.IsFolder)
                 {
                     Label_Other_1.Text = "文件夹大小：" + property.Size;
-                    Label_Other_4.Text = "包含的文件夹数量：" + "";
-                    Label_Other_5.Text = "包含的文件数量：" + "";
+                    Label_Other_4.Text = "包含的文件夹数量：" + _filesDbManager.FoldersFind(property.Id).FolderIncludeCount;
+                    Label_Other_5.Text = "包含的文件数量：" + _filesDbManager.FoldersFind(property.Id).FileIncludeCount;
                 }
                 else
                 {
@@ -739,7 +740,7 @@ namespace FilesExplorerInDB_WPF
         {
             if (((MenuItem) sender).DataContext is ExplorerProperty property)
             {
-                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder).Show();
+                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, _filesDbManager).Show();
             }
         }
 
@@ -762,7 +763,7 @@ namespace FilesExplorerInDB_WPF
         {
             if (((MenuItem) sender).DataContext is ExplorerProperty property)
             {
-                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder).Show();
+                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, _filesDbManager).Show();
             }
         }
 
@@ -857,6 +858,7 @@ namespace FilesExplorerInDB_WPF
 
                             Files files2 =
                                 _filesDbManager.FilesAdd(fi, _folderNow.FolderId, Settings.Default.FileStorageLocation);
+                            SetExplorer_ListView(_folderNow.FolderId);
                         }
                         else if (Directory.Exists(s))
                         {

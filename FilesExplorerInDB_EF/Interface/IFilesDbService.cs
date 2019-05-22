@@ -28,6 +28,5 @@ namespace FilesExplorerInDB_EF.Interface
         IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
 
         int SaveChanges();
-
     }
 }

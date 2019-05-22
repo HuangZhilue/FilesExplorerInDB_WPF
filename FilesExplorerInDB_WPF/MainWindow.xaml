@@ -72,7 +72,7 @@
                                 <!--DisplayMemberBinding="{Binding Name}"-->
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image x:Name="Image_Type" Source="{Binding ImageSource}" Height="20"/>
+                                        <Image x:Name="Image_Type" Source="{Binding ImageSource}" Height="30"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

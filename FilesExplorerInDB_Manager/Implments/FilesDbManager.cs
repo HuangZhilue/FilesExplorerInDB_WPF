@@ -5,6 +5,7 @@ using FilesExplorerInDB_Manager.Interface;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -41,8 +42,9 @@ namespace FilesExplorerInDB_Manager.Implments
             files = FilesAdd(files, true);
             fileInfo = fileInfo.CopyTo(pathForSave + "\\" + files.FileId + "." + files.FileType, true);
             files.RealName = fileInfo.FullName;
-            _dbService.FilesModified(files);
+            FilesModified(files);
             SaveChanges();
+
             return files;
         }
 
@@ -82,7 +84,17 @@ namespace FilesExplorerInDB_Manager.Implments
             return _dbService.LoadFoldersEntites(where);
         }
 
-        public int SaveChanges()
+        private void FilesModified(Files files)
+        {
+            _dbService.FilesModified(files);
+        }
+
+        private void FoldersModified(Folders folder)
+        {
+            _dbService.FoldersModified(folder);
+        }
+
+        private int SaveChanges()
         {
             return _dbService.SaveChanges();
         }
@@ -100,9 +112,9 @@ namespace FilesExplorerInDB_Manager.Implments
             _property.FolderLocalId = file.FolderLocalId;
             _property.IsFolder = false;
             _property.Name = file.FileName;
-            _property.AccessTime = file.AccessTime.ToString("yyyy/MM/dd HH:mm");
-            _property.CreationTime = file.CreationTime.ToString("yyyy/MM/dd HH:mm");
-            _property.ModifyTime = file.ModifyTime.ToString("yyyy/MM/dd HH:mm");
+            _property.AccessTime = file.AccessTime.ToString(CultureInfo.CurrentCulture);
+            _property.CreationTime = file.CreationTime.ToString(CultureInfo.CurrentCulture);
+            _property.ModifyTime = file.ModifyTime.ToString(CultureInfo.CurrentCulture);
             _property.Size = file.Size;
             _property.Type = file.FileType;
             _property.ImageSource = GetImage(file.RealName != null
@@ -171,13 +183,13 @@ namespace FilesExplorerInDB_Manager.Implments
                     {
                         Folders folder = FoldersFind(item.Id);
                         folder.FolderLocalId = folderForPaste;
-                        _dbService.FoldersModified(folder);
+                        FoldersModified(folder);
                     }
                     else
                     {
                         Files file = FilesFind(item.Id);
                         file.FolderLocalId = folderForPaste;
-                        _dbService.FilesModified(file);
+                        FilesModified(file);
                     }
                 }
                 else //复制
@@ -271,16 +283,17 @@ namespace FilesExplorerInDB_Manager.Implments
                 {
                     Folders folder = FoldersFind(item.Id);
                     folder.IsDelete = true;
-                    _dbService.FoldersModified(folder);
+                    FoldersModified(folder);
                 }
                 else
                 {
                     Files file = FilesFind(item.Id);
                     file.IsDelete = true;
-                    _dbService.FilesModified(file);
+                    FilesModified(file);
                 }
             }
 
+            SaveChanges();
             return SaveChanges() > 0;
         }
 
@@ -293,7 +306,8 @@ namespace FilesExplorerInDB_Manager.Implments
         {
             Files file = FilesFind(filesForDelete);
             file.IsDelete = true;
-            _dbService.FilesModified(file);
+            FilesModified(file);
+            SaveChanges();
             return SaveChanges() > 0;
         }
 
@@ -316,14 +330,14 @@ namespace FilesExplorerInDB_Manager.Implments
                     Folders folder = FoldersFind(item.Id);
                     folder.FolderName = newName;
                     folder.ModifyTime = DateTime.Now;
-                    _dbService.FoldersModified(folder);
+                    FoldersModified(folder);
                 }
                 else
                 {
                     Files file = FilesFind(item.Id);
                     file.FileName = newName;
                     file.ModifyTime = DateTime.Now;
-                    _dbService.FilesModified(file);
+                    FilesModified(file);
                 }
             }
 
@@ -380,8 +394,8 @@ namespace FilesExplorerInDB_Manager.Implments
         /// <returns>子文件夹的属性</returns>
         private Folders SetChildFoldersProperty(Folders parentFolders, int endFolderId)
         {
-            IQueryable<Folders> folders =
-                LoadFoldersEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete);
+            List<Folders> folders =
+                LoadFoldersEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete).ToList();
             List<Folders> foldersList = new List<Folders>();
             if (parentFolders.FolderId != endFolderId) //当刷新子文件夹到最终文件夹时，停止继续刷新子文件夹
                 foreach (Folders childFolders in folders)
@@ -393,7 +407,7 @@ namespace FilesExplorerInDB_Manager.Implments
                     foldersList.Add(SetChildFoldersProperty(childFolders, endFolderId));
                 }
 
-            IQueryable<Files> files = LoadFilesEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete);
+            List<Files> files = LoadFilesEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete).ToList();
             if (!folders.Any())
             {
                 parentFolders.FileIncludeCount = files.Count();
@@ -411,7 +425,7 @@ namespace FilesExplorerInDB_Manager.Implments
             parentFolders.FolderIncludeCount += foldersList.Select(f => f.FolderIncludeCount).Sum();
             parentFolders.Size += foldersList.Select(f => f.Size).Sum();
             parentFolders.ModifyTime = DateTime.Now;
-            _dbService.FoldersModified(parentFolders);
+            FoldersModified(parentFolders);
             return parentFolders;
         }
 
@@ -435,17 +449,9 @@ namespace FilesExplorerInDB_Manager.Implments
                     files.AccessTime = fileInfo.LastAccessTime;
                     files.CreationTime = fileInfo.CreationTime;
                     files.ModifyTime = fileInfo.LastWriteTime;
-                    _dbService.FilesModified(files);
-
-                    Folders parentFolders = FoldersFind(0);
-                    //将需要叠加统计的数据，初始化为0，否则将导致下一次叠加统计时数据错误。
-                    parentFolders.FileIncludeCount = 0;
-                    parentFolders.FolderIncludeCount = 0;
-                    parentFolders.Size = 0;
-                    SetChildFoldersProperty(parentFolders, files.FolderLocalId);
+                    FilesModified(files);
 
                     SaveChanges();
-
                     return files;
                 }
             }
@@ -484,7 +490,7 @@ namespace FilesExplorerInDB_Manager.Implments
 
         #endregion
 
-        #region 获取文件图标
+        #region 转化文件图标
 
         /// <summary>
         /// 通过本地化的资源图像文件，返回适用于Image控件的图像
