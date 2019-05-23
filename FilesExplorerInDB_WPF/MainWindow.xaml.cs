@@ -3,6 +3,7 @@ using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Manager.Interface;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -148,9 +149,11 @@ namespace FilesExplorerInDB_WPF
                 _filesDbManager.LoadFilesEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
             foreach (var file in explorerFiles)
             {
+                Bitmap imageBitmap = Properties.Resources.DEFAULT;
+                if (file.IsMiss) imageBitmap = Properties.Resources.fileNotFount;
                 item = new ListViewItem
                 {
-                    Content = _filesDbManager.SetExplorerItems_Files(file, Properties.Resources.DEFAULT)
+                    Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap)
                 };
                 item.PreviewMouseLeftButtonDown +=
                     ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
@@ -873,6 +876,14 @@ namespace FilesExplorerInDB_WPF
 
                     }
             }
+        }
+
+        /// <summary>
+        /// 刷新整个文件系统的数据
+        /// </summary>
+        private void Button_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

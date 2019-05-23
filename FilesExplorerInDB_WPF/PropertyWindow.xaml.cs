@@ -85,7 +85,7 @@ namespace FilesExplorerInDB_WPF
             else
             {
                 Files files = _filesDbManager.SetFilesProperty(_id);
-                if (files != null)
+                if (!files.IsMiss )
                     SetText_Files(files);
                 else
                 {

@@ -24,6 +24,8 @@ namespace FilesExplorerInDB_Manager.Implments
         private ExplorerProperty _property;
         private FilesDbManager _filesDbManager;
 
+        #region 基础操作
+
         public Files FilesAdd(FileInfo fileInfo, int folderLocalId, string pathForSave)
         {
             if (!Directory.Exists(pathForSave))
@@ -99,6 +101,8 @@ namespace FilesExplorerInDB_Manager.Implments
         {
             return _dbService.SaveChanges();
         }
+
+        #endregion
 
         /// <summary>
         /// 设置文件信息
@@ -424,6 +428,7 @@ namespace FilesExplorerInDB_Manager.Implments
                 }
 
             List<Files> files = LoadFilesEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete).ToList();
+            files = SetFilesListProperty(files);
             if (!folders.Any())
             {
                 parentFolders.FileIncludeCount = files.Count();
@@ -460,6 +465,7 @@ namespace FilesExplorerInDB_Manager.Implments
             List<Folders> folders =
                 LoadFoldersEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
             List<Files> files = LoadFilesEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
+            files = SetFilesListProperty(files);
             Folders folder = FoldersFind(foldersId);
             folder.FileIncludeCount = folders.Sum(f => f.FileIncludeCount) + files.Count;
             folder.FolderIncludeCount = folders.Sum(f => f.FolderIncludeCount) + folders.Count;
@@ -471,6 +477,17 @@ namespace FilesExplorerInDB_Manager.Implments
         #endregion
 
         #region 设置文件属性
+
+        private List<Files> SetFilesListProperty(List<Files> filesList)
+        {
+            List<Files> filesList2 = new List<Files>();
+            foreach (Files files in filesList)
+            {
+                filesList2.Add(SetFilesProperty(files.FileId));
+            }
+
+            return filesList2;
+        }
 
         /// <summary>
         /// 刷新文件属性
@@ -488,19 +505,27 @@ namespace FilesExplorerInDB_Manager.Implments
                     files.AccessTime = fileInfo.LastAccessTime;
                     files.CreationTime = fileInfo.CreationTime;
                     files.ModifyTime = fileInfo.LastWriteTime;
-                    FilesModified(files,true);
-                    return files;
+                }
+                else
+                {
+                    files.IsMiss = true;
+                    files.ModifyTime = DateTime.Now;
                 }
             }
+            else if (files != null)
+            {
+                files.IsMiss = true;
+                files.ModifyTime = DateTime.Now;
+                files.Size = 0;
+            }
 
-            return null;
+            FilesModified(files, true);
+            return files;
         }
 
         #endregion
 
         #endregion
-
-        #region 获取相对路径
 
         #region 获取文件夹的相对路径
 
@@ -516,14 +541,6 @@ namespace FilesExplorerInDB_Manager.Implments
 
             return stack;
         }
-
-        #endregion
-
-        #region 获取文件的相对路径
-
-
-
-        #endregion
 
         #endregion
 

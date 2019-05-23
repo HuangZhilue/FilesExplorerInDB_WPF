@@ -28,6 +28,8 @@ namespace FilesExplorerInDB_EF.EFModels
 
         public string RealName { get; set; }
 
+        public bool IsMiss { get; set; }
+
         public virtual Folders Folders { get; set; }
     }
 }

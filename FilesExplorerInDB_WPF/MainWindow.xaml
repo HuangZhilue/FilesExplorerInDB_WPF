@@ -24,7 +24,7 @@
                     <GroupBox Header="系统设置" HorizontalContentAlignment="Center" Grid.Column="2" />
                     <Button x:Name="Button_Setting" Content="设置" Grid.Column="2" Margin="5,20,5.4,4.8" BorderBrush="{x:Null}" Background="{x:Null}" Click="Button_Setting_Click"/>
                     <GroupBox Grid.Column="1" Header="刷新" HorizontalContentAlignment="Center"/>
-                    <Button x:Name="Button_Refresh" Content="刷新" Grid.Column="1" Margin="5,20,5.4,4.8" BorderBrush="{x:Null}" Background="{x:Null}" Click="Button_Setting_Click"/>
+                    <Button x:Name="Button_Refresh" Content="刷新" Grid.Column="1" Margin="5,20,5.4,4.8" BorderBrush="{x:Null}" Background="{x:Null}" Click="Button_Refresh_Click"/>
 
                 </Grid>
             </TabItem>
