@@ -36,6 +36,10 @@ namespace FilesExplorerInDB_Manager.Interface
 
         bool Rename(List<ExplorerProperty> items, string newName);
 
+        void Rename(Files file, string newName);
+
+        void Rename(Folders folder, string newName);
+
         Stack<Folders> GetRelativePath_Folder(int folderId);
 
         Folders CreateFolders(int parentFoldersId);
@@ -45,5 +49,7 @@ namespace FilesExplorerInDB_Manager.Interface
         Files SetFilesProperty(int filesId);
 
         ImageSource GetImage(Bitmap imageBitmap);
+
+        string DisplayFileSize(long size);
     }
 }

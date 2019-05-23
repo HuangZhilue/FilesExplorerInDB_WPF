@@ -358,6 +358,30 @@ namespace FilesExplorerInDB_Manager.Implments
             return SaveChanges() > 0;
         }
 
+        /// <summary>
+        /// 重命名文件
+        /// </summary>
+        /// <param name="file">要重命名的文件</param>
+        /// <param name="newName">新名称</param>
+        public void Rename(Files file, string newName)
+        {
+            file.FileName = newName;
+            file.ModifyTime = DateTime.Now;
+            FilesModified(file, true);
+        }
+
+        /// <summary>
+        /// 重命名文件夹
+        /// </summary>
+        /// <param name="folder">要重命名的文件夹</param>
+        /// <param name="newName">新名称</param>
+        public void Rename(Folders folder, string newName)
+        {
+            folder.FolderName = newName;
+            folder.ModifyTime = DateTime.Now;
+            FoldersModified(folder, true);
+        }
+
         #endregion
 
         #region 新建文件夹
@@ -560,6 +584,45 @@ namespace FilesExplorerInDB_Manager.Implments
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromEmptyOptions()
             );
+        }
+
+        #endregion
+
+        #region 转换文件大小信息
+
+        private static readonly long KB = 1024;
+        private static readonly long MB = KB * 1024;
+        private static readonly long GB = MB * 1024;
+
+        /// <summary>
+        /// 转换文件大小信息
+        /// </summary>
+        /// <param name="size">Long（Int64）格式的文件字节大小</param>
+        /// <returns>转换成功的文件大小信息</returns>
+        public string DisplayFileSize(long size)
+        {
+            if (size >= GB)
+            {
+                return ((double)size / GB).ToString("0.00") + " GB";
+            }
+            else if (size >= MB)
+            {
+                double value = (double)size / MB;
+                return value.ToString("0.00") + " MB";
+            }
+            else if (size >= KB)
+            {
+                double value = (double)size / KB;
+                return value.ToString("0.00") + " KB";
+            }
+            else if (size == -1)
+            {
+                return "";
+            }
+            else
+            {
+                return size.ToString("0.00") + " B";
+            }
         }
 
         #endregion

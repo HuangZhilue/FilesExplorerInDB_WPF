@@ -12,8 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Properties;
-using Unity.Injection;
 using static System.Double;
+using Brush = System.Windows.Media.Brush;
 
 namespace FilesExplorerInDB_WPF
 {
@@ -84,7 +84,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 搜索控件时指示的当前索引值（为0）
         /// </summary>
-        private int _defaultIndexOfObj = 0;
+        private int _defaultIndexOfObj;
 
         #endregion
 
@@ -95,8 +95,8 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         public MainWindow()
         {
-            _isCutting = false;
             InitializeComponent();
+            CheckFileStorage();
             SetExplorer_TreeView();
             SetExplorer_ListView(0);
             ListView_Explorer_MouseLeftButtonDown(null, null);
@@ -155,6 +155,8 @@ namespace FilesExplorerInDB_WPF
                 {
                     Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap)
                 };
+                if (file.IsMiss)
+                    item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
                 item.PreviewMouseLeftButtonDown +=
                     ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
                 item.PreviewMouseRightButtonDown +=
@@ -243,13 +245,15 @@ namespace FilesExplorerInDB_WPF
                 Image_PropertyType.Source = property.ImageSource;
                 if (property.IsFolder)
                 {
-                    Label_Other_1.Text = "文件夹大小：" + property.Size;
+                    Label_Other_1.Text = "文件夹大小：" + _filesDbManager.DisplayFileSize(property.Size) + "(" +
+                                         property.Size + " 字节)";
                     Label_Other_4.Text = "包含的文件夹数量：" + _filesDbManager.FoldersFind(property.Id).FolderIncludeCount;
                     Label_Other_5.Text = "包含的文件数量：" + _filesDbManager.FoldersFind(property.Id).FileIncludeCount;
                 }
                 else
                 {
-                    Label_Other_1.Text = "大小：" + property.Size;
+                    Label_Other_1.Text = "大小：" + _filesDbManager.DisplayFileSize(property.Size) + "(" + property.Size +
+                                         " 字节)";
                     Label_Other_4.Text = "访问时间：" + property.AccessTime;
                     Label_Other_5.Text = "";
                 }
@@ -266,7 +270,7 @@ namespace FilesExplorerInDB_WPF
             {
                 Label_Name.Text = _folderNow.FolderName;
                 Label_Type.Text = "文件夹";
-                Label_Other_1.Text = "文件夹大小：" + _folderNow.Size;
+                Label_Other_1.Text = "文件夹大小：" +_filesDbManager.DisplayFileSize(_folderNow.Size) + "(" + _folderNow.Size + " 字节)";
                 Label_Other_2.Text = "创建时间：" + _folderNow.CreationTime;
                 Label_Other_3.Text = "修改时间：" + _folderNow.ModifyTime;
                 Label_Other_4.Text = "包含的文件夹数量：" + _folderNow.FolderIncludeCount;
@@ -743,7 +747,8 @@ namespace FilesExplorerInDB_WPF
         {
             if (((MenuItem) sender).DataContext is ExplorerProperty property)
             {
-                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource, _filesDbManager).Show();
+                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource,
+                    _filesDbManager).Show();
             }
         }
 
@@ -756,7 +761,18 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void OpenFile(object sender, RoutedEventArgs e)
         {
-
+            if (((MenuItem) sender).DataContext is ExplorerProperty property)
+            {
+                string path = Settings.Default.FileStorageLocation + property.Id + "." + property.Type;
+                if (File.Exists(path))
+                {
+                    System.Diagnostics.Process.Start(path);
+                }
+                else
+                {
+                    MessageBox.Show("文件物理路径错误", "打开文件出错", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
         }
 
         /// <summary>
@@ -766,7 +782,8 @@ namespace FilesExplorerInDB_WPF
         {
             if (((MenuItem) sender).DataContext is ExplorerProperty property)
             {
-                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource, _filesDbManager).Show();
+                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource,
+                    _filesDbManager).Show();
             }
         }
 
@@ -833,11 +850,16 @@ namespace FilesExplorerInDB_WPF
 
         }
 
+        #region 文件拖放
+
         private void ListView_Explorer_DragEnter(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.All;
         }
 
+        /// <summary>
+        /// 文件拖放并保存
+        /// </summary>
         private void ListView_Explorer_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
@@ -852,15 +874,9 @@ namespace FilesExplorerInDB_WPF
                             // 是文件
                             FileInfo fi = new FileInfo(s);
 
-                            if (String.IsNullOrEmpty(Settings.Default.FileStorageLocation))
-                            {
-                                Settings.Default.FileStorageLocation =
-                                    AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
-                                Settings.Default.Save();
-                            }
+                            CheckFileStorage();
 
-                            Files files2 =
-                                _filesDbManager.FilesAdd(fi, _folderNow.FolderId, Settings.Default.FileStorageLocation);
+                            _filesDbManager.FilesAdd(fi, _folderNow.FolderId, Settings.Default.FileStorageLocation);
                             SetExplorer_ListView(_folderNow.FolderId);
                         }
                         else if (Directory.Exists(s))
@@ -873,17 +889,33 @@ namespace FilesExplorerInDB_WPF
                             // 都不是
                             MessageBox.Show("未检测到文件！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
-
                     }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// 刷新整个文件系统的数据
         /// </summary>
         private void Button_Refresh_Click(object sender, RoutedEventArgs e)
         {
+            _filesDbManager.SetFoldersProperty(0);
+            SetExplorer_TreeView();
+            SetExplorer_ListView(0);
+        }
 
+        /// <summary>
+        /// 检查文件保存路径是否为空（为空则设置保存路径为该程序的根目录下）
+        /// </summary>
+        private void CheckFileStorage()
+        {
+            if (String.IsNullOrEmpty(Settings.Default.FileStorageLocation))
+            {
+                Settings.Default.FileStorageLocation =
+                    AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
+                Settings.Default.Save();
+            }
         }
     }
 }
