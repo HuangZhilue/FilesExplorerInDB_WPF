@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
 using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Manager.Interface;
@@ -15,7 +16,7 @@ namespace FilesExplorerInDB_WPF
         private readonly bool _isFolder;
         private readonly int _id;
 
-        public PropertyWindow(object sender, bool isFolder, IFilesDbManager filesDbManager)
+        public PropertyWindow(object sender, bool isFolder, ImageSource imageSource, IFilesDbManager filesDbManager)
         {
             _filesDbManager = filesDbManager;
             _isFolder = isFolder;
@@ -30,6 +31,8 @@ namespace FilesExplorerInDB_WPF
                 _id = files.FileId;
                 SetText_Files(files);
             }
+
+            ImageBox.Source = imageSource;
         }
 
         private void SetText_Folders(Folders folders)

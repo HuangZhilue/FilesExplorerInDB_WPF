@@ -743,7 +743,7 @@ namespace FilesExplorerInDB_WPF
         {
             if (((MenuItem) sender).DataContext is ExplorerProperty property)
             {
-                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, _filesDbManager).Show();
+                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource, _filesDbManager).Show();
             }
         }
 
@@ -766,7 +766,7 @@ namespace FilesExplorerInDB_WPF
         {
             if (((MenuItem) sender).DataContext is ExplorerProperty property)
             {
-                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, _filesDbManager).Show();
+                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource, _filesDbManager).Show();
             }
         }
 
