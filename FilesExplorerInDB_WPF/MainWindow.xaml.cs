@@ -25,7 +25,6 @@ namespace FilesExplorerInDB_WPF
 
 
 
-
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -908,7 +907,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 检查文件保存路径是否为空（为空则设置保存路径为该程序的根目录下）
         /// </summary>
-        private void CheckFileStorage()
+        private static void CheckFileStorage()
         {
             if (String.IsNullOrEmpty(Settings.Default.FileStorageLocation))
             {

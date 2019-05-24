@@ -12,6 +12,9 @@ namespace FilesExplorerInDB_EF.EFModels
         public int Id { get; set; }
 
         [Required]
+        public string MessageType { get; set; }
+
+        [Required]
         public string OperationType { get; set; }
 
         public string ObjectName { get; set; }
@@ -20,5 +23,7 @@ namespace FilesExplorerInDB_EF.EFModels
         public string Operator { get; set; }
 
         public string Message { get; set; }
+
+        public DateTime Time { get; set; }
     }
 }

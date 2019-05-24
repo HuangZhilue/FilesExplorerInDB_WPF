@@ -63,11 +63,13 @@
     <Compile Include="EFModels\FilesDB.cs" />
     <Compile Include="EFModels\Folders.cs" />
     <Compile Include="EFModels\Monitor.cs" />
+    <Compile Include="Implments\MonitorService.cs" />
     <Compile Include="Implments\FilesDbService.cs" />
     <Compile Include="Interface\IFiles.cs" />
     <Compile Include="Interface\IFilesDB.cs" />
     <Compile Include="Interface\IFilesDbService.cs" />
     <Compile Include="Interface\IFolders.cs" />
+    <Compile Include="Interface\IMonitorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

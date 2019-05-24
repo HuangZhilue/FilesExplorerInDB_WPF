@@ -21,6 +21,7 @@ namespace FilesExplorerInDB_Manager.Implments
     {
         private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
         private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
+        private readonly IMonitorManager _monitorManager = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty _property;
         private FilesDbManager _filesDbManager;
 
@@ -42,10 +43,11 @@ namespace FilesExplorerInDB_Manager.Implments
             files.ModifyTime = fileInfo.LastWriteTime;
             files.Size = fileInfo.Length;
             files = FilesAdd(files, true);
+            string originName = fileInfo.FullName;
             fileInfo = fileInfo.CopyTo(pathForSave + "\\" + files.FileId + "." + files.FileType, true);
             files.RealName = fileInfo.FullName;
             FilesModified(files, true);
-
+            _monitorManager.AddFileRecord(originName, files);
             return files;
         }
 
@@ -295,12 +297,14 @@ namespace FilesExplorerInDB_Manager.Implments
                     Folders folder = FoldersFind(item.Id);
                     folder.IsDelete = true;
                     FoldersModified(folder);
+                    _monitorManager.DeleteFolderRecord(folder);
                 }
                 else
                 {
                     Files file = FilesFind(item.Id);
                     file.IsDelete = true;
                     FilesModified(file);
+                    _monitorManager.DeleteFileRecord(file);
                 }
 
                 lid = item.FolderLocalId;
@@ -322,6 +326,7 @@ namespace FilesExplorerInDB_Manager.Implments
             file.IsDelete = true;
             FilesModified(file, true);
             SetParentFoldersProperty(file.FolderLocalId);
+            _monitorManager.DeleteFileRecord(file);
             return true;
         }
 
@@ -404,6 +409,7 @@ namespace FilesExplorerInDB_Manager.Implments
             folder.Size = 0;
             folder = FoldersAdd(folder, true);
             SetParentFoldersProperty(parentFoldersId);
+            _monitorManager.AddFolderRecord(folder);
             return folder;
         }
 
@@ -590,9 +596,9 @@ namespace FilesExplorerInDB_Manager.Implments
 
         #region 转换文件大小信息
 
-        private static readonly long KB = 1024;
-        private static readonly long MB = KB * 1024;
-        private static readonly long GB = MB * 1024;
+        private const long KB = 1024;
+        private const long MB = KB * 1024;
+        private const long GB = MB * 1024;
 
         /// <summary>
         /// 转换文件大小信息

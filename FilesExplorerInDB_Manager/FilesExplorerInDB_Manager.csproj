@@ -55,8 +55,10 @@
   <ItemGroup>
     <Compile Include="Implments\FileIcon.cs" />
     <Compile Include="Implments\FilesDbManager.cs" />
+    <Compile Include="Implments\MonitorManager.cs" />
     <Compile Include="Interface\IFileIcon.cs" />
     <Compile Include="Interface\IFilesDbManager.cs" />
+    <Compile Include="Interface\IMonitorManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implments\Shell\IImageList.cs" />
     <Compile Include="Implments\Shell\IMAGEINFO.cs" />
