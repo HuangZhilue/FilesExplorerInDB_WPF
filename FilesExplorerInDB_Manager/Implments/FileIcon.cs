@@ -7,9 +7,6 @@ using FilesExplorerInDB_Manager.Interface;
 
 namespace FilesExplorerInDB_Manager.Implments
 {
-    //Extract extra large Icon from a file, including network paths!
-    //https://lluisfranco.com/2014/04/16/extract-extra-large-icon-from-a-file-including-network-paths/
-
     public class FileIcon : IFileIcon
     {
         private const int SHGFI_SMALLICON = 0x1;

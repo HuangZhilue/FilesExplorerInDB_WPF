@@ -22,7 +22,7 @@ namespace FilesExplorerInDB_Manager.Interface
 
         IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
 
-        ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap);
+        ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap);
 
         ExplorerProperty SetExplorerItems_Folders(Folders file, ImageSource imageSource);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -147,9 +148,32 @@ namespace FilesExplorerInDB_Manager.Implments
             MonitorAdd(_monitor, true);
         }
 
-        public void ErrorRecord(string objectName, string message)
+        /// <summary>
+        /// 监控 - 错误
+        /// </summary>
+        /// <param name="exception">错误对象</param>
+        public void ErrorRecord(Exception exception)
         {
-            AddMonitorRecord(MessageType.Danger, OpType.SystemError, Operator.System, objectName, message);
+            string message = "\n\r";
+            if (exception != null)
+            {
+                message += "异常信息：\n\r" + exception.Message;
+                message += "\n\r";
+                message += "输出信息：错误位置";
+                message += "位置信息：\n\r" + exception.StackTrace;
+                message += "\n\r";
+
+                if (exception.InnerException != null)
+                {
+                    message += "异常信息：\n\r" + exception.InnerException.Message;
+                    message += "\n\r";
+                    message += "输出信息：错误位置\n\r";
+                    message += "位置信息：\n\r" + exception.InnerException.StackTrace;
+                    message += "\n\r";
+                }
+
+                AddMonitorRecord(MessageType.Danger, OpType.SystemError, Operator.System, exception.Source, message);
+            }
         }
 
         /// <summary>
@@ -177,7 +201,7 @@ namespace FilesExplorerInDB_Manager.Implments
             message += "目标文件：" + files.FileName + "；\n\r";
             message += "文件标识ID：" + files.FileId + "；\n\r";
             message += "父文件夹标识ID" + files.FolderLocalId + "；\n\r";
-            AddMonitorRecord(MessageType.Primary, OpType.SetDeleteState, Operator.User, files.FileName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, Operator.User, files.FileName, message);
         }
 
         /// <summary>
@@ -190,7 +214,22 @@ namespace FilesExplorerInDB_Manager.Implments
             message += "目标文件夹：" + folders.FolderName + "；\n\r";
             message += "文件夹标识ID：" + folders.FolderId + "；\n\r";
             message += "父文件夹标识ID" + folders.FolderLocalId + "；\n\r";
-            AddMonitorRecord(MessageType.Primary, OpType.SetDeleteState, Operator.User, folders.FolderName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, Operator.User, folders.FolderName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 完全删除文件
+        /// </summary>
+        /// <param name="files">目标文件</param>
+        /// <param name="fileInfo">物理文件信息</param>
+        public void DeleteCompleteRecord(Files files, FileInfo fileInfo)
+        {
+            string message = "\n\r";
+            message += "目标文件：" + files.FileName + "；\n\r";
+            message += "文件标识ID：" + files.FileId + "；\n\r";
+            message += "父文件夹标识ID" + files.FolderLocalId + "；\n\r";
+            message += "物理文件：" + fileInfo.FullName;
+            AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, Operator.User, files.FileName, message);
         }
 
         /// <summary>

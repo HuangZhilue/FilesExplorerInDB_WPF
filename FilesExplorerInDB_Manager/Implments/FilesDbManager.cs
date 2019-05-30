@@ -112,7 +112,7 @@ namespace FilesExplorerInDB_Manager.Implments
         /// <param name="file">文件</param>
         /// <param name="defaultBitmap">默认的文件类型图标</param>
         /// <returns>文件信息</returns>
-        public ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap)
+        public ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap)
         {
             _property = UnityContainerHelp.GetServer<ExplorerProperty>();
             _property.Id = file.FileId;
@@ -124,9 +124,21 @@ namespace FilesExplorerInDB_Manager.Implments
             _property.ModifyTime = file.ModifyTime.ToString(CultureInfo.CurrentCulture);
             _property.Size = file.Size;
             _property.Type = file.FileType;
-            _property.ImageSource = GetImage(file.RealName != null
-                ? _fileIcon.GetBitmapFromFilePath(file.RealName, FileIcon.IconSizeEnum.ExtraLargeIcon)
-                : defaultBitmap);
+            if (file.RealName != null && File.Exists(file.RealName))
+            {
+                _property.ImageSource =
+                    GetImage(_fileIcon.GetBitmapFromFilePath(file.RealName, FileIcon.IconSizeEnum.ExtraLargeIcon));
+            }
+            else if (file.RealName == null)
+            {
+                _property.ImageSource = GetImage(defaultBitmap);
+            }
+            else
+            {
+                SetFilesProperty(file.FileId);
+                _property.ImageSource = GetImage(errorBitmap);
+            }
+
             return _property;
         }
 

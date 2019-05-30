@@ -23,6 +23,12 @@ namespace FilesExplorerInDB_WPF
     //WPF ListView 自动调整列宽
     //https://blog.csdn.net/djc11282/article/details/42261677
 
+    //读取AssemblyInfo文件中的属性值
+    //https://blog.csdn.net/ly_5683/article/details/88720182
+
+    //Extract extra large Icon from a file, including network paths!
+    //https://lluisfranco.com/2014/04/16/extract-extra-large-icon-from-a-file-including-network-paths/
+
 
 
     /// <summary>
@@ -152,7 +158,7 @@ namespace FilesExplorerInDB_WPF
                 if (file.IsMiss) imageBitmap = Properties.Resources.fileNotFount;
                 item = new ListViewItem
                 {
-                    Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap)
+                    Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Properties.Resources.fileNotFount)
                 };
                 if (file.IsMiss)
                     item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
@@ -910,6 +916,15 @@ namespace FilesExplorerInDB_WPF
         private static void CheckFileStorage()
         {
             if (String.IsNullOrEmpty(Settings.Default.FileStorageLocation))
+            {
+                if (!Directory.Exists(Settings.Default.FileStorageLocation))
+                {
+                    Settings.Default.FileStorageLocation =
+                        AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
+                    Settings.Default.Save();
+                }
+            }
+            if (!Directory.Exists(Settings.Default.FileStorageLocation))
             {
                 Settings.Default.FileStorageLocation =
                     AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";

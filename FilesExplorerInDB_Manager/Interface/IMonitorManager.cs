@@ -1,4 +1,6 @@
-﻿using FilesExplorerInDB_EF.EFModels;
+﻿using System;
+using System.IO;
+using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Manager.Implments;
 
 namespace FilesExplorerInDB_Manager.Interface
@@ -14,7 +16,7 @@ namespace FilesExplorerInDB_Manager.Interface
         void AddMonitorRecord(MonitorManager.MessageType messageType, MonitorManager.OpType opType,
             MonitorManager.Operator operatorName, string objectName, string message);
 
-        void ErrorRecord(string objectName, string message);
+        void ErrorRecord(Exception exception);
 
         void AddFileRecord(string objectName, Files files);
 
@@ -23,5 +25,7 @@ namespace FilesExplorerInDB_Manager.Interface
         void AddFolderRecord(Folders folders);
 
         void DeleteFolderRecord(Folders folders);
+
+        void DeleteCompleteRecord(Files files, FileInfo fileInfo);
     }
 }
