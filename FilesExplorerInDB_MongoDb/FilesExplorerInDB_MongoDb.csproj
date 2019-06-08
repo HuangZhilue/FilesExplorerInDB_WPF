@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2A59901E-FA67-472E-928D-A2BFD60FD85F}</ProjectGuid>
+    <ProjectGuid>{893AD8D4-490D-45A0-98AF-63A347ED2227}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FilesExplorerInDB_Manager</RootNamespace>
-    <AssemblyName>FilesExplorerInDB_Manager</AssemblyName>
+    <RootNamespace>FilesExplorerInDB_MongoDb</RootNamespace>
+    <AssemblyName>FilesExplorerInDB_MongoDb</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\FilesExplorerInDB_WPF\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,7 +43,6 @@
     <Reference Include="MongoDB.Driver.Core, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.Core.2.9.0-beta1\lib\net452\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="Sikiro.Nosql.Mongo, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sikiro.Nosql.Mongo.1.1.0.1\lib\net45\Sikiro.Nosql.Mongo.dll</HintPath>
     </Reference>
@@ -52,10 +51,6 @@
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0-preview6.19259.10\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
@@ -67,50 +62,23 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.10.3\lib\net47\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.10.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.10.3\lib\net47\Unity.Container.dll</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implments\FileIcon.cs" />
-    <Compile Include="Implments\FilesDbManager.cs" />
-    <Compile Include="Implments\MonitorManager.cs" />
-    <Compile Include="Interface\IFileIcon.cs" />
-    <Compile Include="Interface\IFilesDbManager.cs" />
-    <Compile Include="Interface\IMonitorManager.cs" />
+    <Compile Include="Implments\FilesDbMongoDbService.cs" />
+    <Compile Include="Implments\MonitorMongoDbService.cs" />
+    <Compile Include="Interface\IFilesDbMongoDbService.cs" />
+    <Compile Include="Interface\IMonitorMongoDbService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implments\Shell\IImageList.cs" />
-    <Compile Include="Implments\Shell\IMAGEINFO.cs" />
-    <Compile Include="Implments\Shell\IMAGELISTDRAWPARAMS.cs" />
-    <Compile Include="Implments\Shell\POINT.cs" />
-    <Compile Include="Implments\Shell\RECT.cs" />
-    <Compile Include="Implments\Shell\SHFILEINFO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FilesExplorerInDB_EF\FilesExplorerInDB_EF.csproj">
+      <Project>{df77f3eb-4f89-490f-b7e7-76d19e30ff0d}</Project>
+      <Name>FilesExplorerInDB_EF</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Command\Command.csproj">
-      <Project>{935FCDBE-9AEB-41C5-93B9-9F3F7945D09B}</Project>
-      <Name>Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FilesExplorerInDB_EF\FilesExplorerInDB_EF.csproj">
-      <Project>{DF77F3EB-4F89-490F-B7E7-76D19E30FF0D}</Project>
-      <Name>FilesExplorerInDB_EF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FilesExplorerInDB_Models\FilesExplorerInDB_Models.csproj">
-      <Project>{61284837-F6EB-4E93-A715-D2F5FDC683AF}</Project>
-      <Name>FilesExplorerInDB_Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FilesExplorerInDB_MongoDb\FilesExplorerInDB_MongoDb.csproj">
-      <Project>{893AD8D4-490D-45A0-98AF-63A347ED2227}</Project>
-      <Name>FilesExplorerInDB_MongoDb</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

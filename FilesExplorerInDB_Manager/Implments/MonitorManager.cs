@@ -7,12 +7,14 @@ using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
+using FilesExplorerInDB_MongoDb.Interface;
 
 namespace FilesExplorerInDB_Manager.Implments
 {
     public class MonitorManager : IMonitorManager
     {
-        private readonly IMonitorService _dbService = UnityContainerHelp.GetServer<IMonitorService>();
+        //private readonly IMonitorService _dbService = UnityContainerHelp.GetServer<IMonitorService>();
+        private readonly IMonitorMongoDbService _dbService = UnityContainerHelp.GetServer<IMonitorMongoDbService>();
         private Monitor _monitor;
 
         #region 基础操作

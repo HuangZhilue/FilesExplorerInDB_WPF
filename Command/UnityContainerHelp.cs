@@ -1,32 +1,27 @@
 ﻿using Microsoft.Practices.Unity.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity;
 
 namespace Command
 {
     public static class UnityContainerHelp
     {
-        private static IUnityContainer container;
+        private static readonly IUnityContainer Container;
         static UnityContainerHelp()
         {
-            container = new UnityContainer();
+            Container = new UnityContainer();
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
-            container.LoadConfiguration(section, "FirstClass");
+            Container.LoadConfiguration(section, "FirstClass");
         }
 
         public static T GetServer<T>()
         {
-            return container.Resolve<T>();
+            return Container.Resolve<T>();
         }
 
-        public static T GetServer<T>(string Name)
+        public static T GetServer<T>(string name)
         {
-            return container.Resolve<T>(Name);
+            return Container.Resolve<T>(name);
         }
     }
 }

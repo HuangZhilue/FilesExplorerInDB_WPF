@@ -14,12 +14,14 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using FilesExplorerInDB_Models.Models;
+using FilesExplorerInDB_MongoDb.Interface;
 
 namespace FilesExplorerInDB_Manager.Implments
 {
     public class FilesDbManager : IFilesDbManager
     {
-        private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
+        //private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
+        private readonly IFilesDbMongoDbService _dbService = UnityContainerHelp.GetServer<IFilesDbMongoDbService>();
         private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
         private readonly IMonitorManager _monitorManager = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty _property;
@@ -111,6 +113,7 @@ namespace FilesExplorerInDB_Manager.Implments
         /// </summary>
         /// <param name="file">文件</param>
         /// <param name="defaultBitmap">默认的文件类型图标</param>
+        /// <param name="errorBitmap">错误标识的图标</param>
         /// <returns>文件信息</returns>
         public ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap)
         {

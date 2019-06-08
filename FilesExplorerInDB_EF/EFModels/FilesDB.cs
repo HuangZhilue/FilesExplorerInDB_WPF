@@ -1,9 +1,9 @@
 namespace FilesExplorerInDB_EF.EFModels
 {
-    using System.Data.Entity;
     using Interface;
+    using System.Data.Entity;
 
-    public partial class FilesDB : DbContext, IFilesDB
+    public class FilesDB : DbContext, IFilesDB
     {
         public FilesDB()
             : base("name=FilesDB")
