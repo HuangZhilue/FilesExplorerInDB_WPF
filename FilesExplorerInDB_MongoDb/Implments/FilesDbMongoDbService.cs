@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_MongoDb.Interface;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
@@ -11,9 +13,9 @@ using Sikiro.Nosql.Mongo.Base;
 
 namespace FilesExplorerInDB_MongoDb.Implments
 {
-    public class FilesDbMongoDbService : IFilesDbMongoDbService
+    public class FilesDbMongoDbService : IFilesDbService
     {
-        private MongoRepository _mongoRepository = new MongoRepository("mongodb://127.0.0.1:27017");
+        private readonly MongoRepository _mongoRepository = new MongoRepository(ConfigurationManager.ConnectionStrings["FilesDB_MongoDB"].ConnectionString);
 
         public Files FilesAdd(Files entity)
         {

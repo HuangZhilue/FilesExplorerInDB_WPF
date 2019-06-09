@@ -20,8 +20,8 @@ namespace FilesExplorerInDB_Manager.Implments
 {
     public class FilesDbManager : IFilesDbManager
     {
-        //private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
-        private readonly IFilesDbMongoDbService _dbService = UnityContainerHelp.GetServer<IFilesDbMongoDbService>();
+        private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
+        //private readonly IFilesDbMongoDbService _dbService = UnityContainerHelp.GetServer<IFilesDbMongoDbService>();
         private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
         private readonly IMonitorManager _monitorManager = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty _property;

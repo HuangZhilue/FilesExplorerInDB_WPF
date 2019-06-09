@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_MongoDb.Interface;
 using Sikiro.Nosql.Mongo;
 
 namespace FilesExplorerInDB_MongoDb.Implments
 {
-    public class MonitorMongoDbService : IMonitorMongoDbService
+    public class MonitorMongoDbService : IMonitorService
     {
-        readonly MongoRepository _mongoRepository = new MongoRepository("mongodb://127.0.0.1:27017");
+        private readonly MongoRepository _mongoRepository = new MongoRepository(ConfigurationManager.ConnectionStrings["FilesDB_MongoDB"].ConnectionString);
 
         public Monitor MonitorAdd(Monitor entity)
         {

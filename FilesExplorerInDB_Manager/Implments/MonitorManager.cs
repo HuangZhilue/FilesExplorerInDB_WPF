@@ -13,8 +13,8 @@ namespace FilesExplorerInDB_Manager.Implments
 {
     public class MonitorManager : IMonitorManager
     {
-        //private readonly IMonitorService _dbService = UnityContainerHelp.GetServer<IMonitorService>();
-        private readonly IMonitorMongoDbService _dbService = UnityContainerHelp.GetServer<IMonitorMongoDbService>();
+        private readonly IMonitorService _dbService = UnityContainerHelp.GetServer<IMonitorService>();
+        //private readonly IMonitorMongoDbService _dbService = UnityContainerHelp.GetServer<IMonitorMongoDbService>();
         private Monitor _monitor;
 
         #region 基础操作
