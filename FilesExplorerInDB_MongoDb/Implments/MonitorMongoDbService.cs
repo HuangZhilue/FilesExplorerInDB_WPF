@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
-using FilesExplorerInDB_MongoDb.Interface;
 using Sikiro.Nosql.Mongo;
 
 namespace FilesExplorerInDB_MongoDb.Implments

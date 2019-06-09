@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
-using FilesExplorerInDB_MongoDb.Interface;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
 using Sikiro.Nosql.Mongo;
-using Sikiro.Nosql.Mongo.Base;
 
 namespace FilesExplorerInDB_MongoDb.Implments
 {

@@ -14,7 +14,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using FilesExplorerInDB_Models.Models;
-using FilesExplorerInDB_MongoDb.Interface;
 
 namespace FilesExplorerInDB_Manager.Implments
 {
