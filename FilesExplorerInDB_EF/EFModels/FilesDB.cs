@@ -21,6 +21,8 @@ namespace FilesExplorerInDB_EF.EFModels
                 .WithRequired(e => e.Folders)
                 .HasForeignKey(e => e.FolderLocalId)
                 .WillCascadeOnDelete(false);
+
+            //modelBuilder.HasDefaultSchema("Oracle_User");
         }
     }
 }
