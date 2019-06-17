@@ -61,35 +61,6 @@ namespace FilesExplorerInDB_MongoDb.Implments
 
         public IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
         {
-            //_mongoRepository = new MongoRepository("mongodb://127.0.0.1:27017");
-
-            //var folder2 = new Folders
-            //{
-            //    CreationTime = DateTime.Now,
-            //    FileIncludeCount = 0,
-            //    FolderId = 1,
-            //    FolderIncludeCount = 0,
-            //    FolderLocalId = 0,
-            //    FolderName = "Name",
-            //    IsDelete = false,
-            //    ModifyTime = DateTime.Now,
-            //    Size = 0
-            //};
-            ////_mongoRepository.Add(folder2);
-
-
-
-            //var b = _mongoRepository.ToList<Folders2>(ff => ff.FolderId != -1);
-
-
-            //var a = _mongoRepository.ToList<Folders>(folder => folder.FolderId != -1);
-            //var l = _mongoRepository.GetCollection<Folders>();
-            //var l2 = l.AsQueryable();
-            //var l3 = l2.Where(where);
-            //var l4 = l3.ToList();
-
-
-            //List<Folders> f = _mongoRepository.ToList(where);
             return _mongoRepository.ToList(where).AsQueryable();
         }
 
@@ -98,26 +69,4 @@ namespace FilesExplorerInDB_MongoDb.Implments
             return 1; 
         }
     }
-
-    //[Mongo("FilesExplorerDB", "Folders")]
-    //public class Folders2 : MongoEntity
-    //{
-    //    public int FolderId { get; set; }
-
-    //    public string FolderName { get; set; }
-
-    //    public int FolderLocalId { get; set; }
-
-    //    public long Size { get; set; }
-
-    //    public DateTime CreationTime { get; set; }
-
-    //    public DateTime ModifyTime { get; set; }
-
-    //    public int FolderIncludeCount { get; set; }
-
-    //    public int FileIncludeCount { get; set; }
-
-    //    public bool IsDelete { get; set; }
-    //}
 }

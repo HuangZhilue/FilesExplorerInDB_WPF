@@ -14,6 +14,7 @@ using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Properties;
 using static System.Double;
 using Brush = System.Windows.Media.Brush;
+using Resources;
 
 namespace FilesExplorerInDB_WPF
 {
@@ -140,7 +141,7 @@ namespace FilesExplorerInDB_WPF
                 item = new ListViewItem
                 {
                     Content = _filesDbManager.SetExplorerItems_Folders(folder,
-                        _filesDbManager.GetImage(Properties.Resources.folder))
+                        _filesDbManager.GetImage(Resource.folder))
                 };
                 item.MouseDoubleClick += ListView_Explorer_Folder_MouseDoubleClick; //添加鼠标双击事件（打开文件夹）
                 item.PreviewMouseLeftButtonDown +=
@@ -154,11 +155,11 @@ namespace FilesExplorerInDB_WPF
                 _filesDbManager.LoadFilesEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
             foreach (var file in explorerFiles)
             {
-                Bitmap imageBitmap = Properties.Resources.DEFAULT;
-                if (file.IsMiss) imageBitmap = Properties.Resources.fileNotFount;
+                Bitmap imageBitmap = Resource.DEFAULT;
+                if (file.IsMiss) imageBitmap = Resource.fileNotFount;
                 item = new ListViewItem
                 {
-                    Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Properties.Resources.fileNotFount)
+                    Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount)
                 };
                 if (file.IsMiss)
                     item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
@@ -280,7 +281,7 @@ namespace FilesExplorerInDB_WPF
                 Label_Other_3.Text = "修改时间：" + _folderNow.ModifyTime;
                 Label_Other_4.Text = "包含的文件夹数量：" + _folderNow.FolderIncludeCount;
                 Label_Other_5.Text = "包含的文件数量：" + _folderNow.FileIncludeCount;
-                Image_PropertyType.Source = _filesDbManager.GetImage(Properties.Resources.folder);
+                Image_PropertyType.Source = _filesDbManager.GetImage(Resource.folder);
             }
             else
             {
@@ -291,7 +292,7 @@ namespace FilesExplorerInDB_WPF
                 Label_Other_3.Text = "";
                 Label_Other_4.Text = "";
                 Label_Other_5.Text = "";
-                Image_PropertyType.Source = _filesDbManager.GetImage(Properties.Resources.explorer);
+                Image_PropertyType.Source = _filesDbManager.GetImage(Resource.explorer);
             }
 
             ListView_Explorer.Focus();
