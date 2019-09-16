@@ -6,7 +6,7 @@ using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 
-namespace FilesExplorerInDB_EF.Implments
+namespace FilesExplorerInDB_EF.Implements
 {
     public class MonitorService : IMonitorService
     {

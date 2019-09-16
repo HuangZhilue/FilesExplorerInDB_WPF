@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace FilesExplorerInDB_Manager.Implments.Shell
+namespace FilesExplorerInDB_Manager.Implements.Shell
 {
     [ComImport()]
     [Guid("46EB5926-582E-4017-9FDF-E8998DAA0950")]

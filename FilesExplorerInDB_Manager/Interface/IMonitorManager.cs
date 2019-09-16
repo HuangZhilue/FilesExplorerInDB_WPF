@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using FilesExplorerInDB_EF.EFModels;
-using FilesExplorerInDB_Manager.Implments;
+using FilesExplorerInDB_Manager.Implements;
 
 namespace FilesExplorerInDB_Manager.Interface
 {

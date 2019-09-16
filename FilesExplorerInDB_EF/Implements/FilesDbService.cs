@@ -1,12 +1,12 @@
-﻿using Command;
-using FilesExplorerInDB_EF.EFModels;
-using FilesExplorerInDB_EF.Interface;
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using Command;
+using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.Interface;
 
-namespace FilesExplorerInDB_EF.Implments
+namespace FilesExplorerInDB_EF.Implements
 {
     public class FilesDbService : IFilesDbService
     {

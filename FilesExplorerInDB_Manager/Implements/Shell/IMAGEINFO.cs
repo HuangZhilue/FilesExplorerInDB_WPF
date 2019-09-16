@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace FilesExplorerInDB_Manager.Implments.Shell
+namespace FilesExplorerInDB_Manager.Implements.Shell
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct IMAGEINFO

@@ -2,10 +2,9 @@
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Windows.Media.Imaging;
 using FilesExplorerInDB_Manager.Interface;
 
-namespace FilesExplorerInDB_Manager.Implments
+namespace FilesExplorerInDB_Manager.Implements
 {
     public class FileIcon : IFileIcon
     {

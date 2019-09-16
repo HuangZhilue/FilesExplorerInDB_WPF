@@ -1,6 +1,6 @@
 using System;
 
-namespace FilesExplorerInDB_Manager.Implments.Shell
+namespace FilesExplorerInDB_Manager.Implements.Shell
 {
     public struct IMAGELISTDRAWPARAMS
     {

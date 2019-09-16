@@ -6,7 +6,7 @@ using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using Sikiro.Nosql.Mongo;
 
-namespace FilesExplorerInDB_MongoDb.Implments
+namespace FilesExplorerInDB_MongoDb.Implements
 {
     public class FilesDbMongoDbService : IFilesDbService
     {

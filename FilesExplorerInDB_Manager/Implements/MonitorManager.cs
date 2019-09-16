@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,7 +7,7 @@ using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
 
-namespace FilesExplorerInDB_Manager.Implments
+namespace FilesExplorerInDB_Manager.Implements
 {
     public class MonitorManager : IMonitorManager
     {

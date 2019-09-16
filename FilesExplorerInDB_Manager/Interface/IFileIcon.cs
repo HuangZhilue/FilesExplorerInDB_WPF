@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using FilesExplorerInDB_Manager.Implments;
+using FilesExplorerInDB_Manager.Implements;
 
 namespace FilesExplorerInDB_Manager.Interface
 {

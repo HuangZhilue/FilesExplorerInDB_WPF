@@ -1,8 +1,4 @@
-﻿using Command;
-using FilesExplorerInDB_EF.EFModels;
-using FilesExplorerInDB_EF.Interface;
-using FilesExplorerInDB_Manager.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -13,9 +9,13 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Command;
+using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.Interface;
+using FilesExplorerInDB_Manager.Interface;
 using FilesExplorerInDB_Models.Models;
 
-namespace FilesExplorerInDB_Manager.Implments
+namespace FilesExplorerInDB_Manager.Implements
 {
     public class FilesDbManager : IFilesDbManager
     {

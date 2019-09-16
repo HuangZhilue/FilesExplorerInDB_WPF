@@ -31,21 +31,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
     <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.2.0\lib\net471\DnsClient.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.9.0-beta1\lib\net452\MongoDB.Bson.dll</HintPath>
+    <Reference Include="MongoDB.Bson, Version=2.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.9.1\lib\net452\MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.9.0-beta1\lib\net452\MongoDB.Driver.dll</HintPath>
+    <Reference Include="MongoDB.Driver, Version=2.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.9.1\lib\net452\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.9.0-beta1\lib\net452\MongoDB.Driver.Core.dll</HintPath>
+    <Reference Include="MongoDB.Driver.Core, Version=2.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.9.1\lib\net452\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="SharpCompress, Version=0.24.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.24.0\lib\net45\SharpCompress.dll</HintPath>
+    </Reference>
     <Reference Include="Sikiro.Nosql.Mongo, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sikiro.Nosql.Mongo.1.1.0.1\lib\net45\Sikiro.Nosql.Mongo.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -67,28 +76,28 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=4.1.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.10.3\lib\net47\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.10.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.10.3\lib\net47\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implments\FileIcon.cs" />
-    <Compile Include="Implments\FilesDbManager.cs" />
-    <Compile Include="Implments\MonitorManager.cs" />
+    <Compile Include="Implements\FileIcon.cs" />
+    <Compile Include="Implements\FilesDbManager.cs" />
+    <Compile Include="Implements\MonitorManager.cs" />
     <Compile Include="Interface\IFileIcon.cs" />
     <Compile Include="Interface\IFilesDbManager.cs" />
     <Compile Include="Interface\IMonitorManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implments\Shell\IImageList.cs" />
-    <Compile Include="Implments\Shell\IMAGEINFO.cs" />
-    <Compile Include="Implments\Shell\IMAGELISTDRAWPARAMS.cs" />
-    <Compile Include="Implments\Shell\POINT.cs" />
-    <Compile Include="Implments\Shell\RECT.cs" />
-    <Compile Include="Implments\Shell\SHFILEINFO.cs" />
+    <Compile Include="Implements\Shell\IImageList.cs" />
+    <Compile Include="Implements\Shell\IMAGEINFO.cs" />
+    <Compile Include="Implements\Shell\IMAGELISTDRAWPARAMS.cs" />
+    <Compile Include="Implements\Shell\POINT.cs" />
+    <Compile Include="Implements\Shell\RECT.cs" />
+    <Compile Include="Implements\Shell\SHFILEINFO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
