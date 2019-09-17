@@ -14,6 +14,7 @@ using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
 using FilesExplorerInDB_Models.Models;
+using Resources;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
@@ -106,6 +107,28 @@ namespace FilesExplorerInDB_Manager.Implements
         }
 
         #endregion
+
+        public List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow)
+        {
+            List<ExplorerProperty> list = new List<ExplorerProperty>();
+            folderNow = FoldersFind(localFolderId);
+            folderNow.FolderNodes = LoadFoldersEntites(f => f.FolderLocalId == localFolderId && f.IsDelete == false)
+                .ToList();
+            foreach (var folder in folderNow.FolderNodes)
+            {
+                list.Add(SetExplorerItems_Folders(folder, GetImage(Resource.folder)));
+            }
+
+            Bitmap imageBitmap = Resource.DEFAULT;
+            foreach (var file in folderNow.Files)
+            {
+                if (file.IsMiss) imageBitmap = Resource.fileNotFount;
+                list.Add(SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount));
+                imageBitmap = Resource.DEFAULT;
+            }
+
+            return list;
+        }
 
         /// <summary>
         /// 设置文件信息

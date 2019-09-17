@@ -22,6 +22,8 @@ namespace FilesExplorerInDB_Manager.Interface
 
         IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
 
+        List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow);
+
         ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap);
 
         ExplorerProperty SetExplorerItems_Folders(Folders file, ImageSource imageSource);

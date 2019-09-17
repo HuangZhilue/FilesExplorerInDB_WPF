@@ -120,6 +120,10 @@
       <Project>{893AD8D4-490D-45A0-98AF-63A347ED2227}</Project>
       <Name>FilesExplorerInDB_MongoDb</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{aaa95a71-a248-4044-ac13-93b2c1a27794}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

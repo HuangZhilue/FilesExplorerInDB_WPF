@@ -105,7 +105,7 @@ namespace FilesExplorerInDB_WPF
             CheckFileStorage();
             SetExplorer_TreeView();
             SetExplorer_ListView(0);
-            ListView_Explorer_MouseLeftButtonDown(null, null);
+            //ListView_Explorer_MouseLeftButtonDown(null, null);
         }
 
         #endregion
@@ -117,8 +117,8 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void SetExplorer_TreeView()
         {
-            _folders = _filesDbManager.LoadFoldersEntites(f => f.FolderId != -1).ToList();
-            TreeView_Explorer.ItemsSource = _filesDbManager.GetFoldersTree(-1, _folders);
+            //_folders = _filesDbManager.LoadFoldersEntites(f => f.FolderId != -1).ToList();
+            //TreeView_Explorer.ItemsSource = _filesDbManager.GetFoldersTree(-1, _folders);
         }
 
         #endregion
@@ -131,193 +131,194 @@ namespace FilesExplorerInDB_WPF
         /// <param name="folderId">父文件夹ID</param>
         private void SetExplorer_ListView(int folderId)
         {
-            _folderNow = _filesDbManager.FoldersFind(folderId);
-            ListView_Explorer.Items.Clear();
-            List<Folders> explorerFolders =
-                _filesDbManager.LoadFoldersEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
-            ListViewItem item;
-            foreach (var folder in explorerFolders)
-            {
-                item = new ListViewItem
-                {
-                    Content = _filesDbManager.SetExplorerItems_Folders(folder,
-                        _filesDbManager.GetImage(Resource.folder))
-                };
-                item.MouseDoubleClick += ListView_Explorer_Folder_MouseDoubleClick; //添加鼠标双击事件（打开文件夹）
-                item.PreviewMouseLeftButtonDown +=
-                    ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
-                item.PreviewMouseRightButtonDown +=
-                    ListView_Explorer_Folder_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件夹的右键菜单）
-                ListView_Explorer.Items.Add(item);
-            }
+            //_folderNow = _filesDbManager.FoldersFind(folderId);
+            //ListView_Explorer.Items.Clear();
+            //List<Folders> explorerFolders =
+            //    _filesDbManager.LoadFoldersEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
+            //ListViewItem item;
+            //foreach (var folder in explorerFolders)
+            //{
+            //    item = new ListViewItem
+            //    {
+            //        Content = _filesDbManager.SetExplorerItems_Folders(folder,
+            //            _filesDbManager.GetImage(Resource.folder))
+            //    };
+            //    item.MouseDoubleClick += ListView_Explorer_Folder_MouseDoubleClick; //添加鼠标双击事件（打开文件夹）
+            //    item.PreviewMouseLeftButtonDown +=
+            //        ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
+            //    item.PreviewMouseRightButtonDown +=
+            //        ListView_Explorer_Folder_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件夹的右键菜单）
+            //    ListView_Explorer.Items.Add(item);
+            //}
 
-            List<Files> explorerFiles =
-                _filesDbManager.LoadFilesEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
-            foreach (var file in explorerFiles)
-            {
-                Bitmap imageBitmap = Resource.DEFAULT;
-                if (file.IsMiss) imageBitmap = Resource.fileNotFount;
-                item = new ListViewItem
-                {
-                    Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount)
-                };
-                if (file.IsMiss)
-                    item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
-                item.PreviewMouseLeftButtonDown +=
-                    ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
-                item.PreviewMouseRightButtonDown +=
-                    ListView_Explorer_File_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件的右键菜单）
-                ListView_Explorer.Items.Add(item);
-            }
+            //List<Files> explorerFiles =
+            //    _filesDbManager.LoadFilesEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
+            //foreach (var file in explorerFiles)
+            //{
+            //    Bitmap imageBitmap = Resource.DEFAULT;
+            //    if (file.IsMiss) imageBitmap = Resource.fileNotFount;
+            //    item = new ListViewItem
+            //    {
+            //        Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount)
+            //    };
+            //    if (file.IsMiss)
+            //        item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
+            //    item.PreviewMouseLeftButtonDown +=
+            //        ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
+            //    item.PreviewMouseRightButtonDown +=
+            //        ListView_Explorer_File_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件的右键菜单）
+            //    ListView_Explorer.Items.Add(item);
+            //}
 
-            ColumnWidthAuto();
+            //ColumnWidthAuto();
 
-            string path = "";
-            Stack<Folders> stack = _filesDbManager.GetRelativePath_Folder(folderId);
-            foreach (Folders folder in stack)
-            {
-                path += folder.FolderName + "/";
-            }
+            //string path = "";
+            //Stack<Folders> stack = _filesDbManager.GetRelativePath_Folder(folderId);
+            //foreach (Folders folder in stack)
+            //{
+            //    path += folder.FolderName + "/";
+            //}
 
-            TextBox_Path.Text = path;
+            //TextBox_Path.Text = path;
         }
 
-        /// <summary>
-        /// 资源管理器双击打开下一级文件夹
-        /// </summary>
-        private void ListView_Explorer_Folder_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (((ListViewItem) sender).Content is ExplorerProperty property &&
-                property.IsFolder)
-            {
-                _preFolder.Push(_folderNow);
-                SetExplorer_ListView(property.Id);
-            }
-        }
+        ///// <summary>
+        ///// 资源管理器双击打开下一级文件夹
+        ///// </summary>
+        //private void ListView_Explorer_Folder_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (((ListViewItem) sender).Content is ExplorerProperty property &&
+        //        property.IsFolder)
+        //    {
+        //        _preFolder.Push(_folderNow);
+        //        SetExplorer_ListView(property.Id);
+        //    }
+        //}
 
         #endregion
 
-        #region 历史路径跳转
+        //#region 历史路径跳转
 
-        /// <summary>
-        /// 历史目录-后退
-        /// </summary>
-        private void Button_PathBack_Click(object sender, RoutedEventArgs e)
-        {
-            if (_preFolder.Count <= 0) return;
-            Folders back = _preFolder.Pop();
-            _fwdFolder.Push(_folderNow);
-            SetExplorer_ListView(back.FolderId);
-        }
+        ///// <summary>
+        ///// 历史目录-后退
+        ///// </summary>
+        //private void Button_PathBack_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_preFolder.Count <= 0) return;
+        //    Folders back = _preFolder.Pop();
+        //    _fwdFolder.Push(_folderNow);
+        //    SetExplorer_ListView(back.FolderId);
+        //}
 
-        /// <summary>
-        /// 历史目录-前进
-        /// </summary>
-        private void Button_PathNext_Click(object sender, RoutedEventArgs e)
-        {
-            if (_fwdFolder.Count <= 0) return;
-            Folders next = _fwdFolder.Pop();
-            _preFolder.Push(_folderNow);
-            SetExplorer_ListView(next.FolderId);
-        }
+        ///// <summary>
+        ///// 历史目录-前进
+        ///// </summary>
+        //private void Button_PathNext_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_fwdFolder.Count <= 0) return;
+        //    Folders next = _fwdFolder.Pop();
+        //    _preFolder.Push(_folderNow);
+        //    SetExplorer_ListView(next.FolderId);
+        //}
 
-        /// <summary>
-        /// 历史目录-上一层
-        /// </summary>
-        private void Button_PathPrevious_Click(object sender, RoutedEventArgs e)
-        {
-            if (_folderNow.FolderId == 0) return;
-            _preFolder.Push(_folderNow);
-            _fwdFolder.Clear();
-            SetExplorer_ListView(_folderNow.FolderLocalId);
-            ListView_Explorer_MouseLeftButtonDown(null, null);
-        }
+        ///// <summary>
+        ///// 历史目录-上一层
+        ///// </summary>
+        //private void Button_PathPrevious_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_folderNow.FolderId == 0) return;
+        //    _preFolder.Push(_folderNow);
+        //    _fwdFolder.Clear();
+        //    SetExplorer_ListView(_folderNow.FolderLocalId);
+        //    ListView_Explorer_MouseLeftButtonDown(null, null);
+        //}
 
-        #endregion
+        //#endregion
 
-        #region 设置属性窗口
+        //#region 设置属性窗口
 
-        /// <summary>
-        /// 点击资源管理器项目获取属性
-        /// </summary>
-        private void ListView_Explorer_Property_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (((ListViewItem) sender).Content is ExplorerProperty property)
-            {
-                Label_Name.Text = property.Name;
-                Label_Type.Text = property.Type;
-                Label_Other_2.Text = "创建时间：" + property.CreationTime;
-                Label_Other_3.Text = "修改时间：" + property.ModifyTime;
-                Image_PropertyType.Source = property.ImageSource;
-                if (property.IsFolder)
-                {
-                    Label_Other_1.Text = "文件夹大小：" + _filesDbManager.DisplayFileSize(property.Size) + "(" +
-                                         property.Size + " 字节)";
-                    Label_Other_4.Text = "包含的文件夹数量：" + _filesDbManager.FoldersFind(property.Id).FolderIncludeCount;
-                    Label_Other_5.Text = "包含的文件数量：" + _filesDbManager.FoldersFind(property.Id).FileIncludeCount;
-                }
-                else
-                {
-                    Label_Other_1.Text = "大小：" + _filesDbManager.DisplayFileSize(property.Size) + "(" + property.Size +
-                                         " 字节)";
-                    Label_Other_4.Text = "访问时间：" + property.AccessTime;
-                    Label_Other_5.Text = "";
-                }
-            }
-        }
+        ///// <summary>
+        ///// 点击资源管理器项目获取属性
+        ///// </summary>
+        //private void ListView_Explorer_Property_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //if (((ListViewItem) sender).Content is ExplorerProperty property)
+        //    //{
+        //    //    Label_Name.Text = property.Name;
+        //    //    Label_Type.Text = property.Type;
+        //    //    Label_Other_2.Text = "创建时间：" + property.CreationTime;
+        //    //    Label_Other_3.Text = "修改时间：" + property.ModifyTime;
+        //    //    Image_PropertyType.Source = property.ImageSource;
+        //    //    if (property.IsFolder)
+        //    //    {
+        //    //        Label_Other_1.Text = "文件夹大小：" + _filesDbManager.DisplayFileSize(property.Size) + "(" +
+        //    //                             property.Size + " 字节)";
+        //    //        Label_Other_4.Text = "包含的文件夹数量：" + _filesDbManager.FoldersFind(property.Id).FolderIncludeCount;
+        //    //        Label_Other_5.Text = "包含的文件数量：" + _filesDbManager.FoldersFind(property.Id).FileIncludeCount;
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        Label_Other_1.Text = "大小：" + _filesDbManager.DisplayFileSize(property.Size) + "(" + property.Size +
+        //    //                             " 字节)";
+        //    //        Label_Other_4.Text = "访问时间：" + property.AccessTime;
+        //    //        Label_Other_5.Text = "";
+        //    //    }
+        //    //}
+        //}
 
-        /// <summary>
-        /// 点击资源管理器(ListView)空白区域
-        /// </summary>
-        private void ListView_Explorer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ListView_Explorer.SelectedItems.Clear();
-            if (_folderNow != null && _folderNow.FolderId != 0)
-            {
-                Label_Name.Text = _folderNow.FolderName;
-                Label_Type.Text = "文件夹";
-                Label_Other_1.Text = "文件夹大小：" +_filesDbManager.DisplayFileSize(_folderNow.Size) + "(" + _folderNow.Size + " 字节)";
-                Label_Other_2.Text = "创建时间：" + _folderNow.CreationTime;
-                Label_Other_3.Text = "修改时间：" + _folderNow.ModifyTime;
-                Label_Other_4.Text = "包含的文件夹数量：" + _folderNow.FolderIncludeCount;
-                Label_Other_5.Text = "包含的文件数量：" + _folderNow.FileIncludeCount;
-                Image_PropertyType.Source = _filesDbManager.GetImage(Resource.folder);
-            }
-            else
-            {
-                Label_Name.Text = _appInformation.AssemblyTitle;
-                Label_Type.Text = "版本号：" + _appInformation.AssemblyVersion;
-                Label_Other_1.Text = "说明" + _appInformation.AssemblyDescription;
-                Label_Other_2.Text = "";
-                Label_Other_3.Text = "";
-                Label_Other_4.Text = "";
-                Label_Other_5.Text = "";
-                Image_PropertyType.Source = _filesDbManager.GetImage(Resource.explorer);
-            }
+        ///// <summary>
+        ///// 点击资源管理器(ListView)空白区域
+        ///// </summary>
+        //private void ListView_Explorer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //ListView_Explorer.SelectedItems.Clear();
+        //    //if (_folderNow != null && _folderNow.FolderId != 0)
+        //    //{
+        //    //    Label_Name.Text = _folderNow.FolderName;
+        //    //    Label_Type.Text = "文件夹";
+        //    //    Label_Other_1.Text = "文件夹大小：" + _filesDbManager.DisplayFileSize(_folderNow.Size) + "(" +
+        //    //                         _folderNow.Size + " 字节)";
+        //    //    Label_Other_2.Text = "创建时间：" + _folderNow.CreationTime;
+        //    //    Label_Other_3.Text = "修改时间：" + _folderNow.ModifyTime;
+        //    //    Label_Other_4.Text = "包含的文件夹数量：" + _folderNow.FolderIncludeCount;
+        //    //    Label_Other_5.Text = "包含的文件数量：" + _folderNow.FileIncludeCount;
+        //    //    Image_PropertyType.Source = _filesDbManager.GetImage(Resource.folder);
+        //    //}
+        //    //else
+        //    //{
+        //    //    Label_Name.Text = _appInformation.AssemblyTitle;
+        //    //    Label_Type.Text = "版本号：" + _appInformation.AssemblyVersion;
+        //    //    Label_Other_1.Text = "说明" + _appInformation.AssemblyDescription;
+        //    //    Label_Other_2.Text = "";
+        //    //    Label_Other_3.Text = "";
+        //    //    Label_Other_4.Text = "";
+        //    //    Label_Other_5.Text = "";
+        //    //    Image_PropertyType.Source = _filesDbManager.GetImage(Resource.explorer);
+        //    //}
 
-            ListView_Explorer.Focus();
-        }
+        //    //ListView_Explorer.Focus();
+        //}
 
-        #endregion
+        //#endregion
 
-        #region 目录树跳转
+        //#region 目录树跳转
 
-        /// <summary>
-        /// 双击目录树进行跳转
-        /// </summary>
-        private void TreeView_Explorer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Folders folders = (Folders) (e.OriginalSource as TextBlock)?.DataContext;
-            if (folders != null)
-            {
-                _preFolder.Push(_folderNow);
-                _fwdFolder.Clear();
-                SetExplorer_ListView(folders.FolderId);
-                ListView_Explorer_MouseLeftButtonDown(null, null);
-            }
-        }
+        ///// <summary>
+        ///// 双击目录树进行跳转
+        ///// </summary>
+        //private void TreeView_Explorer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    Folders folders = (Folders) (e.OriginalSource as TextBlock)?.DataContext;
+        //    if (folders != null)
+        //    {
+        //        _preFolder.Push(_folderNow);
+        //        _fwdFolder.Clear();
+        //        SetExplorer_ListView(folders.FolderId);
+        //        //ListView_Explorer_MouseLeftButtonDown(null, null);
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region 右键菜单管理
 
@@ -334,12 +335,13 @@ namespace FilesExplorerInDB_WPF
             //删除
             //重命名
             //属性
-            if (ListView_Explorer.SelectedItems.Count > 1)
-            {
-                _isMultipleSelection = true;
-            }
 
-            ListViewItem item = (ListViewItem) sender;
+            //if (ListView_Explorer.SelectedItems.Count > 1)
+            //{
+            //    _isMultipleSelection = true;
+            //}
+
+            ListViewItem item = (ListViewItem)sender;
             ContextMenu menu = new ContextMenu();
 
             if (!_isMultipleSelection)
@@ -416,76 +418,76 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void ListView_Explorer_File_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //打开
-            //剪切
-            //复制
-            //删除
-            //重命名
-            //属性
-            if (ListView_Explorer.SelectedItems.Count > 1)
-            {
-                _isMultipleSelection = true;
-            }
+            ////打开
+            ////剪切
+            ////复制
+            ////删除
+            ////重命名
+            ////属性
+            //if (ListView_Explorer.SelectedItems.Count > 1)
+            //{
+            //    _isMultipleSelection = true;
+            //}
 
-            ListViewItem item = (ListViewItem) sender;
-            ContextMenu menu = new ContextMenu();
+            //ListViewItem item = (ListViewItem) sender;
+            //ContextMenu menu = new ContextMenu();
 
-            if (!_isMultipleSelection)
-            {
-                MenuItem openMenuItem = new MenuItem
-                {
-                    Header = "打开",
-                    DataContext = item.Content
-                };
-                openMenuItem.Click += OpenFile;
-                menu.Items.Add(openMenuItem);
-            }
+            //if (!_isMultipleSelection)
+            //{
+            //    MenuItem openMenuItem = new MenuItem
+            //    {
+            //        Header = "打开",
+            //        DataContext = item.Content
+            //    };
+            //    openMenuItem.Click += OpenFile;
+            //    menu.Items.Add(openMenuItem);
+            //}
 
-            MenuItem cutMenuItem = new MenuItem
-            {
-                Header = "剪切",
-                DataContext = item.Content
-            };
-            cutMenuItem.Click += Cut;
-            menu.Items.Add(cutMenuItem);
+            //MenuItem cutMenuItem = new MenuItem
+            //{
+            //    Header = "剪切",
+            //    DataContext = item.Content
+            //};
+            //cutMenuItem.Click += Cut;
+            //menu.Items.Add(cutMenuItem);
 
-            MenuItem copyMenuItem = new MenuItem
-            {
-                Header = "复制",
-                DataContext = item.Content
-            };
-            copyMenuItem.Click += Copy;
-            menu.Items.Add(copyMenuItem);
+            //MenuItem copyMenuItem = new MenuItem
+            //{
+            //    Header = "复制",
+            //    DataContext = item.Content
+            //};
+            //copyMenuItem.Click += Copy;
+            //menu.Items.Add(copyMenuItem);
 
-            MenuItem deleteMenuItem = new MenuItem
-            {
-                Header = "删除",
-                DataContext = item.Content
-            };
-            deleteMenuItem.Click += Delete;
-            menu.Items.Add(deleteMenuItem);
+            //MenuItem deleteMenuItem = new MenuItem
+            //{
+            //    Header = "删除",
+            //    DataContext = item.Content
+            //};
+            //deleteMenuItem.Click += Delete;
+            //menu.Items.Add(deleteMenuItem);
 
-            if (!_isMultipleSelection)
-            {
-                MenuItem renameMenuItem = new MenuItem
-                {
-                    Header = "重命名",
-                    DataContext = item.Content
-                };
-                renameMenuItem.Click += Rename;
-                menu.Items.Add(renameMenuItem);
+            //if (!_isMultipleSelection)
+            //{
+            //    MenuItem renameMenuItem = new MenuItem
+            //    {
+            //        Header = "重命名",
+            //        DataContext = item.Content
+            //    };
+            //    renameMenuItem.Click += Rename;
+            //    menu.Items.Add(renameMenuItem);
 
-                MenuItem propertyMenuItem = new MenuItem
-                {
-                    Header = "属性",
-                    DataContext = item.Content
-                };
-                propertyMenuItem.Click += FileProperty;
-                menu.Items.Add(propertyMenuItem);
-            }
+            //    MenuItem propertyMenuItem = new MenuItem
+            //    {
+            //        Header = "属性",
+            //        DataContext = item.Content
+            //    };
+            //    propertyMenuItem.Click += FileProperty;
+            //    menu.Items.Add(propertyMenuItem);
+            //}
 
-            item.ContextMenu = menu;
-            _isMultipleSelection = false;
+            //item.ContextMenu = menu;
+            //_isMultipleSelection = false;
         }
 
         /// <summary>
@@ -493,47 +495,47 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void ListView_Explorer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ListView_Explorer.SelectedItems.Clear();
-            //刷新
-            //新建
-            //属性
-            ListView item = (ListView) sender;
-            ContextMenu menu = new ContextMenu();
+            //ListView_Explorer.SelectedItems.Clear();
+            ////刷新
+            ////新建
+            ////属性
+            //ListView item = (ListView) sender;
+            //ContextMenu menu = new ContextMenu();
 
-            MenuItem refreshMenuItem = new MenuItem
-            {
-                Header = "刷新"
-            };
-            refreshMenuItem.Click += FolderRefresh;
-            menu.Items.Add(refreshMenuItem);
+            //MenuItem refreshMenuItem = new MenuItem
+            //{
+            //    Header = "刷新"
+            //};
+            //refreshMenuItem.Click += FolderRefresh;
+            //menu.Items.Add(refreshMenuItem);
 
-            if (_isCutting || _isCopying)
-            {
-                MenuItem pasteMenuItem = new MenuItem
-                {
-                    Header = "粘贴"
-                };
-                pasteMenuItem.Click += Paste;
-                menu.Items.Add(pasteMenuItem);
-            }
-
-
-            MenuItem createMenuItem = new MenuItem
-            {
-                Header = "新建文件夹"
-            };
-            createMenuItem.Click += FolderCreate;
-            menu.Items.Add(createMenuItem);
-
-            MenuItem propertyMenuItem = new MenuItem
-            {
-                Header = "属性"
-            };
-            propertyMenuItem.Click += FolderProperty;
-            menu.Items.Add(propertyMenuItem);
+            //if (_isCutting || _isCopying)
+            //{
+            //    MenuItem pasteMenuItem = new MenuItem
+            //    {
+            //        Header = "粘贴"
+            //    };
+            //    pasteMenuItem.Click += Paste;
+            //    menu.Items.Add(pasteMenuItem);
+            //}
 
 
-            item.ContextMenu = menu;
+            //MenuItem createMenuItem = new MenuItem
+            //{
+            //    Header = "新建文件夹"
+            //};
+            //createMenuItem.Click += FolderCreate;
+            //menu.Items.Add(createMenuItem);
+
+            //MenuItem propertyMenuItem = new MenuItem
+            //{
+            //    Header = "属性"
+            //};
+            //propertyMenuItem.Click += FolderProperty;
+            //menu.Items.Add(propertyMenuItem);
+
+
+            //item.ContextMenu = menu;
         }
 
         #endregion
@@ -545,14 +547,14 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void Cut(object sender, RoutedEventArgs e)
         {
-            _selectItems.Clear();
-            foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-            {
-                _selectItems.Add(item.Content as ExplorerProperty);
-            }
+            //_selectItems.Clear();
+            //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+            //{
+            //    _selectItems.Add(item.Content as ExplorerProperty);
+            //}
 
-            _isCopying = false;
-            _isCutting = true;
+            //_isCopying = false;
+            //_isCutting = true;
         }
 
         /// <summary>
@@ -560,14 +562,14 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void Copy(object sender, RoutedEventArgs e)
         {
-            _selectItems.Clear();
-            foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-            {
-                _selectItems.Add(item.Content as ExplorerProperty);
-            }
+            //_selectItems.Clear();
+            //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+            //{
+            //    _selectItems.Add(item.Content as ExplorerProperty);
+            //}
 
-            _isCopying = true;
-            _isCutting = false;
+            //_isCopying = true;
+            //_isCutting = false;
         }
 
         /// <summary>
@@ -575,22 +577,22 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void Paste(object sender, RoutedEventArgs e)
         {
-            int folderIdForPaste;
-            if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
-            {
-                folderIdForPaste = property.Id;
-            }
-            else
-            {
-                folderIdForPaste = _folderNow.FolderId;
-            }
+            //int folderIdForPaste;
+            //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
+            //{
+            //    folderIdForPaste = property.Id;
+            //}
+            //else
+            //{
+            //    folderIdForPaste = _folderNow.FolderId;
+            //}
 
-            _filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
-            if (_isCutting) _selectItems.Clear();
-            SetExplorer_TreeView();
-            SetExplorer_ListView(_folderNow.FolderId);
-            _isCopying = false;
-            _isCutting = false;
+            //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
+            //if (_isCutting) _selectItems.Clear();
+            //SetExplorer_TreeView();
+            //SetExplorer_ListView(_folderNow.FolderId);
+            //_isCopying = false;
+            //_isCutting = false;
         }
 
         /// <summary>
@@ -598,18 +600,18 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void Delete(object sender, RoutedEventArgs e)
         {
-            _selectItems.Clear();
-            foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-            {
-                _selectItems.Add(item.Content as ExplorerProperty);
-            }
+            //_selectItems.Clear();
+            //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+            //{
+            //    _selectItems.Add(item.Content as ExplorerProperty);
+            //}
 
-            _filesDbManager.SetDeleteState(_selectItems);
-            _isCopying = false;
-            _isCutting = false;
-            _selectItems.Clear();
-            SetExplorer_TreeView();
-            SetExplorer_ListView(_folderNow.FolderId);
+            //_filesDbManager.SetDeleteState(_selectItems);
+            //_isCopying = false;
+            //_isCutting = false;
+            //_selectItems.Clear();
+            //SetExplorer_TreeView();
+            //SetExplorer_ListView(_folderNow.FolderId);
         }
 
         /// <summary>
@@ -617,42 +619,42 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void Rename(object sender, RoutedEventArgs e)
         {
-            //_isRenaming = true;
-            if (ListView_Explorer.SelectedItem is ListViewItem item)
-            {
-                _selectItems.Clear();
-                ExplorerProperty property = item.Content as ExplorerProperty;
-                _selectItems.Add(property);
-                _defaultIndexOfObj = 0;
+            ////_isRenaming = true;
+            //if (ListView_Explorer.SelectedItem is ListViewItem item)
+            //{
+            //    _selectItems.Clear();
+            //    ExplorerProperty property = item.Content as ExplorerProperty;
+            //    _selectItems.Add(property);
+            //    _defaultIndexOfObj = 0;
 
-                var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
+            //    var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
 
-                // Getting the ContentPresenter of myListBoxItem
-                var myContentPresenter =
-                    FindVisualChild<ContentPresenter>(myListBoxItem,
-                        1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
+            //    // Getting the ContentPresenter of myListBoxItem
+            //    var myContentPresenter =
+            //        FindVisualChild<ContentPresenter>(myListBoxItem,
+            //            1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
 
-                // Finding textBlock from the DataTemplate that is set on that ContentPresenter
-                DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
+            //    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
+            //    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
 
-                var obj = myDataTemplate.FindName("nameTextBox", myContentPresenter); //nameTextBox 是在模板内定义的 x:Name
+            //    var obj = myDataTemplate.FindName("nameTextBox", myContentPresenter); //nameTextBox 是在模板内定义的 x:Name
 
-                if (obj is TextBox nameTextBox)
-                {
-                    //...do something
-                    //BorderThickness="0" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Arrow" Focusable="False"
-                    TextBox defaultTextBox = new TextBox();
-                    nameTextBox.BorderThickness = new Thickness(1);
-                    nameTextBox.IsReadOnly = defaultTextBox.IsReadOnly;
-                    nameTextBox.Background = defaultTextBox.Background;
-                    nameTextBox.BorderBrush = defaultTextBox.BorderBrush;
-                    nameTextBox.Cursor = defaultTextBox.Cursor;
-                    nameTextBox.Focusable = defaultTextBox.Focusable;
-                    nameTextBox.Focus();
-                    nameTextBox.SelectionStart = nameTextBox.Text.Length;
-                    _nameBackup = nameTextBox.Text;
-                }
-            }
+            //    if (obj is TextBox nameTextBox)
+            //    {
+            //        //...do something
+            //        //BorderThickness="0" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Arrow" Focusable="False"
+            //        TextBox defaultTextBox = new TextBox();
+            //        nameTextBox.BorderThickness = new Thickness(1);
+            //        nameTextBox.IsReadOnly = defaultTextBox.IsReadOnly;
+            //        nameTextBox.Background = defaultTextBox.Background;
+            //        nameTextBox.BorderBrush = defaultTextBox.BorderBrush;
+            //        nameTextBox.Cursor = defaultTextBox.Cursor;
+            //        nameTextBox.Focusable = defaultTextBox.Focusable;
+            //        nameTextBox.Focus();
+            //        nameTextBox.SelectionStart = nameTextBox.Text.Length;
+            //        _nameBackup = nameTextBox.Text;
+            //    }
+            //}
         }
 
         /// <summary>
@@ -811,23 +813,23 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void FolderCreate(object sender, RoutedEventArgs e)
         {
-            Folders folders = _filesDbManager.CreateFolders(_folderNow.FolderId);
-            SetExplorer_TreeView();
-            SetExplorer_ListView(_folderNow.FolderId);
+            //Folders folders = _filesDbManager.CreateFolders(_folderNow.FolderId);
+            //SetExplorer_TreeView();
+            //SetExplorer_ListView(_folderNow.FolderId);
 
-            foreach (ListViewItem item in ListView_Explorer.Items)
-            {
-                if (item.Content is ExplorerProperty property)
-                {
-                    if (property.Id == folders.FolderId && property.IsFolder)
-                    {
-                        item.IsSelected = true;
-                        ListView_Explorer.UpdateLayout(); //更新布局，否则在获取组件时报NULL
-                        Rename(null, null);
-                        break;
-                    }
-                }
-            }
+            //foreach (ListViewItem item in ListView_Explorer.Items)
+            //{
+            //    if (item.Content is ExplorerProperty property)
+            //    {
+            //        if (property.Id == folders.FolderId && property.IsFolder)
+            //        {
+            //            item.IsSelected = true;
+            //            ListView_Explorer.UpdateLayout(); //更新布局，否则在获取组件时报NULL
+            //            Rename(null, null);
+            //            break;
+            //        }
+            //    }
+            //}
         }
 
         #endregion
@@ -841,12 +843,12 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void ColumnWidthAuto()
         {
-            if (!(ListView_Explorer.View is GridView gv)) return;
-            foreach (var gvColumn in gv.Columns)
-            {
-                gvColumn.Width = 100;
-                gvColumn.Width = NaN;
-            }
+            //if (!(ListView_Explorer.View is GridView gv)) return;
+            //foreach (var gvColumn in gv.Columns)
+            //{
+            //    gvColumn.Width = 100;
+            //    gvColumn.Width = NaN;
+            //}
         }
 
         #endregion
@@ -925,6 +927,7 @@ namespace FilesExplorerInDB_WPF
                     Settings.Default.Save();
                 }
             }
+
             if (!Directory.Exists(Settings.Default.FileStorageLocation))
             {
                 Settings.Default.FileStorageLocation =
