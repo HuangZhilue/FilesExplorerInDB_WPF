@@ -1,7 +1,7 @@
-﻿using System.Windows.Input;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
+using System.Windows.Input;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {

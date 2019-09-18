@@ -1,9 +1,7 @@
-﻿using System.Windows.Media;
-using Command;
-using FilesExplorerInDB_EF.EFModels;
-using FilesExplorerInDB_Manager.Interface;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
 using Resources;
+using System.Windows.Media;
 
 namespace FilesExplorerInDB_WPF.Models
 {

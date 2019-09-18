@@ -322,223 +322,222 @@ namespace FilesExplorerInDB_WPF
 
         #region 右键菜单管理
 
-        #region 资源管理器右键菜单
+        //#region 资源管理器右键菜单
 
-        /// <summary>
-        /// 文件夹的右键单击事件（打开右键菜单）
-        /// </summary>
-        private void ListView_Explorer_Folder_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //打开
-            //剪切
-            //复制
-            //删除
-            //重命名
-            //属性
+        ///// <summary>
+        ///// 文件夹的右键单击事件（打开右键菜单）
+        ///// </summary>
+        //private void ListView_Explorer_Folder_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //打开
+        //    //剪切
+        //    //复制
+        //    //删除
+        //    //重命名
+        //    //属性
 
-            //if (ListView_Explorer.SelectedItems.Count > 1)
-            //{
-            //    _isMultipleSelection = true;
-            //}
+        //    //if (ListView_Explorer.SelectedItems.Count > 1)
+        //    //{
+        //    //    _isMultipleSelection = true;
+        //    //}
 
-            ListViewItem item = (ListViewItem)sender;
-            ContextMenu menu = new ContextMenu();
+        //    ListViewItem item = (ListViewItem) sender;
+        //    ContextMenu menu = new ContextMenu();
 
-            if (!_isMultipleSelection)
-            {
-                MenuItem openMenuItem = new MenuItem
-                {
-                    Header = "打开",
-                    DataContext = item.Content
-                };
-                openMenuItem.Click += OpenFolder;
-                menu.Items.Add(openMenuItem);
-            }
+        //    if (!_isMultipleSelection)
+        //    {
+        //        MenuItem openMenuItem = new MenuItem
+        //        {
+        //            Header = "打开",
+        //            DataContext = item.Content
+        //        };
+        //        openMenuItem.Click += OpenFolder;
+        //        menu.Items.Add(openMenuItem);
+        //    }
 
-            MenuItem cutMenuItem = new MenuItem
-            {
-                Header = "剪切",
-                DataContext = item.Content
-            };
-            cutMenuItem.Click += Cut;
-            menu.Items.Add(cutMenuItem);
+        //    MenuItem cutMenuItem = new MenuItem
+        //    {
+        //        Header = "剪切",
+        //        DataContext = item.Content
+        //    };
+        //    cutMenuItem.Click += Cut;
+        //    menu.Items.Add(cutMenuItem);
 
-            MenuItem copyMenuItem = new MenuItem
-            {
-                Header = "复制",
-                DataContext = item.Content
-            };
-            copyMenuItem.Click += Copy;
-            menu.Items.Add(copyMenuItem);
+        //    MenuItem copyMenuItem = new MenuItem
+        //    {
+        //        Header = "复制",
+        //        DataContext = item.Content
+        //    };
+        //    copyMenuItem.Click += Copy;
+        //    menu.Items.Add(copyMenuItem);
 
-            if ((_isCutting || _isCopying) && !_isMultipleSelection)
-            {
-                MenuItem pasteMenuItem = new MenuItem
-                {
-                    Header = "粘贴",
-                    DataContext = item.Content
-                };
-                pasteMenuItem.Click += Paste;
-                menu.Items.Add(pasteMenuItem);
-            }
+        //    if ((_isCutting || _isCopying) && !_isMultipleSelection)
+        //    {
+        //        MenuItem pasteMenuItem = new MenuItem
+        //        {
+        //            Header = "粘贴",
+        //            DataContext = item.Content
+        //        };
+        //        pasteMenuItem.Click += Paste;
+        //        menu.Items.Add(pasteMenuItem);
+        //    }
 
-            MenuItem deleteMenuItem = new MenuItem
-            {
-                Header = "删除",
-                DataContext = item.Content
-            };
-            deleteMenuItem.Click += Delete;
-            menu.Items.Add(deleteMenuItem);
+        //    MenuItem deleteMenuItem = new MenuItem
+        //    {
+        //        Header = "删除",
+        //        DataContext = item.Content
+        //    };
+        //    deleteMenuItem.Click += Delete;
+        //    menu.Items.Add(deleteMenuItem);
 
-            if (!_isMultipleSelection)
-            {
-                MenuItem renameMenuItem = new MenuItem
-                {
-                    Header = "重命名",
-                    DataContext = item.Content
-                };
-                renameMenuItem.Click += Rename;
-                menu.Items.Add(renameMenuItem);
+        //    if (!_isMultipleSelection)
+        //    {
+        //        MenuItem renameMenuItem = new MenuItem
+        //        {
+        //            Header = "重命名",
+        //            DataContext = item.Content
+        //        };
+        //        renameMenuItem.Click += Rename;
+        //        menu.Items.Add(renameMenuItem);
 
-                MenuItem propertyMenuItem = new MenuItem
-                {
-                    Header = "属性",
-                    DataContext = item.Content
-                };
-                propertyMenuItem.Click += FolderProperty;
-                menu.Items.Add(propertyMenuItem);
-            }
+        //        MenuItem propertyMenuItem = new MenuItem
+        //        {
+        //            Header = "属性",
+        //            DataContext = item.Content
+        //        };
+        //        propertyMenuItem.Click += FolderProperty;
+        //        menu.Items.Add(propertyMenuItem);
+        //    }
 
-            item.ContextMenu = menu;
-            _isMultipleSelection = false;
-        }
+        //    item.ContextMenu = menu;
+        //    _isMultipleSelection = false;
+        //}
 
-        /// <summary>
-        /// 文件的右键单击事件（打开右键菜单）
-        /// </summary>
-        private void ListView_Explorer_File_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ////打开
-            ////剪切
-            ////复制
-            ////删除
-            ////重命名
-            ////属性
-            //if (ListView_Explorer.SelectedItems.Count > 1)
-            //{
-            //    _isMultipleSelection = true;
-            //}
+        ///// <summary>
+        ///// 文件的右键单击事件（打开右键菜单）
+        ///// </summary>
+        //private void ListView_Explorer_File_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //打开
+        //    //剪切
+        //    //复制
+        //    //删除
+        //    //重命名
+        //    //属性
+        //    //if (ListView_Explorer.SelectedItems.Count > 1)
+        //    //{
+        //    //    _isMultipleSelection = true;
+        //    //}
 
-            //ListViewItem item = (ListViewItem) sender;
-            //ContextMenu menu = new ContextMenu();
+        //    ListViewItem item = (ListViewItem)sender;
+        //    ContextMenu menu = new ContextMenu();
 
-            //if (!_isMultipleSelection)
-            //{
-            //    MenuItem openMenuItem = new MenuItem
-            //    {
-            //        Header = "打开",
-            //        DataContext = item.Content
-            //    };
-            //    openMenuItem.Click += OpenFile;
-            //    menu.Items.Add(openMenuItem);
-            //}
+        //    if (!_isMultipleSelection)
+        //    {
+        //        MenuItem openMenuItem = new MenuItem
+        //        {
+        //            Header = "打开",
+        //            DataContext = item.Content
+        //        };
+        //        openMenuItem.Click += OpenFile;
+        //        menu.Items.Add(openMenuItem);
+        //    }
 
-            //MenuItem cutMenuItem = new MenuItem
-            //{
-            //    Header = "剪切",
-            //    DataContext = item.Content
-            //};
-            //cutMenuItem.Click += Cut;
-            //menu.Items.Add(cutMenuItem);
+        //    MenuItem cutMenuItem = new MenuItem
+        //    {
+        //        Header = "剪切",
+        //        DataContext = item.Content
+        //    };
+        //    cutMenuItem.Click += Cut;
+        //    menu.Items.Add(cutMenuItem);
 
-            //MenuItem copyMenuItem = new MenuItem
-            //{
-            //    Header = "复制",
-            //    DataContext = item.Content
-            //};
-            //copyMenuItem.Click += Copy;
-            //menu.Items.Add(copyMenuItem);
+        //    MenuItem copyMenuItem = new MenuItem
+        //    {
+        //        Header = "复制",
+        //        DataContext = item.Content
+        //    };
+        //    copyMenuItem.Click += Copy;
+        //    menu.Items.Add(copyMenuItem);
 
-            //MenuItem deleteMenuItem = new MenuItem
-            //{
-            //    Header = "删除",
-            //    DataContext = item.Content
-            //};
-            //deleteMenuItem.Click += Delete;
-            //menu.Items.Add(deleteMenuItem);
+        //    MenuItem deleteMenuItem = new MenuItem
+        //    {
+        //        Header = "删除",
+        //        DataContext = item.Content
+        //    };
+        //    deleteMenuItem.Click += Delete;
+        //    menu.Items.Add(deleteMenuItem);
 
-            //if (!_isMultipleSelection)
-            //{
-            //    MenuItem renameMenuItem = new MenuItem
-            //    {
-            //        Header = "重命名",
-            //        DataContext = item.Content
-            //    };
-            //    renameMenuItem.Click += Rename;
-            //    menu.Items.Add(renameMenuItem);
+        //    if (!_isMultipleSelection)
+        //    {
+        //        MenuItem renameMenuItem = new MenuItem
+        //        {
+        //            Header = "重命名",
+        //            DataContext = item.Content
+        //        };
+        //        renameMenuItem.Click += Rename;
+        //        menu.Items.Add(renameMenuItem);
 
-            //    MenuItem propertyMenuItem = new MenuItem
-            //    {
-            //        Header = "属性",
-            //        DataContext = item.Content
-            //    };
-            //    propertyMenuItem.Click += FileProperty;
-            //    menu.Items.Add(propertyMenuItem);
-            //}
+        //        MenuItem propertyMenuItem = new MenuItem
+        //        {
+        //            Header = "属性",
+        //            DataContext = item.Content
+        //        };
+        //        propertyMenuItem.Click += FileProperty;
+        //        menu.Items.Add(propertyMenuItem);
+        //    }
 
-            //item.ContextMenu = menu;
-            //_isMultipleSelection = false;
-        }
+        //    item.ContextMenu = menu;
+        //    _isMultipleSelection = false;
+        //}
 
-        /// <summary>
-        /// 资源管理器空白区域右键单击事件（打开右键菜单）
-        /// </summary>
-        private void ListView_Explorer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //ListView_Explorer.SelectedItems.Clear();
-            ////刷新
-            ////新建
-            ////属性
-            //ListView item = (ListView) sender;
-            //ContextMenu menu = new ContextMenu();
+        ///// <summary>
+        ///// 资源管理器空白区域右键单击事件（打开右键菜单）
+        ///// </summary>
+        //private void ListView_Explorer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //ListView_Explorer.SelectedItems.Clear();
+        //    //刷新
+        //    //新建
+        //    //属性
+        //    ListView item = (ListView)sender;
+        //    ContextMenu menu = new ContextMenu();
 
-            //MenuItem refreshMenuItem = new MenuItem
-            //{
-            //    Header = "刷新"
-            //};
-            //refreshMenuItem.Click += FolderRefresh;
-            //menu.Items.Add(refreshMenuItem);
+        //    MenuItem refreshMenuItem = new MenuItem
+        //    {
+        //        Header = "刷新"
+        //    };
+        //    refreshMenuItem.Click += FolderRefresh;
+        //    menu.Items.Add(refreshMenuItem);
 
-            //if (_isCutting || _isCopying)
-            //{
-            //    MenuItem pasteMenuItem = new MenuItem
-            //    {
-            //        Header = "粘贴"
-            //    };
-            //    pasteMenuItem.Click += Paste;
-            //    menu.Items.Add(pasteMenuItem);
-            //}
+        //    if (_isCutting || _isCopying)
+        //    {
+        //        MenuItem pasteMenuItem = new MenuItem
+        //        {
+        //            Header = "粘贴"
+        //        };
+        //        pasteMenuItem.Click += Paste;
+        //        menu.Items.Add(pasteMenuItem);
+        //    }
+
+        //    MenuItem createMenuItem = new MenuItem
+        //    {
+        //        Header = "新建文件夹"
+        //    };
+        //    createMenuItem.Click += FolderCreate;
+        //    menu.Items.Add(createMenuItem);
+
+        //    MenuItem propertyMenuItem = new MenuItem
+        //    {
+        //        Header = "属性"
+        //    };
+        //    propertyMenuItem.Click += FolderProperty;
+        //    menu.Items.Add(propertyMenuItem);
 
 
-            //MenuItem createMenuItem = new MenuItem
-            //{
-            //    Header = "新建文件夹"
-            //};
-            //createMenuItem.Click += FolderCreate;
-            //menu.Items.Add(createMenuItem);
+        //    item.ContextMenu = menu;
+        //}
 
-            //MenuItem propertyMenuItem = new MenuItem
-            //{
-            //    Header = "属性"
-            //};
-            //propertyMenuItem.Click += FolderProperty;
-            //menu.Items.Add(propertyMenuItem);
-
-
-            //item.ContextMenu = menu;
-        }
-
-        #endregion
+        //#endregion
 
         #region 通用菜单
 

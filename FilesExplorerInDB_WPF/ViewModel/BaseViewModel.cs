@@ -1,7 +1,7 @@
-﻿using System;
-using Command;
+﻿using Command;
 using FilesExplorerInDB_Manager.Interface;
 using FilesExplorerInDB_WPF.Properties;
+using System;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {

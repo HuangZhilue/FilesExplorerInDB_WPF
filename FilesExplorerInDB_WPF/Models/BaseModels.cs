@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Command;
+﻿using Command;
 using FilesExplorerInDB_Manager.Interface;
 using JetBrains.Annotations;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FilesExplorerInDB_WPF.Models
 {
