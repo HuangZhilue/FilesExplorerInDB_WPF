@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
+using System.Collections.Generic;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -9,10 +8,21 @@ namespace FilesExplorerInDB_WPF.Models
     {
         private List<ExplorerProperty> _explorerList;
         private Folders _folderNow;
+        private int _selectIndex;
 
         #region 字段
 
         #region 公共字段
+
+        public int SelectIndex
+        {
+            get => _selectIndex;
+            set
+            {
+                _selectIndex = value; 
+                OnPropertyChanged(nameof(SelectIndex));
+            }
+        }
 
         public List<ExplorerProperty> ExplorerList
         {

@@ -1,9 +1,12 @@
-﻿using FilesExplorerInDB_Models.Models;
+﻿using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Documents;
 using System.Windows.Input;
-using FilesExplorerInDB_EF.EFModels;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -14,11 +17,14 @@ namespace FilesExplorerInDB_WPF.ViewModel
         #region 公共字段
 
         public ExplorerItems ExplorerItems { get; } = ExplorerItems.GetInstance;
+        public ContextMenuModel ContextMenuModel { get; } = ContextMenuModel.GetInstance;
         public ICommand DblClick { get; }
         public ICommand Click { get; }
+        public ICommand ClickMouseLeftButtonDown { get; }
         public ICommand ClickPathBack { get; }
         public ICommand ClickPathNext { get; }
         public ICommand ClickPathPrevious { get; }
+        public ICommand LoadedContextMenu { get; }
 
         #endregion
 
@@ -40,13 +46,20 @@ namespace FilesExplorerInDB_WPF.ViewModel
         {
             DblClick = new DelegateCommand<object>(OpenFolder, IsValid);
             Click = new DelegateCommand<object>(GetProperty, IsProperty);
+            ClickMouseLeftButtonDown = new DelegateCommand<object>(MouseLeftButtonDown, IsProperty);
             ClickPathBack = new DelegateCommand(Button_PathBack_Click);
             ClickPathNext = new DelegateCommand(Button_PathNext_Click);
             ClickPathPrevious = new DelegateCommand(Button_PathPrevious_Click);
+            LoadedContextMenu = new DelegateCommand<object>(CheckContextMenu, m => true);
         }
 
         #endregion
 
+        private void MouseLeftButtonDown(object parameter)
+        {
+            GetProperty(parameter);
+            ExplorerItems.SelectIndex = -1;
+        }
         private void OpenFolder(object parameter)
         {
             switch (parameter)
@@ -128,6 +141,13 @@ namespace FilesExplorerInDB_WPF.ViewModel
             Folders folders = PathViewVM.PathPrevious(ExplorerItems.FolderNow);
             IsPathPrevious = true;
             OpenFolder(folders);
+        }
+
+        private void CheckContextMenu(object obj)
+        {
+            System.Collections.IList items = (System.Collections.IList)obj;
+            List<ExplorerProperty> list = items.Cast<ExplorerProperty>().ToList();
+            ContextMenuModel.SetMenuItems(list, false, false);
         }
     }
 }

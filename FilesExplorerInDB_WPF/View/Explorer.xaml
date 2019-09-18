@@ -4,6 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
+             x:Name="userControl"
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
@@ -11,7 +13,8 @@
         <ListView x:Name="ListView_Explorer"
                   VerticalContentAlignment="Center"
                   AllowDrop="True"
-                  ItemsSource="{Binding ExplorerItems.ExplorerList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+                  ItemsSource="{Binding ExplorerItems.ExplorerList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedIndex="{Binding ExplorerItems.SelectIndex}">
             <!--
                 DragEnter="ListView_Explorer_DragEnter"
                 Drop="ListView_Explorer_Drop"
@@ -19,63 +22,63 @@
             -->
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="打开">
+                    <MenuItem Header="打开" Visibility="{Binding ContextMenuModel.IsVisibleOpen, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="刷新">
+                    <MenuItem Header="刷新" Visibility="{Binding ContextMenuModel.IsVisibleRefresh, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="剪切">
+                    <MenuItem Header="剪切" Visibility="{Binding ContextMenuModel.IsVisibleCut, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="复制">
+                    <MenuItem Header="复制" Visibility="{Binding ContextMenuModel.IsVisibleCopy, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="粘贴">
+                    <MenuItem Header="粘贴" Visibility="{Binding ContextMenuModel.IsVisiblePaste, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="新建文件夹">
+                    <MenuItem Header="新建文件夹" Visibility="{Binding ContextMenuModel.IsVisibleCreate, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="删除">
+                    <MenuItem Header="删除" Visibility="{Binding ContextMenuModel.IsVisibleDelete, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="重命名">
+                    <MenuItem Header="重命名" Visibility="{Binding ContextMenuModel.IsVisibleRename, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-                    <MenuItem Header="属性">
+                    <MenuItem Header="属性" Visibility="{Binding ContextMenuModel.IsVisibleProperty, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction />
@@ -85,7 +88,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger>
-                            <i:InvokeCommandAction />
+                            <i:InvokeCommandAction Command="{Binding LoadedContextMenu, Mode=OneWay}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ContextMenu>
@@ -134,7 +137,7 @@
                     <i:InvokeCommandAction Command="{Binding Click, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=ListView_Explorer}" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseLeftButtonDown">
-                    <i:InvokeCommandAction Command="{Binding Click, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
+                    <i:InvokeCommandAction Command="{Binding ClickMouseLeftButtonDown, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
                 </i:EventTrigger>
                 <i:EventTrigger>
                     <i:InvokeCommandAction Command="{Binding Click, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />

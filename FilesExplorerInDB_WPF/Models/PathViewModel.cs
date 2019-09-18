@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FilesExplorerInDB_EF.EFModels;
+using System.Collections.Generic;
 using System.Diagnostics;
-using FilesExplorerInDB_EF.EFModels;
 
 namespace FilesExplorerInDB_WPF.Models
 {
