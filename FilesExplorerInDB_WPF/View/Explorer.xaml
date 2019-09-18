@@ -25,63 +25,63 @@
                     <MenuItem Header="打开" Visibility="{Binding ContextMenuModel.IsVisibleOpen, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandOpen, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="刷新" Visibility="{Binding ContextMenuModel.IsVisibleRefresh, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandRefresh, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="剪切" Visibility="{Binding ContextMenuModel.IsVisibleCut, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandCut, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="复制" Visibility="{Binding ContextMenuModel.IsVisibleCopy, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandCopy, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="粘贴" Visibility="{Binding ContextMenuModel.IsVisiblePaste, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandPaste, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="新建文件夹" Visibility="{Binding ContextMenuModel.IsVisibleCreate, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandCreate, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="删除" Visibility="{Binding ContextMenuModel.IsVisibleDelete, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandDelete, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="重命名" Visibility="{Binding ContextMenuModel.IsVisibleRename, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandRename, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
                     <MenuItem Header="属性" Visibility="{Binding ContextMenuModel.IsVisibleProperty, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction />
+                                <i:InvokeCommandAction Command="{Binding CommandProperty, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
@@ -108,12 +108,12 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox x:Name="nameTextBox"
-                                         Background="{x:Null}"
-                                         BorderBrush="{x:Null}"
-                                         BorderThickness="0"
-                                         Cursor="Arrow"
-                                         Focusable="False"
-                                         IsReadOnly="True"
+                                         Background="{Binding Background}"
+                                         BorderBrush="{Binding BorderBrush}"
+                                         BorderThickness="{Binding BorderThickness}"
+                                         Cursor="{Binding Cursor}"
+                                         Focusable="{Binding Focusable}"
+                                         IsReadOnly="{Binding IsReadOnly}"
                                          Text="{Binding Name}" />
                                 <!--
                                     LostFocus="NameTextBox_LostFocus"

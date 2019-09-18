@@ -541,58 +541,58 @@ namespace FilesExplorerInDB_WPF
 
         #region 通用菜单
 
-        /// <summary>
-        /// 剪切
-        /// </summary>
-        private void Cut(object sender, RoutedEventArgs e)
-        {
-            //_selectItems.Clear();
-            //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-            //{
-            //    _selectItems.Add(item.Content as ExplorerProperty);
-            //}
+        ///// <summary>
+        ///// 剪切
+        ///// </summary>
+        //private void Cut(object sender, RoutedEventArgs e)
+        //{
+        //    //_selectItems.Clear();
+        //    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        //    //{
+        //    //    _selectItems.Add(item.Content as ExplorerProperty);
+        //    //}
 
-            //_isCopying = false;
-            //_isCutting = true;
-        }
+        //    //_isCopying = false;
+        //    //_isCutting = true;
+        //}
 
-        /// <summary>
-        /// 复制
-        /// </summary>
-        private void Copy(object sender, RoutedEventArgs e)
-        {
-            //_selectItems.Clear();
-            //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-            //{
-            //    _selectItems.Add(item.Content as ExplorerProperty);
-            //}
+        ///// <summary>
+        ///// 复制
+        ///// </summary>
+        //private void Copy(object sender, RoutedEventArgs e)
+        //{
+        //    //_selectItems.Clear();
+        //    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        //    //{
+        //    //    _selectItems.Add(item.Content as ExplorerProperty);
+        //    //}
 
-            //_isCopying = true;
-            //_isCutting = false;
-        }
+        //    //_isCopying = true;
+        //    //_isCutting = false;
+        //}
 
-        /// <summary>
-        /// 粘贴
-        /// </summary>
-        private void Paste(object sender, RoutedEventArgs e)
-        {
-            //int folderIdForPaste;
-            //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
-            //{
-            //    folderIdForPaste = property.Id;
-            //}
-            //else
-            //{
-            //    folderIdForPaste = _folderNow.FolderId;
-            //}
+        ///// <summary>
+        ///// 粘贴
+        ///// </summary>
+        //private void Paste(object sender, RoutedEventArgs e)
+        //{
+        //    //int folderIdForPaste;
+        //    //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
+        //    //{
+        //    //    folderIdForPaste = property.Id;
+        //    //}
+        //    //else
+        //    //{
+        //    //    folderIdForPaste = _folderNow.FolderId;
+        //    //}
 
-            //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
-            //if (_isCutting) _selectItems.Clear();
-            //SetExplorer_TreeView();
-            //SetExplorer_ListView(_folderNow.FolderId);
-            //_isCopying = false;
-            //_isCutting = false;
-        }
+        //    //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
+        //    //if (_isCutting) _selectItems.Clear();
+        //    //SetExplorer_TreeView();
+        //    //SetExplorer_ListView(_folderNow.FolderId);
+        //    //_isCopying = false;
+        //    //_isCutting = false;
+        //}
 
         /// <summary>
         /// 删除

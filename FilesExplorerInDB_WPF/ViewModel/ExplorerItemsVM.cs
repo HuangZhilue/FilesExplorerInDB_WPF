@@ -25,14 +25,28 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand ClickPathNext { get; }
         public ICommand ClickPathPrevious { get; }
         public ICommand LoadedContextMenu { get; }
+        public ICommand CommandOpen { get; }
+        public ICommand CommandRefresh { get; }
+        public ICommand CommandCut { get; }
+        public ICommand CommandCopy { get; }
+        public ICommand CommandPaste { get; }
+        public ICommand CommandCreate { get; }
+        public ICommand CommandDelete { get; }
+        public ICommand CommandRename { get; }
+        public ICommand CommandProperty { get; }
 
         #endregion
 
         #region 非公共字段
 
         private PropertyItemVM PropertyItemVM { get; } = PropertyItemVM.GetInstance;
+        private FolderTreeVM FolderTreeVM { get; } = FolderTreeVM.GetInstance;
         private PathViewVM PathViewVM { get; } = PathViewVM.GetInstance;
         private bool IsPathPrevious { get; set; }
+        private List<ExplorerProperty> SelectItem { get; set; } = new List<ExplorerProperty>();
+        private List<ExplorerProperty> SelectItemForPaste { get; set; } = new List<ExplorerProperty>();
+        private bool IsCutting { get; set; }
+        private bool IsCopying { get; set; }
 
         #endregion
 
@@ -51,6 +65,15 @@ namespace FilesExplorerInDB_WPF.ViewModel
             ClickPathNext = new DelegateCommand(Button_PathNext_Click);
             ClickPathPrevious = new DelegateCommand(Button_PathPrevious_Click);
             LoadedContextMenu = new DelegateCommand<object>(CheckContextMenu, m => true);
+            CommandCopy = new DelegateCommand(Copy);
+            CommandCreate = new DelegateCommand(Create);
+            CommandCut = new DelegateCommand(Cut);
+            CommandDelete = new DelegateCommand(Delete);
+            CommandOpen = new DelegateCommand(Open);
+            CommandPaste = new DelegateCommand(Paste);
+            CommandProperty = new DelegateCommand(Property);
+            CommandRefresh = new DelegateCommand(Refresh);
+            CommandRename = new DelegateCommand(Rename);
         }
 
         #endregion
@@ -60,6 +83,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             GetProperty(parameter);
             ExplorerItems.SelectIndex = -1;
         }
+
         private void OpenFolder(object parameter)
         {
             switch (parameter)
@@ -146,8 +170,80 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private void CheckContextMenu(object obj)
         {
             System.Collections.IList items = (System.Collections.IList)obj;
-            List<ExplorerProperty> list = items.Cast<ExplorerProperty>().ToList();
-            ContextMenuModel.SetMenuItems(list, false, false);
+            SelectItem = items.Cast<ExplorerProperty>().ToList();
+            ContextMenuModel.SetMenuItems(SelectItem, IsCopying, IsCutting);
+        }
+
+        private void Open()
+        {
+
+        }
+
+        private void Refresh()
+        {
+
+        }
+
+        private void Cut()
+        {
+            SelectItemForPaste = SelectItem;
+            IsCopying = false;
+            IsCutting = true;
+        }
+
+        private void Copy()
+        {
+            SelectItemForPaste = SelectItem;
+            IsCopying = true;
+            IsCutting = false;
+        }
+
+        private void Paste()
+        {
+            int folderIdForPaste;
+            if (SelectItem != null && SelectItem.Count == 1) 
+            {
+                folderIdForPaste = SelectItemForPaste[0].Id;
+            }
+            else
+            {
+                folderIdForPaste = ExplorerItems.FolderNow.FolderId;
+            }
+
+            FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting);
+            if (IsCutting) MouseLeftButtonDown(SelectItemForPaste);
+            //TODO 刷新目录树，刷新资源管理器
+            FolderTreeVM.FolderTree.RefreshFolderTree();
+            OpenFolder(ExplorerItems.FolderNow);
+            IsCopying = false;
+            IsCutting = false;
+        }
+
+        private void Create()
+        {
+
+        }
+
+        private void Delete()
+        {
+            FilesDbManager.SetDeleteState(SelectItem);
+            IsCopying = false;
+            IsCutting = false;
+            //TODO 刷新目录树，刷新资源管理器
+            FolderTreeVM.FolderTree.RefreshFolderTree();
+            OpenFolder(ExplorerItems.FolderNow);
+            //SetExplorer_TreeView();
+            //SetExplorer_ListView(_folderNow.FolderId);
+        }
+
+        private void Rename()
+        {
+
+        }
+
+        private void Property()
+        {
+
         }
     }
 }

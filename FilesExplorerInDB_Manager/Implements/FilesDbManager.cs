@@ -122,6 +122,7 @@ namespace FilesExplorerInDB_Manager.Implements
             Bitmap imageBitmap = Resource.DEFAULT;
             foreach (var file in folderNow.Files)
             {
+                if (file.IsDelete) continue;
                 if (file.IsMiss) imageBitmap = Resource.fileNotFount;
                 list.Add(SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount));
                 imageBitmap = Resource.DEFAULT;

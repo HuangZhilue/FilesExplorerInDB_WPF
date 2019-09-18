@@ -40,7 +40,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private void OpenFolder(object parameter)
         {
             if (!(parameter is Folders item)) return;
-            PathViewVM.PathPrevious(ExplorerItems.FolderNow);
+            PathViewVM.PathPush(ExplorerItems.FolderNow);
             ExplorerItems.GetFolder(item.FolderId);
             PropertyItemVM.SetProperty(item.FolderId);
             PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);

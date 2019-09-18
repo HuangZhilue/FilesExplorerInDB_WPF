@@ -10,7 +10,7 @@ namespace FilesExplorerInDB_WPF.Models
         #region 字段
 
         #region 公共字段
-        public ObservableCollection<Folders> FolderTreeList { get; } = new ObservableCollection<Folders>();
+        public ObservableCollection<Folders> FolderTreeList { get; protected set; } = new ObservableCollection<Folders>();
 
         #endregion
 
@@ -35,5 +35,9 @@ namespace FilesExplorerInDB_WPF.Models
 
         #endregion
 
+        public void RefreshFolderTree()
+        {
+            FolderTreeList = new ObservableCollection<Folders>(FilesDbManager.GetFoldersTree(-1, _rootFolderList));
+        }
     }
 }
