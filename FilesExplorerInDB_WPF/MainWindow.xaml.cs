@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using FilesExplorerInDB_Models.Models;
+using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Properties;
 using static System.Double;
 using Brush = System.Windows.Media.Brush;
@@ -106,6 +107,9 @@ namespace FilesExplorerInDB_WPF
             SetExplorer_TreeView();
             SetExplorer_ListView(0);
             //ListView_Explorer_MouseLeftButtonDown(null, null);
+
+
+            WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
         }
 
         #endregion
@@ -747,17 +751,17 @@ namespace FilesExplorerInDB_WPF
             }
         }
 
-        /// <summary>
-        /// 文件夹属性
-        /// </summary>
-        private void FolderProperty(object sender, RoutedEventArgs e)
-        {
-            if (((MenuItem) sender).DataContext is ExplorerProperty property)
-            {
-                new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource,
-                    _filesDbManager).Show();
-            }
-        }
+        ///// <summary>
+        ///// 文件夹属性
+        ///// </summary>
+        //private void FolderProperty(object sender, RoutedEventArgs e)
+        //{
+        //    //if (((MenuItem) sender).DataContext is ExplorerProperty property)
+        //    //{
+        //    //    new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource,
+        //    //        _filesDbManager).Show();
+        //    //}
+        //}
 
         #endregion
 
@@ -782,17 +786,17 @@ namespace FilesExplorerInDB_WPF
             }
         }
 
-        /// <summary>
-        /// 文件属性
-        /// </summary>
-        private void FileProperty(object sender, RoutedEventArgs e)
-        {
-            if (((MenuItem) sender).DataContext is ExplorerProperty property)
-            {
-                new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource,
-                    _filesDbManager).Show();
-            }
-        }
+        ///// <summary>
+        ///// 文件属性
+        ///// </summary>
+        //private void FileProperty(object sender, RoutedEventArgs e)
+        //{
+        //    //if (((MenuItem) sender).DataContext is ExplorerProperty property)
+        //    //{
+        //    //    new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource,
+        //    //        _filesDbManager).Show();
+        //    //}
+        //}
 
         #endregion
 

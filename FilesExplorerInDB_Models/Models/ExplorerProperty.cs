@@ -13,7 +13,7 @@ namespace FilesExplorerInDB_Models.Models
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly object _lock = new object();
         private string _name;
-        private bool _focusable = false;
+        private bool _focusable;
         private bool _isReadOnly = true;
         private int _id;
         private int _folderLocalId;
@@ -28,7 +28,7 @@ namespace FilesExplorerInDB_Models.Models
         private Cursor _cursor = Cursors.Arrow;
 
         [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             lock (_lock)
             {

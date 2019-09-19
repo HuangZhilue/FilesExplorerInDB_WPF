@@ -1,11 +1,11 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
+using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FilesExplorerInDB_WPF.ViewModel
@@ -44,6 +44,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private PropertyItemVM PropertyItemVM { get; } = PropertyItemVM.GetInstance;
         private FolderTreeVM FolderTreeVM { get; } = FolderTreeVM.GetInstance;
         private PathViewVM PathViewVM { get; } = PathViewVM.GetInstance;
+        private PropertyWindowVM PropertyWindowVM { get; } = PropertyWindowVM.GetInstance;
         private bool IsPathPrevious { get; set; }
         private List<ExplorerProperty> SelectItem { get; set; } = new List<ExplorerProperty>();
         private List<ExplorerProperty> SelectItemForPaste { get; set; } = new List<ExplorerProperty>();
@@ -269,7 +270,10 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Property()
         {
-
+            if (SelectItem == null || SelectItem.Count < 1) return;
+            PropertyWindowVM.SetProperty(SelectItem[0]);
+            WindowManager.Show(nameof(PropertyWindow), true);
+            Refresh();
         }
     }
 }

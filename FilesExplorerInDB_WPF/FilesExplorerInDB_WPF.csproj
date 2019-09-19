@@ -135,12 +135,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\WindowManager.cs" />
     <Compile Include="Models\BaseModels.cs" />
     <Compile Include="Models\ContextMenuModel.cs" />
     <Compile Include="Models\ExplorerItems.cs" />
     <Compile Include="Models\FolderTree.cs" />
     <Compile Include="Models\PathViewModel.cs" />
     <Compile Include="Models\PropertyItems.cs" />
+    <Compile Include="Models\PropertyWindowModel.cs" />
     <Compile Include="PropertyWindow.xaml.cs">
       <DependentUpon>PropertyWindow.xaml</DependentUpon>
     </Compile>
@@ -150,6 +152,7 @@
     <Compile Include="ViewModel\FolderTreeVM.cs" />
     <Compile Include="ViewModel\PathViewVM.cs" />
     <Compile Include="ViewModel\PropertyItemVM.cs" />
+    <Compile Include="ViewModel\PropertyWindowVM.cs" />
     <Compile Include="View\Explorer.xaml.cs">
       <DependentUpon>Explorer.xaml</DependentUpon>
     </Compile>
