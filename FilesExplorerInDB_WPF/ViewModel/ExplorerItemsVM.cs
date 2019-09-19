@@ -3,9 +3,9 @@ using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows.Documents;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FilesExplorerInDB_WPF.ViewModel
@@ -34,6 +34,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand CommandDelete { get; }
         public ICommand CommandRename { get; }
         public ICommand CommandProperty { get; }
+        public ICommand CommandLostFocus { get; }
+        public ICommand CommandPreviewKeyDown { get; }
 
         #endregion
 
@@ -47,6 +49,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private List<ExplorerProperty> SelectItemForPaste { get; set; } = new List<ExplorerProperty>();
         private bool IsCutting { get; set; }
         private bool IsCopying { get; set; }
+        private string NameBackup { get; set; }
 
         #endregion
 
@@ -74,6 +77,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandProperty = new DelegateCommand(Property);
             CommandRefresh = new DelegateCommand(Refresh);
             CommandRename = new DelegateCommand(Rename);
+            CommandLostFocus = new DelegateCommand(LostFocus);
+            CommandPreviewKeyDown = new DelegateCommand(PreviewKeyDown);
         }
 
         #endregion
@@ -169,7 +174,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void CheckContextMenu(object obj)
         {
-            System.Collections.IList items = (System.Collections.IList)obj;
+            System.Collections.IList items = (System.Collections.IList) obj;
             SelectItem = items.Cast<ExplorerProperty>().ToList();
             ContextMenuModel.SetMenuItems(SelectItem, IsCopying, IsCutting);
         }
@@ -181,7 +186,9 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Refresh()
         {
-
+            //TODO 刷新目录树，刷新资源管理器
+            FolderTreeVM.FolderTree.RefreshFolderTree();
+            OpenFolder(ExplorerItems.FolderNow);
         }
 
         private void Cut()
@@ -201,7 +208,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private void Paste()
         {
             int folderIdForPaste;
-            if (SelectItem != null && SelectItem.Count == 1) 
+            if (SelectItem != null && SelectItem.Count == 1)
             {
                 folderIdForPaste = SelectItemForPaste[0].Id;
             }
@@ -212,9 +219,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
             FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting);
             if (IsCutting) MouseLeftButtonDown(SelectItemForPaste);
-            //TODO 刷新目录树，刷新资源管理器
-            FolderTreeVM.FolderTree.RefreshFolderTree();
-            OpenFolder(ExplorerItems.FolderNow);
+            Refresh();
             IsCopying = false;
             IsCutting = false;
         }
@@ -229,16 +234,37 @@ namespace FilesExplorerInDB_WPF.ViewModel
             FilesDbManager.SetDeleteState(SelectItem);
             IsCopying = false;
             IsCutting = false;
-            //TODO 刷新目录树，刷新资源管理器
-            FolderTreeVM.FolderTree.RefreshFolderTree();
-            OpenFolder(ExplorerItems.FolderNow);
-            //SetExplorer_TreeView();
-            //SetExplorer_ListView(_folderNow.FolderId);
+            Refresh();
         }
 
         private void Rename()
         {
+            ExplorerProperty item = ExplorerItems.ExplorerList[ExplorerItems.SelectIndex];
+            NameBackup = item.Name;
+            item.BorderThickness = new Thickness(1);
+            item.IsReadOnly = false;
+            item.Cursor = null;
+            item.Focusable = true;
+        }
 
+        private void LostFocus()
+        {
+            ExplorerProperty item = ExplorerItems.ExplorerList.SingleOrDefault(t => t.Focusable==true&&t.IsReadOnly==false);
+            if (item == null) return;
+            item.Name = NameBackup;
+            item.BorderThickness = new Thickness(0);
+            item.IsReadOnly = true;
+            item.Cursor = Cursors.Arrow;
+            item.Focusable = false;
+        }
+
+        private void PreviewKeyDown()
+        {
+            NameBackup = ExplorerItems.ExplorerList[ExplorerItems.SelectIndex].Name;
+            FilesDbManager.Rename(SelectItem, NameBackup);
+            LostFocus();
+            Refresh();
+            NameBackup = "";
         }
 
         private void Property()

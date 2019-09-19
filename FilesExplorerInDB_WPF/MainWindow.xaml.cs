@@ -539,199 +539,199 @@ namespace FilesExplorerInDB_WPF
 
         //#endregion
 
-        #region 通用菜单
+        //#region 通用菜单
 
-        ///// <summary>
-        ///// 剪切
-        ///// </summary>
-        //private void Cut(object sender, RoutedEventArgs e)
-        //{
-        //    //_selectItems.Clear();
-        //    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-        //    //{
-        //    //    _selectItems.Add(item.Content as ExplorerProperty);
-        //    //}
+        /////// <summary>
+        /////// 剪切
+        /////// </summary>
+        ////private void Cut(object sender, RoutedEventArgs e)
+        ////{
+        ////    //_selectItems.Clear();
+        ////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        ////    //{
+        ////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        ////    //}
 
-        //    //_isCopying = false;
-        //    //_isCutting = true;
-        //}
+        ////    //_isCopying = false;
+        ////    //_isCutting = true;
+        ////}
 
-        ///// <summary>
-        ///// 复制
-        ///// </summary>
-        //private void Copy(object sender, RoutedEventArgs e)
-        //{
-        //    //_selectItems.Clear();
-        //    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-        //    //{
-        //    //    _selectItems.Add(item.Content as ExplorerProperty);
-        //    //}
+        /////// <summary>
+        /////// 复制
+        /////// </summary>
+        ////private void Copy(object sender, RoutedEventArgs e)
+        ////{
+        ////    //_selectItems.Clear();
+        ////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        ////    //{
+        ////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        ////    //}
 
-        //    //_isCopying = true;
-        //    //_isCutting = false;
-        //}
+        ////    //_isCopying = true;
+        ////    //_isCutting = false;
+        ////}
 
-        ///// <summary>
-        ///// 粘贴
-        ///// </summary>
-        //private void Paste(object sender, RoutedEventArgs e)
-        //{
-        //    //int folderIdForPaste;
-        //    //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
-        //    //{
-        //    //    folderIdForPaste = property.Id;
-        //    //}
-        //    //else
-        //    //{
-        //    //    folderIdForPaste = _folderNow.FolderId;
-        //    //}
+        /////// <summary>
+        /////// 粘贴
+        /////// </summary>
+        ////private void Paste(object sender, RoutedEventArgs e)
+        ////{
+        ////    //int folderIdForPaste;
+        ////    //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
+        ////    //{
+        ////    //    folderIdForPaste = property.Id;
+        ////    //}
+        ////    //else
+        ////    //{
+        ////    //    folderIdForPaste = _folderNow.FolderId;
+        ////    //}
 
-        //    //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
-        //    //if (_isCutting) _selectItems.Clear();
-        //    //SetExplorer_TreeView();
-        //    //SetExplorer_ListView(_folderNow.FolderId);
-        //    //_isCopying = false;
-        //    //_isCutting = false;
-        //}
+        ////    //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
+        ////    //if (_isCutting) _selectItems.Clear();
+        ////    //SetExplorer_TreeView();
+        ////    //SetExplorer_ListView(_folderNow.FolderId);
+        ////    //_isCopying = false;
+        ////    //_isCutting = false;
+        ////}
 
-        /// <summary>
-        /// 删除
-        /// </summary>
-        private void Delete(object sender, RoutedEventArgs e)
-        {
-            //_selectItems.Clear();
-            //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
-            //{
-            //    _selectItems.Add(item.Content as ExplorerProperty);
-            //}
+        /////// <summary>
+        /////// 删除
+        /////// </summary>
+        ////private void Delete(object sender, RoutedEventArgs e)
+        ////{
+        ////    //_selectItems.Clear();
+        ////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        ////    //{
+        ////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        ////    //}
 
-            //_filesDbManager.SetDeleteState(_selectItems);
-            //_isCopying = false;
-            //_isCutting = false;
-            //_selectItems.Clear();
-            //SetExplorer_TreeView();
-            //SetExplorer_ListView(_folderNow.FolderId);
-        }
+        ////    //_filesDbManager.SetDeleteState(_selectItems);
+        ////    //_isCopying = false;
+        ////    //_isCutting = false;
+        ////    //_selectItems.Clear();
+        ////    //SetExplorer_TreeView();
+        ////    //SetExplorer_ListView(_folderNow.FolderId);
+        ////}
 
-        /// <summary>
-        /// 重命名
-        /// </summary>
-        private void Rename(object sender, RoutedEventArgs e)
-        {
-            ////_isRenaming = true;
-            //if (ListView_Explorer.SelectedItem is ListViewItem item)
-            //{
-            //    _selectItems.Clear();
-            //    ExplorerProperty property = item.Content as ExplorerProperty;
-            //    _selectItems.Add(property);
-            //    _defaultIndexOfObj = 0;
+        /////// <summary>
+        /////// 重命名
+        /////// </summary>
+        ////private void Rename(object sender, RoutedEventArgs e)
+        ////{
+        ////    ////_isRenaming = true;
+        ////    //if (ListView_Explorer.SelectedItem is ListViewItem item)
+        ////    //{
+        ////    //    _selectItems.Clear();
+        ////    //    ExplorerProperty property = item.Content as ExplorerProperty;
+        ////    //    _selectItems.Add(property);
+        ////    //    _defaultIndexOfObj = 0;
 
-            //    var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
+        ////    //    var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
 
-            //    // Getting the ContentPresenter of myListBoxItem
-            //    var myContentPresenter =
-            //        FindVisualChild<ContentPresenter>(myListBoxItem,
-            //            1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
+        ////    //    // Getting the ContentPresenter of myListBoxItem
+        ////    //    var myContentPresenter =
+        ////    //        FindVisualChild<ContentPresenter>(myListBoxItem,
+        ////    //            1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
 
-            //    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
-            //    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
+        ////    //    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
+        ////    //    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
 
-            //    var obj = myDataTemplate.FindName("nameTextBox", myContentPresenter); //nameTextBox 是在模板内定义的 x:Name
+        ////    //    var obj = myDataTemplate.FindName("nameTextBox", myContentPresenter); //nameTextBox 是在模板内定义的 x:Name
 
-            //    if (obj is TextBox nameTextBox)
-            //    {
-            //        //...do something
-            //        //BorderThickness="0" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Arrow" Focusable="False"
-            //        TextBox defaultTextBox = new TextBox();
-            //        nameTextBox.BorderThickness = new Thickness(1);
-            //        nameTextBox.IsReadOnly = defaultTextBox.IsReadOnly;
-            //        nameTextBox.Background = defaultTextBox.Background;
-            //        nameTextBox.BorderBrush = defaultTextBox.BorderBrush;
-            //        nameTextBox.Cursor = defaultTextBox.Cursor;
-            //        nameTextBox.Focusable = defaultTextBox.Focusable;
-            //        nameTextBox.Focus();
-            //        nameTextBox.SelectionStart = nameTextBox.Text.Length;
-            //        _nameBackup = nameTextBox.Text;
-            //    }
-            //}
-        }
+        ////    //    if (obj is TextBox nameTextBox)
+        ////    //    {
+        ////    //        //...do something
+        ////    //        //BorderThickness="0" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Arrow" Focusable="False"
+        ////    //        TextBox defaultTextBox = new TextBox();
+        ////    //        nameTextBox.BorderThickness = new Thickness(1);
+        ////    //        nameTextBox.IsReadOnly = defaultTextBox.IsReadOnly;
+        ////    //        nameTextBox.Background = defaultTextBox.Background;
+        ////    //        nameTextBox.BorderBrush = defaultTextBox.BorderBrush;
+        ////    //        nameTextBox.Cursor = defaultTextBox.Cursor;
+        ////    //        nameTextBox.Focusable = defaultTextBox.Focusable;
+        ////    //        nameTextBox.Focus();
+        ////    //        nameTextBox.SelectionStart = nameTextBox.Text.Length;
+        ////    //        _nameBackup = nameTextBox.Text;
+        ////    //    }
+        ////    //}
+        ////}
 
-        /// <summary>
-        /// 寻找子标签（子控件）
-        /// </summary>
-        /// <typeparam name="TChildItem">子控件类型</typeparam>
-        /// <param name="obj">子控件</param>
-        /// <param name="indexOfObj">该控件的索引</param>
-        /// <returns>子控件</returns>
-        private TChildItem FindVisualChild<TChildItem>(DependencyObject obj, int indexOfObj)
-            where TChildItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child is TChildItem item)
-                {
-                    if (_defaultIndexOfObj == indexOfObj) return item;
-                    else
-                    {
-                        _defaultIndexOfObj++;
-                        TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
-                        if (childOfChild != null)
-                            return childOfChild;
-                    }
-                }
-                else
-                {
-                    TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
+        /////// <summary>
+        /////// 寻找子标签（子控件）
+        /////// </summary>
+        /////// <typeparam name="TChildItem">子控件类型</typeparam>
+        /////// <param name="obj">子控件</param>
+        /////// <param name="indexOfObj">该控件的索引</param>
+        /////// <returns>子控件</returns>
+        ////private TChildItem FindVisualChild<TChildItem>(DependencyObject obj, int indexOfObj)
+        ////    where TChildItem : DependencyObject
+        ////{
+        ////    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        ////    {
+        ////        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+        ////        if (child is TChildItem item)
+        ////        {
+        ////            if (_defaultIndexOfObj == indexOfObj) return item;
+        ////            else
+        ////            {
+        ////                _defaultIndexOfObj++;
+        ////                TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
+        ////                if (childOfChild != null)
+        ////                    return childOfChild;
+        ////            }
+        ////        }
+        ////        else
+        ////        {
+        ////            TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
+        ////            if (childOfChild != null)
+        ////                return childOfChild;
+        ////        }
+        ////    }
 
-            return null;
-        }
+        ////    return null;
+        ////}
 
-        /// <summary>
-        /// 完成重命名操作
-        /// </summary>
-        private void NameTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (sender is TextBox nameTextBox)
-                {
-                    _filesDbManager.Rename(_selectItems, nameTextBox.Text);
+        /////// <summary>
+        /////// 完成重命名操作
+        /////// </summary>
+        ////private void NameTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        ////{
+        ////    if (e.Key == Key.Enter)
+        ////    {
+        ////        if (sender is TextBox nameTextBox)
+        ////        {
+        ////            _filesDbManager.Rename(_selectItems, nameTextBox.Text);
 
-                    //_isRenaming = false;
-                    _selectItems.Clear();
-                    NameTextBox_LostFocus(sender, new RoutedEventArgs());
-                    _nameBackup = "";
-                    SetExplorer_TreeView();
-                    SetExplorer_ListView(_folderNow.FolderId);
-                }
-            }
-        }
+        ////            //_isRenaming = false;
+        ////            _selectItems.Clear();
+        ////            NameTextBox_LostFocus(sender, new RoutedEventArgs());
+        ////            _nameBackup = "";
+        ////            SetExplorer_TreeView();
+        ////            SetExplorer_ListView(_folderNow.FolderId);
+        ////        }
+        ////    }
+        ////}
 
-        /// <summary>
-        /// 失去焦点，取消重命名操作
-        /// </summary>
-        private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox nameTextBox)
-            {
-                nameTextBox.BorderThickness = new Thickness(0);
-                nameTextBox.IsReadOnly = true;
-                nameTextBox.Background = null;
-                nameTextBox.BorderBrush = null;
-                nameTextBox.Cursor = Cursors.Arrow;
-                nameTextBox.Focusable = false;
-                nameTextBox.Text = _nameBackup;
-            }
+        /////// <summary>
+        /////// 失去焦点，取消重命名操作
+        /////// </summary>
+        ////private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        ////{
+        ////    if (sender is TextBox nameTextBox)
+        ////    {
+        ////        nameTextBox.BorderThickness = new Thickness(0);
+        ////        nameTextBox.IsReadOnly = true;
+        ////        nameTextBox.Background = null;
+        ////        nameTextBox.BorderBrush = null;
+        ////        nameTextBox.Cursor = Cursors.Arrow;
+        ////        nameTextBox.Focusable = false;
+        ////        nameTextBox.Text = _nameBackup;
+        ////    }
 
-            //_isRenaming = false;
-        }
+        ////    //_isRenaming = false;
+        ////}
 
-        #endregion
+        //#endregion
 
         #region 文件夹右键菜单管理
 

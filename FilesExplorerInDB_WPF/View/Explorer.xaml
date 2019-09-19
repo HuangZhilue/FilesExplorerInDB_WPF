@@ -14,7 +14,7 @@
                   VerticalContentAlignment="Center"
                   AllowDrop="True"
                   ItemsSource="{Binding ExplorerItems.ExplorerList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedIndex="{Binding ExplorerItems.SelectIndex}">
+                  SelectedIndex="{Binding ExplorerItems.SelectIndex, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
             <!--
                 DragEnter="ListView_Explorer_DragEnter"
                 Drop="ListView_Explorer_Drop"
@@ -98,27 +98,32 @@
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image x:Name="Image_Type"
-                                       Height="30"
-                                       Source="{Binding ImageSource}" />
+                                <Image Height="30" Source="{Binding ImageSource}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="名称">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox x:Name="nameTextBox"
-                                         Background="{Binding Background}"
-                                         BorderBrush="{Binding BorderBrush}"
+                                <TextBox Background="{x:Null}"
+                                         BorderBrush="{x:Null}"
                                          BorderThickness="{Binding BorderThickness}"
                                          Cursor="{Binding Cursor}"
                                          Focusable="{Binding Focusable}"
                                          IsReadOnly="{Binding IsReadOnly}"
-                                         Text="{Binding Name}" />
-                                <!--
-                                    LostFocus="NameTextBox_LostFocus"
-                                    PreviewKeyDown="NameTextBox_PreviewKeyDown"
-                                -->
+                                         Text="{Binding Name, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Enter" Command="{Binding CommandPreviewKeyDown, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </TextBox.InputBindings>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding CommandLostFocus, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                        </i:EventTrigger>
+                                        <!--<i:EventTrigger EventName="PreviewKeyDown">
+                                            <i:InvokeCommandAction Command="{Binding PreviewKeyDown, Mode=OneWay}" />
+                                        </i:EventTrigger>-->
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

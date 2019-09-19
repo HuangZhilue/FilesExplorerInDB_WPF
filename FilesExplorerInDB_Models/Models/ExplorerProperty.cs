@@ -1,37 +1,179 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using FilesExplorerInDB_Models.Interface;
+using JetBrains.Annotations;
 
 namespace FilesExplorerInDB_Models.Models
 {
-    public class ExplorerProperty : IProperty
+    public class ExplorerProperty : IProperty, INotifyPropertyChanged
     {
-        public int Id { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly object _lock = new object();
+        private string _name;
+        private bool _focusable = false;
+        private bool _isReadOnly = true;
+        private int _id;
+        private int _folderLocalId;
+        private bool _isFolder;
+        private string _type;
+        private long _size;
+        private string _creationTime;
+        private string _modifyTime;
+        private string _accessTime;
+        private ImageSource _imageSource;
+        private Thickness _borderThickness = new Thickness(0);
+        private Cursor _cursor = Cursors.Arrow;
 
-        public int FolderLocalId { get; set; }
+        [NotifyPropertyChangedInvocator]
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            lock (_lock)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
-        public bool IsFolder { get; set; }
+        public int Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
-        public string Name { get; set; }
+        public int FolderLocalId
+        {
+            get => _folderLocalId;
+            set
+            {
+                _folderLocalId = value;
+                OnPropertyChanged(nameof(FolderLocalId));
+            }
+        }
 
-        public string Type { get; set; }
+        public bool IsFolder
+        {
+            get => _isFolder;
+            set
+            {
+                _isFolder = value;
+                OnPropertyChanged(nameof(IsFolder));
+            }
+        }
 
-        public long Size { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
-        public string CreationTime { get; set; }
+        public string Type
+        {
+            get => _type;
+            set
+            {
+                _type = value;
+                OnPropertyChanged(nameof(Type));
+            }
+        }
 
-        public string ModifyTime { get; set; }
+        public long Size
+        {
+            get => _size;
+            set
+            {
+                _size = value;
+                OnPropertyChanged(nameof(Size));
+            }
+        }
 
-        public string AccessTime { get; set; }
+        public string CreationTime
+        {
+            get => _creationTime;
+            set
+            {
+                _creationTime = value;
+                OnPropertyChanged(nameof(CreationTime));
+            }
+        }
 
-        public ImageSource ImageSource { get; set; }
+        public string ModifyTime
+        {
+            get => _modifyTime;
+            set
+            {
+                _modifyTime = value;
+                OnPropertyChanged(nameof(ModifyTime));
+            }
+        }
 
-        public Thickness BorderThickness { get; set; } = new Thickness(0);
-        public bool IsReadOnly { get; set; } = true;
-        public Brush Background { get; set; } = null;
-        public Brush BorderBrush { get; set; } = null;
-        public Cursor Cursor { get; set; } = Cursors.Arrow;
-        public bool Focusable { get; set; } = false;
+        public string AccessTime
+        {
+            get => _accessTime;
+            set
+            {
+                _accessTime = value;
+                OnPropertyChanged(nameof(AccessTime));
+            }
+        }
+
+        public ImageSource ImageSource
+        {
+            get => _imageSource;
+            set
+            {
+                _imageSource = value;
+                OnPropertyChanged(nameof(ImageSource));
+            }
+        }
+
+        public Thickness BorderThickness
+        {
+            get => _borderThickness;
+            set
+            {
+                _borderThickness = value;
+                OnPropertyChanged(nameof(BorderThickness));
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get => _isReadOnly;
+            set
+            {
+                _isReadOnly = value;
+                OnPropertyChanged(nameof(IsReadOnly));
+            }
+        }
+
+        public Cursor Cursor
+        {
+            get => _cursor;
+            set
+            {
+                _cursor = value;
+                OnPropertyChanged(nameof(Cursor));
+            }
+        }
+
+        public bool Focusable
+        {
+            get => _focusable;
+            set
+            {
+                _focusable = value;
+                OnPropertyChanged(nameof(Focusable));
+            }
+        }
     }
 }
