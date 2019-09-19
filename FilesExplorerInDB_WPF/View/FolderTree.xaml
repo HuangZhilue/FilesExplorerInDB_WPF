@@ -10,7 +10,7 @@
     <Grid>
         <TreeView x:Name="TreeViewExplorer"
                   VerticalContentAlignment="Top"
-                  ItemsSource="{Binding FolderTree.FolderTreeList}">
+                  ItemsSource="{Binding FolderTree.FolderTreeList, Mode=OneWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding FolderNodes}">
                     <StackPanel>

@@ -1,18 +1,19 @@
 namespace FilesExplorerInDB_EF.EFModels
 {
-    using Interface;
     using System.Data.Entity;
 
-    public class FilesDB : DbContext, IFilesDB
+    public sealed class FilesDB : DbContext//, IFilesDB
     {
-        public FilesDB()
+        public static FilesDB GetFilesDb { get; } = new FilesDB();
+
+        private FilesDB()
             : base("name=FilesDB")
         {
         }
 
-        public virtual DbSet<Files> Files { get; set; }
-        public virtual DbSet<Folders> Folders { get; set; }
-        public virtual DbSet<Monitor> Monitor { get; set; }
+        public DbSet<Files> Files { get; set; }
+        public DbSet<Folders> Folders { get; set; }
+        public DbSet<Monitor> Monitor { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -21,6 +21,7 @@ namespace FilesExplorerInDB_Manager.Implements
     public class FilesDbManager : IFilesDbManager
     {
         private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
+
         //private readonly IFilesDbMongoDbService _dbService = UnityContainerHelp.GetServer<IFilesDbMongoDbService>();
         private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
         private readonly IMonitorManager _monitorManager = UnityContainerHelp.GetServer<IMonitorManager>();
@@ -89,13 +90,13 @@ namespace FilesExplorerInDB_Manager.Implements
             return _dbService.LoadFoldersEntites(where);
         }
 
-        private void FilesModified(Files files,bool isSave=false)
+        private void FilesModified(Files files, bool isSave = false)
         {
             _dbService.FilesModified(files);
             if (isSave) SaveChanges();
         }
 
-        private void FoldersModified(Folders folder, bool isSave=false)
+        private void FoldersModified(Folders folder, bool isSave = false)
         {
             _dbService.FoldersModified(folder);
             if (isSave) SaveChanges();
@@ -495,7 +496,8 @@ namespace FilesExplorerInDB_Manager.Implements
                     foldersList.Add(SetChildFoldersProperty(childFolders, endFolderId));
                 }
 
-            List<Files> files = LoadFilesEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete).ToList();
+            List<Files> files = LoadFilesEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete)
+                .ToList();
             files = SetFilesListProperty(files);
             if (!folders.Any())
             {
@@ -530,6 +532,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 SaveChanges();
                 return null;
             }
+
             List<Folders> folders =
                 LoadFoldersEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
             List<Files> files = LoadFilesEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
@@ -647,16 +650,16 @@ namespace FilesExplorerInDB_Manager.Implements
         {
             if (size >= GB)
             {
-                return ((double)size / GB).ToString("0.00") + " GB";
+                return ((double) size / GB).ToString("0.00") + " GB";
             }
             else if (size >= MB)
             {
-                double value = (double)size / MB;
+                double value = (double) size / MB;
                 return value.ToString("0.00") + " MB";
             }
             else if (size >= KB)
             {
-                double value = (double)size / KB;
+                double value = (double) size / KB;
                 return value.ToString("0.00") + " KB";
             }
             else if (size == -1)

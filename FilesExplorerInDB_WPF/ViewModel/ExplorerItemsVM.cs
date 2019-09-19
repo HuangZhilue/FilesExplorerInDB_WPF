@@ -206,7 +206,6 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Refresh()
         {
-            //TODO 刷新目录树，刷新资源管理器
             FolderTreeVM.FolderTree.RefreshFolderTree();
             OpenFolder(ExplorerItems.FolderNow);
         }

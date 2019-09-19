@@ -12,7 +12,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
     public class BaseViewModel
     {
-        public readonly IFilesDbManager FilesDbManager = UnityContainerHelp.GetServer<IFilesDbManager>();
+        protected static IFilesDbManager FilesDbManager { get; } = UnityContainerHelp.GetServer<IFilesDbManager>();
         private readonly Settings _settings = new Settings();
 
         protected void SaveSetting(SettingType type, object value)

@@ -8,8 +8,8 @@ namespace FilesExplorerInDB_WPF.Models
 {
     public class BaseModels : INotifyPropertyChanged
     {
-        public static readonly IFilesDbManager FilesDbManager = UnityContainerHelp.GetServer<IFilesDbManager>();
-        public static readonly AssemblyInformation AppInformation = AssemblyInformation.GetAssemblyInformation();
+        protected static IFilesDbManager FilesDbManager { get; } = UnityContainerHelp.GetServer<IFilesDbManager>();
+        protected static AssemblyInformation AppInformation { get; } = AssemblyInformation.GetAssemblyInformation();
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly object _lock = new object();
 

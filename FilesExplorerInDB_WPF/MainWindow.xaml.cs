@@ -103,9 +103,9 @@ namespace FilesExplorerInDB_WPF
         public MainWindow()
         {
             InitializeComponent();
-            CheckFileStorage();
-            SetExplorer_TreeView();
-            SetExplorer_ListView(0);
+            //CheckFileStorage();
+            //SetExplorer_TreeView();
+            //SetExplorer_ListView(0);
             //ListView_Explorer_MouseLeftButtonDown(null, null);
 
 
@@ -863,45 +863,45 @@ namespace FilesExplorerInDB_WPF
 
         #region 文件拖放
 
-        private void ListView_Explorer_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = DragDropEffects.All;
-        }
+        //private void ListView_Explorer_DragEnter(object sender, DragEventArgs e)
+        //{
+        //    e.Effects = DragDropEffects.All;
+        //}
 
         /// <summary>
         /// 文件拖放并保存
         /// </summary>
         private void ListView_Explorer_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
-            {
-                String[] files = (String[]) e.Data.GetData(DataFormats.FileDrop);
+            //if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            //{
+            //    String[] files = (String[]) e.Data.GetData(DataFormats.FileDrop);
 
-                if (files != null)
-                    foreach (String s in files)
-                    {
-                        if (File.Exists(s))
-                        {
-                            // 是文件
-                            FileInfo fi = new FileInfo(s);
+            //    if (files != null)
+            //        foreach (String s in files)
+            //        {
+            //            if (File.Exists(s))
+            //            {
+            //                // 是文件
+            //                FileInfo fi = new FileInfo(s);
 
-                            CheckFileStorage();
+            //                CheckFileStorage();
 
-                            _filesDbManager.FilesAdd(fi, _folderNow.FolderId, Settings.Default.FileStorageLocation);
-                            SetExplorer_ListView(_folderNow.FolderId);
-                        }
-                        else if (Directory.Exists(s))
-                        {
-                            // 是文件夹
-                            MessageBox.Show("暂不支持文件夹拖放操作！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                        else
-                        {
-                            // 都不是
-                            MessageBox.Show("未检测到文件！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                        }
-                    }
-            }
+            //                _filesDbManager.FilesAdd(fi, _folderNow.FolderId, Settings.Default.FileStorageLocation);
+            //                SetExplorer_ListView(_folderNow.FolderId);
+            //            }
+            //            else if (Directory.Exists(s))
+            //            {
+            //                // 是文件夹
+            //                MessageBox.Show("暂不支持文件夹拖放操作！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            //            }
+            //            else
+            //            {
+            //                // 都不是
+            //                MessageBox.Show("未检测到文件！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            //            }
+            //        }
+            //}
         }
 
         #endregion
@@ -911,9 +911,9 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private void Button_Refresh_Click(object sender, RoutedEventArgs e)
         {
-            _filesDbManager.SetFoldersProperty(0);
-            SetExplorer_TreeView();
-            SetExplorer_ListView(0);
+            //_filesDbManager.SetFoldersProperty(0);
+            //SetExplorer_TreeView();
+            //SetExplorer_ListView(0);
         }
 
         /// <summary>
@@ -921,22 +921,22 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         private static void CheckFileStorage()
         {
-            if (String.IsNullOrEmpty(Settings.Default.FileStorageLocation))
-            {
-                if (!Directory.Exists(Settings.Default.FileStorageLocation))
-                {
-                    Settings.Default.FileStorageLocation =
-                        AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
-                    Settings.Default.Save();
-                }
-            }
+            //if (String.IsNullOrEmpty(Settings.Default.FileStorageLocation))
+            //{
+            //    if (!Directory.Exists(Settings.Default.FileStorageLocation))
+            //    {
+            //        Settings.Default.FileStorageLocation =
+            //            AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
+            //        Settings.Default.Save();
+            //    }
+            //}
 
-            if (!Directory.Exists(Settings.Default.FileStorageLocation))
-            {
-                Settings.Default.FileStorageLocation =
-                    AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
-                Settings.Default.Save();
-            }
+            //if (!Directory.Exists(Settings.Default.FileStorageLocation))
+            //{
+            //    Settings.Default.FileStorageLocation =
+            //        AppDomain.CurrentDomain.BaseDirectory + "FileStorageLocation\\";
+            //    Settings.Default.Save();
+            //}
         }
     }
 }

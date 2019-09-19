@@ -56,7 +56,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PropertyWindowModel.Name = folders.FolderName;
             NameBackup = folders.FolderName;
             PropertyWindowModel.Type = "文件夹";
-            PropertyWindowModel.Location = GetLoction(folders.FolderLocalId);
+            PropertyWindowModel.Location = GetLocation(folders.FolderLocalId);
             PropertyWindowModel.Size = FilesDbManager.DisplayFileSize(folders.Size) + "(" + folders.Size + " 字节)";
             PropertyWindowModel.CreationTime = folders.CreationTime; //.ToString("yyyy年M月d日，HH:mm:ss");
             PropertyWindowModel.ModifyTime = folders.ModifyTime;
@@ -71,7 +71,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PropertyWindowModel.Name = files.FileName;
             NameBackup = files.FileName;
             PropertyWindowModel.Type = files.FileType;
-            PropertyWindowModel.Location = GetLoction(files.FolderLocalId);
+            PropertyWindowModel.Location = GetLocation(files.FolderLocalId);
             PropertyWindowModel.Size = FilesDbManager.DisplayFileSize(files.Size) + "(" + files.Size + " 字节)";
             PropertyWindowModel.CreationTime = files.CreationTime;
             PropertyWindowModel.ModifyTime = files.ModifyTime;
@@ -80,7 +80,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PropertyWindowModel.IsVisibilityAccessTime = Visibility.Visible;
         }
 
-        private string GetLoction(int folderId)
+        private static string GetLocation(int folderId)
         {
             string path = "";
             Stack<Folders> stack = FilesDbManager.GetRelativePath_Folder(folderId);

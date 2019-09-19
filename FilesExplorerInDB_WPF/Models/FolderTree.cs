@@ -7,16 +7,27 @@ namespace FilesExplorerInDB_WPF.Models
 {
     public class FolderTree : BaseModels
     {
+        private List<Folders> _folderTreeList = new List<Folders>();
+
         #region 字段
 
         #region 公共字段
-        public ObservableCollection<Folders> FolderTreeList { get; protected set; } = new ObservableCollection<Folders>();
+
+        public List<Folders> FolderTreeList
+        {
+            get => _folderTreeList;
+            set
+            {
+                _folderTreeList = value; 
+                OnPropertyChanged(nameof(FolderTreeList));
+            }
+        }
 
         #endregion
 
         #region 非公共字段
 
-        private readonly List<Folders> _rootFolderList =
+        private List<Folders> RootFolderList { get; set; } =
             FilesDbManager.LoadFoldersEntites(f => f.FolderId != -1 && f.IsDelete == false).ToList();
 
         #endregion
@@ -30,14 +41,15 @@ namespace FilesExplorerInDB_WPF.Models
         private FolderTree()
         {
             if (FolderTreeList == null || FolderTreeList.Count <= 0) 
-                FolderTreeList = new ObservableCollection<Folders>(FilesDbManager.GetFoldersTree(-1, _rootFolderList));
+                FolderTreeList = FilesDbManager.GetFoldersTree(-1, RootFolderList);
         }
 
         #endregion
 
         public void RefreshFolderTree()
         {
-            FolderTreeList = new ObservableCollection<Folders>(FilesDbManager.GetFoldersTree(-1, _rootFolderList));
+            RootFolderList = FilesDbManager.LoadFoldersEntites(f => f.FolderId != -1 && f.IsDelete == false).ToList();
+            FolderTreeList = FilesDbManager.GetFoldersTree(-1, RootFolderList);
         }
     }
 }

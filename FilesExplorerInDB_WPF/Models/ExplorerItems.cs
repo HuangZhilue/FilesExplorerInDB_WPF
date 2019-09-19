@@ -70,12 +70,5 @@ namespace FilesExplorerInDB_WPF.Models
             ExplorerList = FilesDbManager.SetExplorerItemsList(folderId,out Folders folderNow);
             FolderNow = folderNow;
         }
-
-        public void SetExplorerListItem(ExplorerProperty item)
-        {
-            _explorerList[SelectIndex] = item;
-            ExplorerList = _explorerList;
-            //OnPropertyChanged(nameof(ExplorerList));
-        }
     }
 }

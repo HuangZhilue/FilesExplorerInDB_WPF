@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 
@@ -10,7 +9,7 @@ namespace FilesExplorerInDB_EF.Implements
 {
     public class FilesDbService : IFilesDbService
     {
-        private readonly FilesDB _dbContext = UnityContainerHelp.GetServer<FilesDB>();
+        private readonly FilesDB _dbContext = FilesDB.GetFilesDb;
 
         public Files FilesAdd(Files entity)
         {
