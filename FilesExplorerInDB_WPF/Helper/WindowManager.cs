@@ -24,29 +24,33 @@ namespace FilesExplorerInDB_WPF.Helper
 
         public static void Remove(string key)
         {
-            if (RegisterWindow.ContainsKey(key))
-            {
-                RegisterWindow.Remove(key);
-                Window window = Window.Find(w => w.Name == key);
-                if (window != null)
-                {
-                    Window.Remove(window);
-                    window.Close();
-                }
-            }
+            if (!RegisterWindow.ContainsKey(key)) return;
+            //RegisterWindow.Remove(key);
+            Window window = Window.Find(w => w.Name == key);
+            if (window == null) return;
+            Window.Remove(window);
+            window.Close();
         }
 
-        public static void Show(string key, bool showDialog = false) //, object vm)
+        public static void SetDialogResult(string key, bool result)
         {
             if (!RegisterWindow.ContainsKey(key)) return;
+            Window window = Window.Find(w => w.Name == key);
+            if (window != null)
+                window.DialogResult = result;
+        }
+
+        public static bool? Show(string key, bool showDialog = false) //, object vm)
+        {
+            if (!RegisterWindow.ContainsKey(key)) return null;
             var win = (Window) Activator.CreateInstance((Type) RegisterWindow[key]);
             //win.DataContext = vm;
             win.Name = key;
             Window.Add(win);
             if (showDialog)
-                win.ShowDialog();
-            else
-                win.Show();
+                return win.ShowDialog();
+            win.Show();
+            return null;
         }
     }
 }

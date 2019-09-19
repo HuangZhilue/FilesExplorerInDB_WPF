@@ -149,6 +149,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 }
 
                 NameBackup = PropertyWindowModel.Name;
+                WindowManager.SetDialogResult(nameof(PropertyWindow), true);
             }
             else
             {

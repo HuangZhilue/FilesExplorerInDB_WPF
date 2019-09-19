@@ -250,7 +250,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void LostFocus()
         {
-            ExplorerProperty item = ExplorerItems.ExplorerList.SingleOrDefault(t => t.Focusable==true&&t.IsReadOnly==false);
+            ExplorerProperty item = ExplorerItems.ExplorerList.SingleOrDefault(t => t.Focusable && !t.IsReadOnly);
             if (item == null) return;
             item.Name = NameBackup;
             item.BorderThickness = new Thickness(0);
@@ -272,8 +272,9 @@ namespace FilesExplorerInDB_WPF.ViewModel
         {
             if (SelectItem == null || SelectItem.Count < 1) return;
             PropertyWindowVM.SetProperty(SelectItem[0]);
-            WindowManager.Show(nameof(PropertyWindow), true);
-            Refresh();
+            bool? result = WindowManager.Show(nameof(PropertyWindow), true);
+            if (result != null && result == true)
+                Refresh();
         }
     }
 }
