@@ -324,537 +324,537 @@ namespace FilesExplorerInDB_WPF
 
         //#endregion
 
-        #region 右键菜单管理
+        //#region 右键菜单管理
 
-        //#region 资源管理器右键菜单
-
-        ///// <summary>
-        ///// 文件夹的右键单击事件（打开右键菜单）
-        ///// </summary>
-        //private void ListView_Explorer_Folder_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    //打开
-        //    //剪切
-        //    //复制
-        //    //删除
-        //    //重命名
-        //    //属性
-
-        //    //if (ListView_Explorer.SelectedItems.Count > 1)
-        //    //{
-        //    //    _isMultipleSelection = true;
-        //    //}
-
-        //    ListViewItem item = (ListViewItem) sender;
-        //    ContextMenu menu = new ContextMenu();
-
-        //    if (!_isMultipleSelection)
-        //    {
-        //        MenuItem openMenuItem = new MenuItem
-        //        {
-        //            Header = "打开",
-        //            DataContext = item.Content
-        //        };
-        //        openMenuItem.Click += OpenFolder;
-        //        menu.Items.Add(openMenuItem);
-        //    }
-
-        //    MenuItem cutMenuItem = new MenuItem
-        //    {
-        //        Header = "剪切",
-        //        DataContext = item.Content
-        //    };
-        //    cutMenuItem.Click += Cut;
-        //    menu.Items.Add(cutMenuItem);
-
-        //    MenuItem copyMenuItem = new MenuItem
-        //    {
-        //        Header = "复制",
-        //        DataContext = item.Content
-        //    };
-        //    copyMenuItem.Click += Copy;
-        //    menu.Items.Add(copyMenuItem);
-
-        //    if ((_isCutting || _isCopying) && !_isMultipleSelection)
-        //    {
-        //        MenuItem pasteMenuItem = new MenuItem
-        //        {
-        //            Header = "粘贴",
-        //            DataContext = item.Content
-        //        };
-        //        pasteMenuItem.Click += Paste;
-        //        menu.Items.Add(pasteMenuItem);
-        //    }
-
-        //    MenuItem deleteMenuItem = new MenuItem
-        //    {
-        //        Header = "删除",
-        //        DataContext = item.Content
-        //    };
-        //    deleteMenuItem.Click += Delete;
-        //    menu.Items.Add(deleteMenuItem);
-
-        //    if (!_isMultipleSelection)
-        //    {
-        //        MenuItem renameMenuItem = new MenuItem
-        //        {
-        //            Header = "重命名",
-        //            DataContext = item.Content
-        //        };
-        //        renameMenuItem.Click += Rename;
-        //        menu.Items.Add(renameMenuItem);
-
-        //        MenuItem propertyMenuItem = new MenuItem
-        //        {
-        //            Header = "属性",
-        //            DataContext = item.Content
-        //        };
-        //        propertyMenuItem.Click += FolderProperty;
-        //        menu.Items.Add(propertyMenuItem);
-        //    }
-
-        //    item.ContextMenu = menu;
-        //    _isMultipleSelection = false;
-        //}
-
-        ///// <summary>
-        ///// 文件的右键单击事件（打开右键菜单）
-        ///// </summary>
-        //private void ListView_Explorer_File_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    //打开
-        //    //剪切
-        //    //复制
-        //    //删除
-        //    //重命名
-        //    //属性
-        //    //if (ListView_Explorer.SelectedItems.Count > 1)
-        //    //{
-        //    //    _isMultipleSelection = true;
-        //    //}
-
-        //    ListViewItem item = (ListViewItem)sender;
-        //    ContextMenu menu = new ContextMenu();
-
-        //    if (!_isMultipleSelection)
-        //    {
-        //        MenuItem openMenuItem = new MenuItem
-        //        {
-        //            Header = "打开",
-        //            DataContext = item.Content
-        //        };
-        //        openMenuItem.Click += OpenFile;
-        //        menu.Items.Add(openMenuItem);
-        //    }
-
-        //    MenuItem cutMenuItem = new MenuItem
-        //    {
-        //        Header = "剪切",
-        //        DataContext = item.Content
-        //    };
-        //    cutMenuItem.Click += Cut;
-        //    menu.Items.Add(cutMenuItem);
-
-        //    MenuItem copyMenuItem = new MenuItem
-        //    {
-        //        Header = "复制",
-        //        DataContext = item.Content
-        //    };
-        //    copyMenuItem.Click += Copy;
-        //    menu.Items.Add(copyMenuItem);
-
-        //    MenuItem deleteMenuItem = new MenuItem
-        //    {
-        //        Header = "删除",
-        //        DataContext = item.Content
-        //    };
-        //    deleteMenuItem.Click += Delete;
-        //    menu.Items.Add(deleteMenuItem);
-
-        //    if (!_isMultipleSelection)
-        //    {
-        //        MenuItem renameMenuItem = new MenuItem
-        //        {
-        //            Header = "重命名",
-        //            DataContext = item.Content
-        //        };
-        //        renameMenuItem.Click += Rename;
-        //        menu.Items.Add(renameMenuItem);
-
-        //        MenuItem propertyMenuItem = new MenuItem
-        //        {
-        //            Header = "属性",
-        //            DataContext = item.Content
-        //        };
-        //        propertyMenuItem.Click += FileProperty;
-        //        menu.Items.Add(propertyMenuItem);
-        //    }
-
-        //    item.ContextMenu = menu;
-        //    _isMultipleSelection = false;
-        //}
-
-        ///// <summary>
-        ///// 资源管理器空白区域右键单击事件（打开右键菜单）
-        ///// </summary>
-        //private void ListView_Explorer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    //ListView_Explorer.SelectedItems.Clear();
-        //    //刷新
-        //    //新建
-        //    //属性
-        //    ListView item = (ListView)sender;
-        //    ContextMenu menu = new ContextMenu();
-
-        //    MenuItem refreshMenuItem = new MenuItem
-        //    {
-        //        Header = "刷新"
-        //    };
-        //    refreshMenuItem.Click += FolderRefresh;
-        //    menu.Items.Add(refreshMenuItem);
-
-        //    if (_isCutting || _isCopying)
-        //    {
-        //        MenuItem pasteMenuItem = new MenuItem
-        //        {
-        //            Header = "粘贴"
-        //        };
-        //        pasteMenuItem.Click += Paste;
-        //        menu.Items.Add(pasteMenuItem);
-        //    }
-
-        //    MenuItem createMenuItem = new MenuItem
-        //    {
-        //        Header = "新建文件夹"
-        //    };
-        //    createMenuItem.Click += FolderCreate;
-        //    menu.Items.Add(createMenuItem);
-
-        //    MenuItem propertyMenuItem = new MenuItem
-        //    {
-        //        Header = "属性"
-        //    };
-        //    propertyMenuItem.Click += FolderProperty;
-        //    menu.Items.Add(propertyMenuItem);
-
-
-        //    item.ContextMenu = menu;
-        //}
-
-        //#endregion
-
-        //#region 通用菜单
+        ////#region 资源管理器右键菜单
 
         /////// <summary>
-        /////// 剪切
+        /////// 文件夹的右键单击事件（打开右键菜单）
         /////// </summary>
-        ////private void Cut(object sender, RoutedEventArgs e)
+        ////private void ListView_Explorer_Folder_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         ////{
-        ////    //_selectItems.Clear();
-        ////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        ////    //打开
+        ////    //剪切
+        ////    //复制
+        ////    //删除
+        ////    //重命名
+        ////    //属性
+
+        ////    //if (ListView_Explorer.SelectedItems.Count > 1)
         ////    //{
-        ////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        ////    //    _isMultipleSelection = true;
         ////    //}
 
-        ////    //_isCopying = false;
-        ////    //_isCutting = true;
+        ////    ListViewItem item = (ListViewItem) sender;
+        ////    ContextMenu menu = new ContextMenu();
+
+        ////    if (!_isMultipleSelection)
+        ////    {
+        ////        MenuItem openMenuItem = new MenuItem
+        ////        {
+        ////            Header = "打开",
+        ////            DataContext = item.Content
+        ////        };
+        ////        openMenuItem.Click += OpenFolder;
+        ////        menu.Items.Add(openMenuItem);
+        ////    }
+
+        ////    MenuItem cutMenuItem = new MenuItem
+        ////    {
+        ////        Header = "剪切",
+        ////        DataContext = item.Content
+        ////    };
+        ////    cutMenuItem.Click += Cut;
+        ////    menu.Items.Add(cutMenuItem);
+
+        ////    MenuItem copyMenuItem = new MenuItem
+        ////    {
+        ////        Header = "复制",
+        ////        DataContext = item.Content
+        ////    };
+        ////    copyMenuItem.Click += Copy;
+        ////    menu.Items.Add(copyMenuItem);
+
+        ////    if ((_isCutting || _isCopying) && !_isMultipleSelection)
+        ////    {
+        ////        MenuItem pasteMenuItem = new MenuItem
+        ////        {
+        ////            Header = "粘贴",
+        ////            DataContext = item.Content
+        ////        };
+        ////        pasteMenuItem.Click += Paste;
+        ////        menu.Items.Add(pasteMenuItem);
+        ////    }
+
+        ////    MenuItem deleteMenuItem = new MenuItem
+        ////    {
+        ////        Header = "删除",
+        ////        DataContext = item.Content
+        ////    };
+        ////    deleteMenuItem.Click += Delete;
+        ////    menu.Items.Add(deleteMenuItem);
+
+        ////    if (!_isMultipleSelection)
+        ////    {
+        ////        MenuItem renameMenuItem = new MenuItem
+        ////        {
+        ////            Header = "重命名",
+        ////            DataContext = item.Content
+        ////        };
+        ////        renameMenuItem.Click += Rename;
+        ////        menu.Items.Add(renameMenuItem);
+
+        ////        MenuItem propertyMenuItem = new MenuItem
+        ////        {
+        ////            Header = "属性",
+        ////            DataContext = item.Content
+        ////        };
+        ////        propertyMenuItem.Click += FolderProperty;
+        ////        menu.Items.Add(propertyMenuItem);
+        ////    }
+
+        ////    item.ContextMenu = menu;
+        ////    _isMultipleSelection = false;
         ////}
 
         /////// <summary>
-        /////// 复制
+        /////// 文件的右键单击事件（打开右键菜单）
         /////// </summary>
-        ////private void Copy(object sender, RoutedEventArgs e)
+        ////private void ListView_Explorer_File_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         ////{
-        ////    //_selectItems.Clear();
-        ////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        ////    //打开
+        ////    //剪切
+        ////    //复制
+        ////    //删除
+        ////    //重命名
+        ////    //属性
+        ////    //if (ListView_Explorer.SelectedItems.Count > 1)
         ////    //{
-        ////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        ////    //    _isMultipleSelection = true;
         ////    //}
 
-        ////    //_isCopying = true;
-        ////    //_isCutting = false;
+        ////    ListViewItem item = (ListViewItem)sender;
+        ////    ContextMenu menu = new ContextMenu();
+
+        ////    if (!_isMultipleSelection)
+        ////    {
+        ////        MenuItem openMenuItem = new MenuItem
+        ////        {
+        ////            Header = "打开",
+        ////            DataContext = item.Content
+        ////        };
+        ////        openMenuItem.Click += OpenFile;
+        ////        menu.Items.Add(openMenuItem);
+        ////    }
+
+        ////    MenuItem cutMenuItem = new MenuItem
+        ////    {
+        ////        Header = "剪切",
+        ////        DataContext = item.Content
+        ////    };
+        ////    cutMenuItem.Click += Cut;
+        ////    menu.Items.Add(cutMenuItem);
+
+        ////    MenuItem copyMenuItem = new MenuItem
+        ////    {
+        ////        Header = "复制",
+        ////        DataContext = item.Content
+        ////    };
+        ////    copyMenuItem.Click += Copy;
+        ////    menu.Items.Add(copyMenuItem);
+
+        ////    MenuItem deleteMenuItem = new MenuItem
+        ////    {
+        ////        Header = "删除",
+        ////        DataContext = item.Content
+        ////    };
+        ////    deleteMenuItem.Click += Delete;
+        ////    menu.Items.Add(deleteMenuItem);
+
+        ////    if (!_isMultipleSelection)
+        ////    {
+        ////        MenuItem renameMenuItem = new MenuItem
+        ////        {
+        ////            Header = "重命名",
+        ////            DataContext = item.Content
+        ////        };
+        ////        renameMenuItem.Click += Rename;
+        ////        menu.Items.Add(renameMenuItem);
+
+        ////        MenuItem propertyMenuItem = new MenuItem
+        ////        {
+        ////            Header = "属性",
+        ////            DataContext = item.Content
+        ////        };
+        ////        propertyMenuItem.Click += FileProperty;
+        ////        menu.Items.Add(propertyMenuItem);
+        ////    }
+
+        ////    item.ContextMenu = menu;
+        ////    _isMultipleSelection = false;
         ////}
 
         /////// <summary>
-        /////// 粘贴
+        /////// 资源管理器空白区域右键单击事件（打开右键菜单）
         /////// </summary>
-        ////private void Paste(object sender, RoutedEventArgs e)
+        ////private void ListView_Explorer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         ////{
-        ////    //int folderIdForPaste;
-        ////    //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
-        ////    //{
-        ////    //    folderIdForPaste = property.Id;
-        ////    //}
-        ////    //else
-        ////    //{
-        ////    //    folderIdForPaste = _folderNow.FolderId;
-        ////    //}
+        ////    //ListView_Explorer.SelectedItems.Clear();
+        ////    //刷新
+        ////    //新建
+        ////    //属性
+        ////    ListView item = (ListView)sender;
+        ////    ContextMenu menu = new ContextMenu();
 
-        ////    //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
-        ////    //if (_isCutting) _selectItems.Clear();
+        ////    MenuItem refreshMenuItem = new MenuItem
+        ////    {
+        ////        Header = "刷新"
+        ////    };
+        ////    refreshMenuItem.Click += FolderRefresh;
+        ////    menu.Items.Add(refreshMenuItem);
+
+        ////    if (_isCutting || _isCopying)
+        ////    {
+        ////        MenuItem pasteMenuItem = new MenuItem
+        ////        {
+        ////            Header = "粘贴"
+        ////        };
+        ////        pasteMenuItem.Click += Paste;
+        ////        menu.Items.Add(pasteMenuItem);
+        ////    }
+
+        ////    MenuItem createMenuItem = new MenuItem
+        ////    {
+        ////        Header = "新建文件夹"
+        ////    };
+        ////    createMenuItem.Click += FolderCreate;
+        ////    menu.Items.Add(createMenuItem);
+
+        ////    MenuItem propertyMenuItem = new MenuItem
+        ////    {
+        ////        Header = "属性"
+        ////    };
+        ////    propertyMenuItem.Click += FolderProperty;
+        ////    menu.Items.Add(propertyMenuItem);
+
+
+        ////    item.ContextMenu = menu;
+        ////}
+
+        ////#endregion
+
+        ////#region 通用菜单
+
+        ///////// <summary>
+        ///////// 剪切
+        ///////// </summary>
+        //////private void Cut(object sender, RoutedEventArgs e)
+        //////{
+        //////    //_selectItems.Clear();
+        //////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        //////    //{
+        //////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        //////    //}
+
+        //////    //_isCopying = false;
+        //////    //_isCutting = true;
+        //////}
+
+        ///////// <summary>
+        ///////// 复制
+        ///////// </summary>
+        //////private void Copy(object sender, RoutedEventArgs e)
+        //////{
+        //////    //_selectItems.Clear();
+        //////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        //////    //{
+        //////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        //////    //}
+
+        //////    //_isCopying = true;
+        //////    //_isCutting = false;
+        //////}
+
+        ///////// <summary>
+        ///////// 粘贴
+        ///////// </summary>
+        //////private void Paste(object sender, RoutedEventArgs e)
+        //////{
+        //////    //int folderIdForPaste;
+        //////    //if ((ListView_Explorer.SelectedItem as ListViewItem)?.Content is ExplorerProperty property)
+        //////    //{
+        //////    //    folderIdForPaste = property.Id;
+        //////    //}
+        //////    //else
+        //////    //{
+        //////    //    folderIdForPaste = _folderNow.FolderId;
+        //////    //}
+
+        //////    //_filesDbManager.Paste(folderIdForPaste, _selectItems, _isCutting);
+        //////    //if (_isCutting) _selectItems.Clear();
+        //////    //SetExplorer_TreeView();
+        //////    //SetExplorer_ListView(_folderNow.FolderId);
+        //////    //_isCopying = false;
+        //////    //_isCutting = false;
+        //////}
+
+        ///////// <summary>
+        ///////// 删除
+        ///////// </summary>
+        //////private void Delete(object sender, RoutedEventArgs e)
+        //////{
+        //////    //_selectItems.Clear();
+        //////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        //////    //{
+        //////    //    _selectItems.Add(item.Content as ExplorerProperty);
+        //////    //}
+
+        //////    //_filesDbManager.SetDeleteState(_selectItems);
+        //////    //_isCopying = false;
+        //////    //_isCutting = false;
+        //////    //_selectItems.Clear();
+        //////    //SetExplorer_TreeView();
+        //////    //SetExplorer_ListView(_folderNow.FolderId);
+        //////}
+
+        ///////// <summary>
+        ///////// 重命名
+        ///////// </summary>
+        //////private void Rename(object sender, RoutedEventArgs e)
+        //////{
+        //////    ////_isRenaming = true;
+        //////    //if (ListView_Explorer.SelectedItem is ListViewItem item)
+        //////    //{
+        //////    //    _selectItems.Clear();
+        //////    //    ExplorerProperty property = item.Content as ExplorerProperty;
+        //////    //    _selectItems.Add(property);
+        //////    //    _defaultIndexOfObj = 0;
+
+        //////    //    var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
+
+        //////    //    // Getting the ContentPresenter of myListBoxItem
+        //////    //    var myContentPresenter =
+        //////    //        FindVisualChild<ContentPresenter>(myListBoxItem,
+        //////    //            1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
+
+        //////    //    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
+        //////    //    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
+
+        //////    //    var obj = myDataTemplate.FindName("nameTextBox", myContentPresenter); //nameTextBox 是在模板内定义的 x:Name
+
+        //////    //    if (obj is TextBox nameTextBox)
+        //////    //    {
+        //////    //        //...do something
+        //////    //        //BorderThickness="0" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Arrow" Focusable="False"
+        //////    //        TextBox defaultTextBox = new TextBox();
+        //////    //        nameTextBox.BorderThickness = new Thickness(1);
+        //////    //        nameTextBox.IsReadOnly = defaultTextBox.IsReadOnly;
+        //////    //        nameTextBox.Background = defaultTextBox.Background;
+        //////    //        nameTextBox.BorderBrush = defaultTextBox.BorderBrush;
+        //////    //        nameTextBox.Cursor = defaultTextBox.Cursor;
+        //////    //        nameTextBox.Focusable = defaultTextBox.Focusable;
+        //////    //        nameTextBox.Focus();
+        //////    //        nameTextBox.SelectionStart = nameTextBox.Text.Length;
+        //////    //        _nameBackup = nameTextBox.Text;
+        //////    //    }
+        //////    //}
+        //////}
+
+        ///////// <summary>
+        ///////// 寻找子标签（子控件）
+        ///////// </summary>
+        ///////// <typeparam name="TChildItem">子控件类型</typeparam>
+        ///////// <param name="obj">子控件</param>
+        ///////// <param name="indexOfObj">该控件的索引</param>
+        ///////// <returns>子控件</returns>
+        //////private TChildItem FindVisualChild<TChildItem>(DependencyObject obj, int indexOfObj)
+        //////    where TChildItem : DependencyObject
+        //////{
+        //////    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        //////    {
+        //////        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+        //////        if (child is TChildItem item)
+        //////        {
+        //////            if (_defaultIndexOfObj == indexOfObj) return item;
+        //////            else
+        //////            {
+        //////                _defaultIndexOfObj++;
+        //////                TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
+        //////                if (childOfChild != null)
+        //////                    return childOfChild;
+        //////            }
+        //////        }
+        //////        else
+        //////        {
+        //////            TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
+        //////            if (childOfChild != null)
+        //////                return childOfChild;
+        //////        }
+        //////    }
+
+        //////    return null;
+        //////}
+
+        ///////// <summary>
+        ///////// 完成重命名操作
+        ///////// </summary>
+        //////private void NameTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        //////{
+        //////    if (e.Key == Key.Enter)
+        //////    {
+        //////        if (sender is TextBox nameTextBox)
+        //////        {
+        //////            _filesDbManager.Rename(_selectItems, nameTextBox.Text);
+
+        //////            //_isRenaming = false;
+        //////            _selectItems.Clear();
+        //////            NameTextBox_LostFocus(sender, new RoutedEventArgs());
+        //////            _nameBackup = "";
+        //////            SetExplorer_TreeView();
+        //////            SetExplorer_ListView(_folderNow.FolderId);
+        //////        }
+        //////    }
+        //////}
+
+        ///////// <summary>
+        ///////// 失去焦点，取消重命名操作
+        ///////// </summary>
+        //////private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        //////{
+        //////    if (sender is TextBox nameTextBox)
+        //////    {
+        //////        nameTextBox.BorderThickness = new Thickness(0);
+        //////        nameTextBox.IsReadOnly = true;
+        //////        nameTextBox.Background = null;
+        //////        nameTextBox.BorderBrush = null;
+        //////        nameTextBox.Cursor = Cursors.Arrow;
+        //////        nameTextBox.Focusable = false;
+        //////        nameTextBox.Text = _nameBackup;
+        //////    }
+
+        //////    //_isRenaming = false;
+        //////}
+
+        ////#endregion
+
+        ////#region 文件夹右键菜单管理
+
+        /////// <summary>
+        /////// 打开文件夹
+        /////// </summary>
+        ////private void OpenFolder(object sender, RoutedEventArgs e)
+        ////{
+        ////    if (((MenuItem) sender).DataContext is ExplorerProperty property && property.IsFolder)
+        ////    {
+        ////        _preFolder.Push(_folderNow);
+        ////        SetExplorer_ListView(property.Id);
+        ////    }
+        ////}
+
+        ///////// <summary>
+        ///////// 文件夹属性
+        ///////// </summary>
+        //////private void FolderProperty(object sender, RoutedEventArgs e)
+        //////{
+        //////    //if (((MenuItem) sender).DataContext is ExplorerProperty property)
+        //////    //{
+        //////    //    new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource,
+        //////    //        _filesDbManager).Show();
+        //////    //}
+        //////}
+
+        ////#endregion
+
+        ////#region 文件右键菜单管理
+
+        /////// <summary>
+        /////// 打开文件
+        /////// </summary>
+        ////private void OpenFile(object sender, RoutedEventArgs e)
+        ////{
+        ////    if (((MenuItem) sender).DataContext is ExplorerProperty property)
+        ////    {
+        ////        string path = Settings.Default.FileStorageLocation + property.Id + "." + property.Type;
+        ////        if (File.Exists(path))
+        ////        {
+        ////            System.Diagnostics.Process.Start(path);
+        ////        }
+        ////        else
+        ////        {
+        ////            MessageBox.Show("文件物理路径错误", "打开文件出错", MessageBoxButton.OK, MessageBoxImage.Information);
+        ////        }
+        ////    }
+        ////}
+
+        /////// <summary>
+        /////// 文件属性
+        /////// </summary>
+        ////private void FileProperty(object sender, RoutedEventArgs e)
+        ////{
+        ////    //if (((MenuItem) sender).DataContext is ExplorerProperty property)
+        ////    //{
+        ////    //    new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource,
+        ////    //        _filesDbManager).Show();
+        ////    //}
+        ////}
+
+        ////#endregion
+
+        ////#region 资源管理器右键菜单管理
+
+        ///////// <summary>
+        ///////// 刷新资源管理器
+        ///////// </summary>
+        //////private void FolderRefresh(object sender, RoutedEventArgs e)
+        //////{
+        //////    SetExplorer_TreeView();
+        //////    SetExplorer_ListView(_folderNow.FolderId);
+        //////}
+
+        /////// <summary>
+        /////// 新建文件夹
+        /////// </summary>
+        ////private void FolderCreate(object sender, RoutedEventArgs e)
+        ////{
+        ////    //Folders folders = _filesDbManager.CreateFolders(_folderNow.FolderId);
         ////    //SetExplorer_TreeView();
         ////    //SetExplorer_ListView(_folderNow.FolderId);
-        ////    //_isCopying = false;
-        ////    //_isCutting = false;
-        ////}
 
-        /////// <summary>
-        /////// 删除
-        /////// </summary>
-        ////private void Delete(object sender, RoutedEventArgs e)
-        ////{
-        ////    //_selectItems.Clear();
-        ////    //foreach (ListViewItem item in ListView_Explorer.SelectedItems)
+        ////    //foreach (ListViewItem item in ListView_Explorer.Items)
         ////    //{
-        ////    //    _selectItems.Add(item.Content as ExplorerProperty);
-        ////    //}
-
-        ////    //_filesDbManager.SetDeleteState(_selectItems);
-        ////    //_isCopying = false;
-        ////    //_isCutting = false;
-        ////    //_selectItems.Clear();
-        ////    //SetExplorer_TreeView();
-        ////    //SetExplorer_ListView(_folderNow.FolderId);
-        ////}
-
-        /////// <summary>
-        /////// 重命名
-        /////// </summary>
-        ////private void Rename(object sender, RoutedEventArgs e)
-        ////{
-        ////    ////_isRenaming = true;
-        ////    //if (ListView_Explorer.SelectedItem is ListViewItem item)
-        ////    //{
-        ////    //    _selectItems.Clear();
-        ////    //    ExplorerProperty property = item.Content as ExplorerProperty;
-        ////    //    _selectItems.Add(property);
-        ////    //    _defaultIndexOfObj = 0;
-
-        ////    //    var myListBoxItem = (ListViewItem) ListView_Explorer.ItemContainerGenerator.ContainerFromItem(item);
-
-        ////    //    // Getting the ContentPresenter of myListBoxItem
-        ////    //    var myContentPresenter =
-        ////    //        FindVisualChild<ContentPresenter>(myListBoxItem,
-        ////    //            1); //因该方法所要求的TextBox控件在第二个DataTemplate中，故需要设置索引为1。（ 索引0为的Image控件(展示文件图标用) ）
-
-        ////    //    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
-        ////    //    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
-
-        ////    //    var obj = myDataTemplate.FindName("nameTextBox", myContentPresenter); //nameTextBox 是在模板内定义的 x:Name
-
-        ////    //    if (obj is TextBox nameTextBox)
+        ////    //    if (item.Content is ExplorerProperty property)
         ////    //    {
-        ////    //        //...do something
-        ////    //        //BorderThickness="0" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" Cursor="Arrow" Focusable="False"
-        ////    //        TextBox defaultTextBox = new TextBox();
-        ////    //        nameTextBox.BorderThickness = new Thickness(1);
-        ////    //        nameTextBox.IsReadOnly = defaultTextBox.IsReadOnly;
-        ////    //        nameTextBox.Background = defaultTextBox.Background;
-        ////    //        nameTextBox.BorderBrush = defaultTextBox.BorderBrush;
-        ////    //        nameTextBox.Cursor = defaultTextBox.Cursor;
-        ////    //        nameTextBox.Focusable = defaultTextBox.Focusable;
-        ////    //        nameTextBox.Focus();
-        ////    //        nameTextBox.SelectionStart = nameTextBox.Text.Length;
-        ////    //        _nameBackup = nameTextBox.Text;
+        ////    //        if (property.Id == folders.FolderId && property.IsFolder)
+        ////    //        {
+        ////    //            item.IsSelected = true;
+        ////    //            ListView_Explorer.UpdateLayout(); //更新布局，否则在获取组件时报NULL
+        ////    //            Rename(null, null);
+        ////    //            break;
+        ////    //        }
         ////    //    }
         ////    //}
         ////}
 
-        /////// <summary>
-        /////// 寻找子标签（子控件）
-        /////// </summary>
-        /////// <typeparam name="TChildItem">子控件类型</typeparam>
-        /////// <param name="obj">子控件</param>
-        /////// <param name="indexOfObj">该控件的索引</param>
-        /////// <returns>子控件</returns>
-        ////private TChildItem FindVisualChild<TChildItem>(DependencyObject obj, int indexOfObj)
-        ////    where TChildItem : DependencyObject
-        ////{
-        ////    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-        ////    {
-        ////        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-        ////        if (child is TChildItem item)
-        ////        {
-        ////            if (_defaultIndexOfObj == indexOfObj) return item;
-        ////            else
-        ////            {
-        ////                _defaultIndexOfObj++;
-        ////                TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
-        ////                if (childOfChild != null)
-        ////                    return childOfChild;
-        ////            }
-        ////        }
-        ////        else
-        ////        {
-        ////            TChildItem childOfChild = FindVisualChild<TChildItem>(child, indexOfObj);
-        ////            if (childOfChild != null)
-        ////                return childOfChild;
-        ////        }
-        ////    }
-
-        ////    return null;
-        ////}
-
-        /////// <summary>
-        /////// 完成重命名操作
-        /////// </summary>
-        ////private void NameTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        ////{
-        ////    if (e.Key == Key.Enter)
-        ////    {
-        ////        if (sender is TextBox nameTextBox)
-        ////        {
-        ////            _filesDbManager.Rename(_selectItems, nameTextBox.Text);
-
-        ////            //_isRenaming = false;
-        ////            _selectItems.Clear();
-        ////            NameTextBox_LostFocus(sender, new RoutedEventArgs());
-        ////            _nameBackup = "";
-        ////            SetExplorer_TreeView();
-        ////            SetExplorer_ListView(_folderNow.FolderId);
-        ////        }
-        ////    }
-        ////}
-
-        /////// <summary>
-        /////// 失去焦点，取消重命名操作
-        /////// </summary>
-        ////private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
-        ////{
-        ////    if (sender is TextBox nameTextBox)
-        ////    {
-        ////        nameTextBox.BorderThickness = new Thickness(0);
-        ////        nameTextBox.IsReadOnly = true;
-        ////        nameTextBox.Background = null;
-        ////        nameTextBox.BorderBrush = null;
-        ////        nameTextBox.Cursor = Cursors.Arrow;
-        ////        nameTextBox.Focusable = false;
-        ////        nameTextBox.Text = _nameBackup;
-        ////    }
-
-        ////    //_isRenaming = false;
-        ////}
+        ////#endregion
 
         //#endregion
 
-        #region 文件夹右键菜单管理
-
-        /// <summary>
-        /// 打开文件夹
-        /// </summary>
-        private void OpenFolder(object sender, RoutedEventArgs e)
-        {
-            if (((MenuItem) sender).DataContext is ExplorerProperty property && property.IsFolder)
-            {
-                _preFolder.Push(_folderNow);
-                SetExplorer_ListView(property.Id);
-            }
-        }
+        //#region 列宽自适应
 
         ///// <summary>
-        ///// 文件夹属性
+        ///// 列宽自适应
         ///// </summary>
-        //private void FolderProperty(object sender, RoutedEventArgs e)
+        //private void ColumnWidthAuto()
         //{
-        //    //if (((MenuItem) sender).DataContext is ExplorerProperty property)
+        //    //if (!(ListView_Explorer.View is GridView gv)) return;
+        //    //foreach (var gvColumn in gv.Columns)
         //    //{
-        //    //    new PropertyWindow(_filesDbManager.FoldersFind(property.Id), property.IsFolder, property.ImageSource,
-        //    //        _filesDbManager).Show();
+        //    //    gvColumn.Width = 100;
+        //    //    gvColumn.Width = NaN;
         //    //}
         //}
 
-        #endregion
-
-        #region 文件右键菜单管理
-
-        /// <summary>
-        /// 打开文件
-        /// </summary>
-        private void OpenFile(object sender, RoutedEventArgs e)
-        {
-            if (((MenuItem) sender).DataContext is ExplorerProperty property)
-            {
-                string path = Settings.Default.FileStorageLocation + property.Id + "." + property.Type;
-                if (File.Exists(path))
-                {
-                    System.Diagnostics.Process.Start(path);
-                }
-                else
-                {
-                    MessageBox.Show("文件物理路径错误", "打开文件出错", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-        }
-
-        ///// <summary>
-        ///// 文件属性
-        ///// </summary>
-        //private void FileProperty(object sender, RoutedEventArgs e)
-        //{
-        //    //if (((MenuItem) sender).DataContext is ExplorerProperty property)
-        //    //{
-        //    //    new PropertyWindow(_filesDbManager.FilesFind(property.Id), property.IsFolder, property.ImageSource,
-        //    //        _filesDbManager).Show();
-        //    //}
-        //}
-
-        #endregion
-
-        #region 资源管理器右键菜单管理
-
-        /// <summary>
-        /// 刷新资源管理器
-        /// </summary>
-        private void FolderRefresh(object sender, RoutedEventArgs e)
-        {
-            SetExplorer_TreeView();
-            SetExplorer_ListView(_folderNow.FolderId);
-        }
-
-        /// <summary>
-        /// 新建文件夹
-        /// </summary>
-        private void FolderCreate(object sender, RoutedEventArgs e)
-        {
-            //Folders folders = _filesDbManager.CreateFolders(_folderNow.FolderId);
-            //SetExplorer_TreeView();
-            //SetExplorer_ListView(_folderNow.FolderId);
-
-            //foreach (ListViewItem item in ListView_Explorer.Items)
-            //{
-            //    if (item.Content is ExplorerProperty property)
-            //    {
-            //        if (property.Id == folders.FolderId && property.IsFolder)
-            //        {
-            //            item.IsSelected = true;
-            //            ListView_Explorer.UpdateLayout(); //更新布局，否则在获取组件时报NULL
-            //            Rename(null, null);
-            //            break;
-            //        }
-            //    }
-            //}
-        }
-
-        #endregion
-
-        #endregion
-
-        #region 列宽自适应
-
-        /// <summary>
-        /// 列宽自适应
-        /// </summary>
-        private void ColumnWidthAuto()
-        {
-            //if (!(ListView_Explorer.View is GridView gv)) return;
-            //foreach (var gvColumn in gv.Columns)
-            //{
-            //    gvColumn.Width = 100;
-            //    gvColumn.Width = NaN;
-            //}
-        }
-
-        #endregion
+        //#endregion
 
         private void Button_Setting_Click(object sender, RoutedEventArgs e)
         {

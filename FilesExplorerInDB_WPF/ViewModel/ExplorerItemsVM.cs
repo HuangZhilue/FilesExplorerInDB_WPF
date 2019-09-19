@@ -1,9 +1,11 @@
-﻿using FilesExplorerInDB_EF.EFModels;
+﻿using System;
+using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -182,7 +184,24 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Open()
         {
-
+            if (SelectItem == null || SelectItem.Count < 1) return;
+            if (SelectItem[0].IsFolder)
+            {
+                OpenFolder(SelectItem[0]);
+            }
+            else
+            {
+                string path = (GetSetting(SettingType.FileStorageLocation) as string) + SelectItem[0].Id + "." +
+                              SelectItem[0].Type;
+                if (File.Exists(path))
+                {
+                    System.Diagnostics.Process.Start(path);
+                }
+                else
+                {
+                    MessageBox.Show("文件物理路径错误", "打开文件出错", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
         }
 
         private void Refresh()
@@ -227,7 +246,18 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Create()
         {
-
+            Folders folders = FilesDbManager.CreateFolders(ExplorerItems.FolderNow.FolderId);
+            Refresh();
+            try
+            {
+                ExplorerItems.SelectIndex =
+                    ExplorerItems.ExplorerList.FindIndex(f => f.Id == folders.FolderId && f.IsFolder);
+                Rename();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("错误", ex.Message, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void Delete()
