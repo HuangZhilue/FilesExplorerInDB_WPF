@@ -114,92 +114,92 @@ namespace FilesExplorerInDB_WPF
 
         #endregion
 
-        #region 设置目录树
-
-        /// <summary>
-        /// 设置目录树
-        /// </summary>
-        private void SetExplorer_TreeView()
-        {
-            //_folders = _filesDbManager.LoadFoldersEntites(f => f.FolderId != -1).ToList();
-            //TreeView_Explorer.ItemsSource = _filesDbManager.GetFoldersTree(-1, _folders);
-        }
-
-        #endregion
-
-        #region 设置资源管理器
-
-        /// <summary>
-        /// 根据父文件夹ID来设置资源管理器的内容
-        /// </summary>
-        /// <param name="folderId">父文件夹ID</param>
-        private void SetExplorer_ListView(int folderId)
-        {
-            //_folderNow = _filesDbManager.FoldersFind(folderId);
-            //ListView_Explorer.Items.Clear();
-            //List<Folders> explorerFolders =
-            //    _filesDbManager.LoadFoldersEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
-            //ListViewItem item;
-            //foreach (var folder in explorerFolders)
-            //{
-            //    item = new ListViewItem
-            //    {
-            //        Content = _filesDbManager.SetExplorerItems_Folders(folder,
-            //            _filesDbManager.GetImage(Resource.folder))
-            //    };
-            //    item.MouseDoubleClick += ListView_Explorer_Folder_MouseDoubleClick; //添加鼠标双击事件（打开文件夹）
-            //    item.PreviewMouseLeftButtonDown +=
-            //        ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
-            //    item.PreviewMouseRightButtonDown +=
-            //        ListView_Explorer_Folder_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件夹的右键菜单）
-            //    ListView_Explorer.Items.Add(item);
-            //}
-
-            //List<Files> explorerFiles =
-            //    _filesDbManager.LoadFilesEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
-            //foreach (var file in explorerFiles)
-            //{
-            //    Bitmap imageBitmap = Resource.DEFAULT;
-            //    if (file.IsMiss) imageBitmap = Resource.fileNotFount;
-            //    item = new ListViewItem
-            //    {
-            //        Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount)
-            //    };
-            //    if (file.IsMiss)
-            //        item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
-            //    item.PreviewMouseLeftButtonDown +=
-            //        ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
-            //    item.PreviewMouseRightButtonDown +=
-            //        ListView_Explorer_File_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件的右键菜单）
-            //    ListView_Explorer.Items.Add(item);
-            //}
-
-            //ColumnWidthAuto();
-
-            //string path = "";
-            //Stack<Folders> stack = _filesDbManager.GetRelativePath_Folder(folderId);
-            //foreach (Folders folder in stack)
-            //{
-            //    path += folder.FolderName + "/";
-            //}
-
-            //TextBox_Path.Text = path;
-        }
+        //#region 设置目录树
 
         ///// <summary>
-        ///// 资源管理器双击打开下一级文件夹
+        ///// 设置目录树
         ///// </summary>
-        //private void ListView_Explorer_Folder_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //private void SetExplorer_TreeView()
         //{
-        //    if (((ListViewItem) sender).Content is ExplorerProperty property &&
-        //        property.IsFolder)
-        //    {
-        //        _preFolder.Push(_folderNow);
-        //        SetExplorer_ListView(property.Id);
-        //    }
+        //    //_folders = _filesDbManager.LoadFoldersEntites(f => f.FolderId != -1).ToList();
+        //    //TreeView_Explorer.ItemsSource = _filesDbManager.GetFoldersTree(-1, _folders);
         //}
 
-        #endregion
+        //#endregion
+
+        //#region 设置资源管理器
+
+        ///// <summary>
+        ///// 根据父文件夹ID来设置资源管理器的内容
+        ///// </summary>
+        ///// <param name="folderId">父文件夹ID</param>
+        //private void SetExplorer_ListView(int folderId)
+        //{
+        //    //_folderNow = _filesDbManager.FoldersFind(folderId);
+        //    //ListView_Explorer.Items.Clear();
+        //    //List<Folders> explorerFolders =
+        //    //    _filesDbManager.LoadFoldersEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
+        //    //ListViewItem item;
+        //    //foreach (var folder in explorerFolders)
+        //    //{
+        //    //    item = new ListViewItem
+        //    //    {
+        //    //        Content = _filesDbManager.SetExplorerItems_Folders(folder,
+        //    //            _filesDbManager.GetImage(Resource.folder))
+        //    //    };
+        //    //    item.MouseDoubleClick += ListView_Explorer_Folder_MouseDoubleClick; //添加鼠标双击事件（打开文件夹）
+        //    //    item.PreviewMouseLeftButtonDown +=
+        //    //        ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
+        //    //    item.PreviewMouseRightButtonDown +=
+        //    //        ListView_Explorer_Folder_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件夹的右键菜单）
+        //    //    ListView_Explorer.Items.Add(item);
+        //    //}
+
+        //    //List<Files> explorerFiles =
+        //    //    _filesDbManager.LoadFilesEntites(f => f.FolderLocalId == folderId && !f.IsDelete).ToList();
+        //    //foreach (var file in explorerFiles)
+        //    //{
+        //    //    Bitmap imageBitmap = Resource.DEFAULT;
+        //    //    if (file.IsMiss) imageBitmap = Resource.fileNotFount;
+        //    //    item = new ListViewItem
+        //    //    {
+        //    //        Content = _filesDbManager.SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount)
+        //    //    };
+        //    //    if (file.IsMiss)
+        //    //        item.Background = (Brush) new BrushConverter().ConvertFromString("#4CFF0000");
+        //    //    item.PreviewMouseLeftButtonDown +=
+        //    //        ListView_Explorer_Property_PreviewMouseLeftButtonDown; //添加鼠标左键单击事件（显示属性）
+        //    //    item.PreviewMouseRightButtonDown +=
+        //    //        ListView_Explorer_File_PreviewMouseRightButtonDown; //添加鼠标右键单击事件（显示右键菜单-针对文件的右键菜单）
+        //    //    ListView_Explorer.Items.Add(item);
+        //    //}
+
+        //    //ColumnWidthAuto();
+
+        //    //string path = "";
+        //    //Stack<Folders> stack = _filesDbManager.GetRelativePath_Folder(folderId);
+        //    //foreach (Folders folder in stack)
+        //    //{
+        //    //    path += folder.FolderName + "/";
+        //    //}
+
+        //    //TextBox_Path.Text = path;
+        //}
+
+        /////// <summary>
+        /////// 资源管理器双击打开下一级文件夹
+        /////// </summary>
+        ////private void ListView_Explorer_Folder_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        ////{
+        ////    if (((ListViewItem) sender).Content is ExplorerProperty property &&
+        ////        property.IsFolder)
+        ////    {
+        ////        _preFolder.Push(_folderNow);
+        ////        SetExplorer_ListView(property.Id);
+        ////    }
+        ////}
+
+        //#endregion
 
         //#region 历史路径跳转
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -113,6 +114,7 @@ namespace FilesExplorerInDB_Manager.Implements
         {
             List<ExplorerProperty> list = new List<ExplorerProperty>();
             folderNow = FoldersFind(localFolderId);
+            Debug.WriteLine(folderNow);
             folderNow.FolderNodes = LoadFoldersEntites(f => f.FolderLocalId == localFolderId && f.IsDelete == false)
                 .ToList();
             foreach (var folder in folderNow.FolderNodes)

@@ -8,6 +8,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public PathViewModel PathViewModel { get; } = PathViewModel.GetInstance;
 
         public static PathViewVM GetInstance { get; } = new PathViewVM();
+
         private PathViewVM()
         {
 

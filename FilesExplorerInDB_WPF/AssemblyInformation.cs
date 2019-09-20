@@ -23,7 +23,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 标题
         /// </summary>
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -45,12 +45,12 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 版本
         /// </summary>
-        public string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
         /// 说明
         /// </summary>
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -63,7 +63,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 产品
         /// </summary>
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -76,7 +76,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 版权
         /// </summary>
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -89,7 +89,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 公司
         /// </summary>
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {
@@ -102,7 +102,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 配置
         /// </summary>
-        public string AssemblyConfiguration
+        public static string AssemblyConfiguration
         {
             get
             {
@@ -115,7 +115,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 商标
         /// </summary>
-        public string AssemblyTrademark
+        public static string AssemblyTrademark
         {
             get
             {
@@ -128,7 +128,7 @@ namespace FilesExplorerInDB_WPF
         /// <summary>
         /// 文化
         /// </summary>
-        public string AssemblyCulture
+        public static string AssemblyCulture
         {
             get
             {

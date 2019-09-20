@@ -2,17 +2,27 @@
 using FilesExplorerInDB_Models.Models;
 using Resources;
 using System.Windows.Media;
+using static FilesExplorerInDB_WPF.AssemblyInformation;
 
 namespace FilesExplorerInDB_WPF.Models
 {
     public class PropertyItems : BaseModels
     {
+        private string _txtLabelName;
+        private string _txtLabelType;
+        private string _txtLabelOther1;
+        private string _txtLabelOther2;
+        private string _txtLabelOther3;
+        private string _txtLabelOther4;
+        private string _txtLabelOther5;
+        private ImageSource _imageSource;
+
         public string TxtLabelName
         {
             get => _txtLabelName;
             set
             {
-                _txtLabelName = value; 
+                _txtLabelName = value;
                 OnPropertyChanged(nameof(TxtLabelName));
             }
         }
@@ -42,7 +52,7 @@ namespace FilesExplorerInDB_WPF.Models
             get => _txtLabelOther2;
             set
             {
-                _txtLabelOther2 = value; 
+                _txtLabelOther2 = value;
                 OnPropertyChanged(nameof(TxtLabelOther2));
             }
         }
@@ -82,22 +92,16 @@ namespace FilesExplorerInDB_WPF.Models
             get => _imageSource;
             set
             {
-                _imageSource = value; 
+                _imageSource = value;
                 OnPropertyChanged(nameof(ImageSource));
             }
         }
 
         public static PropertyItems GetInstance = new PropertyItems();
-        private string _txtLabelName;
-        private string _txtLabelType;
-        private string _txtLabelOther1;
-        private string _txtLabelOther2;
-        private string _txtLabelOther3;
-        private string _txtLabelOther4;
-        private string _txtLabelOther5;
-        private ImageSource _imageSource;
 
-        private PropertyItems() { }
+        private PropertyItems()
+        {
+        }
 
         #region 设置属性窗口
 
@@ -146,9 +150,9 @@ namespace FilesExplorerInDB_WPF.Models
             }
             else
             {
-                TxtLabelName = AppInformation.AssemblyTitle;
-                TxtLabelType = "版本号：" + AppInformation.AssemblyVersion;
-                TxtLabelOther1 = "说明" + AppInformation.AssemblyDescription;
+                TxtLabelName = AssemblyTitle;
+                TxtLabelType = "版本号：" + AssemblyVersion;
+                TxtLabelOther1 = "说明" + AssemblyDescription;
                 TxtLabelOther2 = "";
                 TxtLabelOther3 = "";
                 TxtLabelOther4 = "";

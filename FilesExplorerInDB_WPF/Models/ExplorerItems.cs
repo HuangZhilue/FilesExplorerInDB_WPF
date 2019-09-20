@@ -10,16 +10,12 @@ namespace FilesExplorerInDB_WPF.Models
         private Folders _folderNow;
         private int _selectIndex;
 
-        #region 字段
-
-        #region 公共字段
-
         public int SelectIndex
         {
             get => _selectIndex;
             set
             {
-                _selectIndex = value; 
+                _selectIndex = value;
                 OnPropertyChanged(nameof(SelectIndex));
             }
         }
@@ -44,18 +40,6 @@ namespace FilesExplorerInDB_WPF.Models
             }
         }
 
-        #endregion
-
-        #region 非公共字段
-        
-
-
-        #endregion
-
-        #endregion
-
-        #region 构造函数
-
         public static ExplorerItems GetInstance { get; } = new ExplorerItems();
 
         private ExplorerItems()
@@ -63,11 +47,9 @@ namespace FilesExplorerInDB_WPF.Models
             if (ExplorerList == null) GetFolder(0);
         }
 
-        #endregion
-
         public void GetFolder(int folderId)
         {
-            ExplorerList = FilesDbManager.SetExplorerItemsList(folderId,out Folders folderNow);
+            ExplorerList = FilesDbManager.SetExplorerItemsList(folderId, out Folders folderNow);
             FolderNow = folderNow;
         }
     }

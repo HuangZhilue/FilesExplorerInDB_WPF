@@ -13,7 +13,7 @@ namespace FilesExplorerInDB_WPF.Models
             get => _pathString;
             set
             {
-                _pathString = value; 
+                _pathString = value;
                 OnPropertyChanged(nameof(PathString));
             }
         }
@@ -47,13 +47,15 @@ namespace FilesExplorerInDB_WPF.Models
 
         #region 历史路径跳转
 
+        //TODO 跳转逻辑有点小问题
+
         /// <summary>
         /// 历史目录-后退
         /// </summary>
         public Folders Button_PathBack_Click(Folders folderNow)
         {
             if (PreFolder.Count <= 0) return null;
-            if (FwdFolder.Count == 0 || folderNow != FwdFolder.Peek()) 
+            if (FwdFolder.Count == 0 || folderNow != FwdFolder.Peek())
                 FwdFolder.Push(folderNow);
             folderNow = PreFolder.Pop();
 #if DEBUG
@@ -62,12 +64,14 @@ namespace FilesExplorerInDB_WPF.Models
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
             path = "";
             foreach (Folders folder in FwdFolder)
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
 #endif
             return folderNow;
@@ -79,7 +83,7 @@ namespace FilesExplorerInDB_WPF.Models
         public Folders Button_PathNext_Click(Folders folderNow)
         {
             if (FwdFolder.Count <= 0) return null;
-            if (PreFolder.Count == 0 || folderNow != PreFolder.Peek()) 
+            if (PreFolder.Count == 0 || folderNow != PreFolder.Peek())
                 PreFolder.Push(folderNow);
             folderNow = FwdFolder.Pop();
 #if DEBUG
@@ -88,12 +92,14 @@ namespace FilesExplorerInDB_WPF.Models
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
             path = "";
             foreach (Folders folder in FwdFolder)
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
 #endif
             return folderNow;
@@ -115,12 +121,14 @@ namespace FilesExplorerInDB_WPF.Models
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
             path = "";
             foreach (Folders folder in FwdFolder)
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
 #endif
             return folderNow;
@@ -128,7 +136,7 @@ namespace FilesExplorerInDB_WPF.Models
 
         public void PathPush(Folders folderNow)
         {
-            if (PreFolder.Count == 0 || folderNow != PreFolder.Peek()) 
+            if (PreFolder.Count == 0 || folderNow != PreFolder.Peek())
                 PreFolder.Push(folderNow);
 #if DEBUG
             string path = "PathPush--";
@@ -136,12 +144,14 @@ namespace FilesExplorerInDB_WPF.Models
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
             path = "";
             foreach (Folders folder in FwdFolder)
             {
                 path += folder.FolderName + "/";
             }
+
             Debug.WriteLine(path);
 #endif
         }

@@ -129,6 +129,7 @@ namespace FilesExplorerInDB_WPF.Models
         }
 
         public static PropertyWindowModel GetInstance { get; } = new PropertyWindowModel();
+
         private PropertyWindowModel()
         {
 

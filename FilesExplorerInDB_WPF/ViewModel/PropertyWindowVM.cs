@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Input;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Input;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -99,31 +100,40 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Refresh()
         {
-            //TODO 刷新属性
-            //if (_isFolder)
-            //{
-            //    Folders folders = _filesDbManager.SetFoldersProperty(_id);
-            //    SetText_Folders(folders);
-            //}
-            //else
-            //{
-            //    Files files = _filesDbManager.SetFilesProperty(_id);
-            //    if (!files.IsMiss)
-            //        SetText_Files(files);
-            //    else
-            //    {
-            //        MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留", "属性刷新错误",
-            //            MessageBoxButton.YesNo, MessageBoxImage.Error);
-            //        switch (result)
-            //        {
-            //            case MessageBoxResult.Yes:
-            //                bool deleteState = _filesDbManager.SetDeleteState(_id);
-            //                break;
-            //            case MessageBoxResult.No:
-            //                break;
-            //        }
-            //    }
-            //}
+            if (IsFolder)
+            {
+                Folders folders = FilesDbManager.SetFoldersProperty(Folders.FolderId);
+                SetText_Folders(folders);
+            }
+            else
+            {
+                Files files = FilesDbManager.SetFilesProperty(Files.FileId);
+                if (!files.IsMiss)
+                    SetText_Files(files);
+                else
+                {
+                    MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留", "属性刷新错误",
+                        MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            var deleteState = FilesDbManager.SetDeleteState(Files.FileId);
+                            if (!deleteState)
+                                MessageBox.Show("删除失败！");
+                            break;
+                        case MessageBoxResult.No:
+                            break;
+                        case MessageBoxResult.None:
+                            break;
+                        case MessageBoxResult.OK:
+                            break;
+                        case MessageBoxResult.Cancel:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
         }
 
         private void Enter()

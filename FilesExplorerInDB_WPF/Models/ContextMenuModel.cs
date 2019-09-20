@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FilesExplorerInDB_Models.Models;
+using System.Collections.Generic;
 using System.Windows;
-using FilesExplorerInDB_Models.Models;
 
 namespace FilesExplorerInDB_WPF.Models
 {
