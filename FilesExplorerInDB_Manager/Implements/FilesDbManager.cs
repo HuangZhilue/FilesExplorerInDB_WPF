@@ -112,7 +112,7 @@ namespace FilesExplorerInDB_Manager.Implements
 
         public List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow)
         {
-            List<ExplorerProperty> list = new List<ExplorerProperty>();
+            var list = new List<ExplorerProperty>();
             folderNow = FoldersFind(localFolderId);
             Debug.WriteLine(folderNow);
             folderNow.FolderNodes = LoadFoldersEntites(f => f.FolderLocalId == localFolderId && f.IsDelete == false)
@@ -122,7 +122,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 list.Add(SetExplorerItems_Folders(folder, GetImage(Resource.folder)));
             }
 
-            Bitmap imageBitmap = Resource.DEFAULT;
+            var imageBitmap = Resource.DEFAULT;
             foreach (var file in folderNow.Files)
             {
                 if (file.IsDelete) continue;

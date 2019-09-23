@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
-    public class ExplorerItemsVM : BaseViewModel
+    public class ExplorerItemsVM : BaseViewModel, IFileDragDropTarget
     {
         #region 字段
 
@@ -29,6 +29,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand LoadedContextMenu { get; }
         public ICommand CommandOpen { get; }
         public ICommand CommandRefresh { get; }
+        public ICommand CommandRefreshAll { get; }
         public ICommand CommandCut { get; }
         public ICommand CommandCopy { get; }
         public ICommand CommandPaste { get; }
@@ -79,6 +80,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandPaste = new DelegateCommand(Paste);
             CommandProperty = new DelegateCommand(Property);
             CommandRefresh = new DelegateCommand(Refresh);
+            CommandRefreshAll = new DelegateCommand(RefreshAll);
             CommandRename = new DelegateCommand(Rename);
             CommandLostFocus = new DelegateCommand(LostFocus);
             CommandPreviewKeyDown = new DelegateCommand(PreviewKeyDown);
@@ -99,16 +101,17 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 case ExplorerProperty explorerProperty:
                     PathViewVM.PathPush(ExplorerItems.FolderNow);
                     ExplorerItems.GetFolder(explorerProperty.Id);
-                    PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
-                    PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
                     break;
                 case Folders folders:
                     ExplorerItems.GetFolder(IsPathPrevious ? folders.FolderLocalId : folders.FolderId);
                     IsPathPrevious = false;
-                    PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
-                    PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
+                    break;
+                case int folderLocalId:
+                    ExplorerItems.GetFolder(folderLocalId);
                     break;
             }
+            PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
+            PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
         }
 
         private void GetProperty(object parameter)
@@ -210,6 +213,12 @@ namespace FilesExplorerInDB_WPF.ViewModel
             OpenFolder(ExplorerItems.FolderNow);
         }
 
+        private void RefreshAll()
+        {
+            FilesDbManager.SetFoldersProperty(0);
+            FolderTreeVM.FolderTree.RefreshFolderTree();
+        }
+
         private void Cut()
         {
             SelectItemForPaste = SelectItem;
@@ -304,6 +313,34 @@ namespace FilesExplorerInDB_WPF.ViewModel
             bool? result = WindowManager.Show(nameof(PropertyWindow), true);
             if (result != null && result == true)
                 Refresh();
+        }
+
+        public void OnFileDrop(string[] filePaths)
+        {
+            //TODO 文件拖放 
+
+            if (filePaths == null) return;
+            foreach (var s in filePaths)
+            {
+                if (File.Exists(s))
+                {
+                    // 是文件
+                    var fi = new FileInfo(s);
+                    FilesDbManager.FilesAdd(fi, ExplorerItems.FolderNow.FolderId,
+                        GetSetting(SettingType.FileStorageLocation) as string);
+                    Refresh();
+                }
+                else if (Directory.Exists(s))
+                {
+                    // 是文件夹
+                    MessageBox.Show("暂不支持文件夹拖放操作！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    // 都不是
+                    MessageBox.Show("未检测到文件！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
         }
     }
 }
