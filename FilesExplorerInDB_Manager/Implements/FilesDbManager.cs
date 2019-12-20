@@ -22,8 +22,6 @@ namespace FilesExplorerInDB_Manager.Implements
     public class FilesDbManager : IFilesDbManager
     {
         private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
-
-        //private readonly IFilesDbMongoDbService _dbService = UnityContainerHelp.GetServer<IFilesDbMongoDbService>();
         private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
         private readonly IMonitorManager _monitorManager = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty _property;
@@ -141,7 +139,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="defaultBitmap">默认的文件类型图标</param>
         /// <param name="errorBitmap">错误标识的图标</param>
         /// <returns>文件信息</returns>
-        public ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap)
+        private ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap)
         {
             _property = UnityContainerHelp.GetServer<ExplorerProperty>();
             _property.Id = file.FileId;
@@ -177,7 +175,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folder">文件夹</param>
         /// <param name="imageSource">文件夹图标</param>
         /// <returns>文件夹信息</returns>
-        public ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
+        private ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
         {
             _property = UnityContainerHelp.GetServer<ExplorerProperty>();
             _property.Id = folder.FolderId;
@@ -223,8 +221,8 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>是否成功</returns>
         public bool Paste(int folderForPaste, List<ExplorerProperty> items, bool isCutting)
         {
-            int lid = 0;
-            foreach (ExplorerProperty item in items)
+            var lid = 0;
+            foreach (var item in items)
             {
                 if (isCutting) //剪切
                 {
@@ -269,7 +267,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 lid = item.FolderLocalId;
             }
 
-            int s = SaveChanges();
+            var s = SaveChanges();
             SetParentFoldersProperty(lid);
             return s > 0;
         }
@@ -503,14 +501,14 @@ namespace FilesExplorerInDB_Manager.Implements
             files = SetFilesListProperty(files);
             if (!folders.Any())
             {
-                parentFolders.FileIncludeCount = files.Count();
-                parentFolders.FolderIncludeCount = folders.Count();
+                parentFolders.FileIncludeCount = files.Count;
+                parentFolders.FolderIncludeCount = folders.Count;
                 parentFolders.Size = files.Select(f => f.Size).Sum();
             }
             else
             {
-                parentFolders.FileIncludeCount += files.Count();
-                parentFolders.FolderIncludeCount += folders.Count();
+                parentFolders.FileIncludeCount += files.Count;
+                parentFolders.FolderIncludeCount += folders.Count;
                 parentFolders.Size += files.Select(f => f.Size).Sum();
             }
 

@@ -23,7 +23,7 @@
                 <view:IndexTabView DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}" />
             </TabItem>
             <TabItem Header="查看">
-                <Grid Background="#FFE5E5E5" />
+                <view:ViewTabView DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}" />
             </TabItem>
         </TabControl>
         <Grid Grid.Row="1">

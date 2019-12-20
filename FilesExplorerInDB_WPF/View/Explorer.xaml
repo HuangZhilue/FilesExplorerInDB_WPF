@@ -18,11 +18,6 @@
                   AllowDrop="True"
                   ItemsSource="{Binding ExplorerItems.ExplorerList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                   SelectedIndex="{Binding ExplorerItems.SelectIndex, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
-            <!--
-                DragEnter="ListView_Explorer_DragEnter"
-                Drop="ListView_Explorer_Drop"
-                MouseRightButtonDown="ListView_Explorer_MouseRightButtonDown"
-            -->
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="打开" Visibility="{Binding ContextMenuModel.IsVisibleOpen, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
@@ -88,7 +83,6 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </MenuItem>
-
                     <i:Interaction.Triggers>
                         <i:EventTrigger>
                             <i:InvokeCommandAction Command="{Binding LoadedContextMenu, Mode=OneWay}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
@@ -122,9 +116,6 @@
                                         <i:EventTrigger EventName="LostFocus">
                                             <i:InvokeCommandAction Command="{Binding CommandLostFocus, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                         </i:EventTrigger>
-                                        <!--<i:EventTrigger EventName="PreviewKeyDown">
-                                            <i:InvokeCommandAction Command="{Binding PreviewKeyDown, Mode=OneWay}" />
-                                        </i:EventTrigger>-->
                                     </i:Interaction.Triggers>
                                 </TextBox>
                             </DataTemplate>

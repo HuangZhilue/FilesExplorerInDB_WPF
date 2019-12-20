@@ -24,9 +24,9 @@ namespace FilesExplorerInDB_Manager.Interface
 
         List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow);
 
-        ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap);
+        //ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap);
 
-        ExplorerProperty SetExplorerItems_Folders(Folders file, ImageSource imageSource);
+        //ExplorerProperty SetExplorerItems_Folders(Folders file, ImageSource imageSource);
 
         List<Folders> GetFoldersTree(int folderId, List<Folders> folders);
 
