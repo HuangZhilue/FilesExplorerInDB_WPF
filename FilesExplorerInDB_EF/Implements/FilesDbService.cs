@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,24 +14,24 @@ namespace FilesExplorerInDB_EF.Implements
 
         public Files FilesAdd(Files entity)
         {
-            _dbContext.Set<Files>().Add(entity);
+            _dbContext.Files.Add(entity);
             return entity;
         }
 
         public Folders FoldersAdd(Folders entity)
         {
-            _dbContext.Set<Folders>().Add(entity);
+            _dbContext.Folders.Add(entity);
             return entity;
         }
 
         public Files FilesFind(params object[] keyValue)
         {
-            return _dbContext.Set<Files>().Find(keyValue);
+            return _dbContext.Files.Find(keyValue);
         }
 
         public Folders FoldersFind(params object[] keyValue)
         {
-            return _dbContext.Set<Folders>().Find(keyValue);
+            return _dbContext.Folders.Find(keyValue);
         }
 
         public void FilesModified(Files entity)
@@ -45,22 +46,22 @@ namespace FilesExplorerInDB_EF.Implements
 
         public void FilesRemove(Files entity)
         {
-            _dbContext.Set<Files>().Remove(entity);
+            _dbContext.Files.Remove(entity);
         }
 
         public void FoldersRemove(Folders entity)
         {
-            _dbContext.Set<Folders>().Remove(entity);
+            _dbContext.Folders.Remove(entity);
         }
 
-        public IQueryable<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
+        public List<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
         {
-            return _dbContext.Set<Files>().Where(where);
+            return _dbContext.Files.Where(where).ToList();
         }
 
-        public IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
+        public List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
         {
-            return _dbContext.Set<Folders>().Where(where);
+            return _dbContext.Folders.Where(where).ToList();
         }
 
         public int SaveChanges()

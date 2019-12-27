@@ -3,6 +3,7 @@ using FilesExplorerInDB_Models.Models;
 using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
+using Resources;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -35,6 +36,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         public void SetProperty(ExplorerProperty explorerProperty)
         {
+            if (explorerProperty == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerProperty);
             if (explorerProperty.IsFolder)
             {
                 Folders folders = FilesDbManager.FoldersFind(explorerProperty.Id);
@@ -93,7 +95,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             return path;
         }
 
-        private void Close()
+        private static void Close()
         {
             WindowManager.Remove(nameof(PropertyWindow));
         }
@@ -112,7 +114,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     SetText_Files(files);
                 else
                 {
-                    MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留", "属性刷新错误",
+                    MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留", Resource.Caption_RefreshError,
                         MessageBoxButton.YesNo, MessageBoxImage.Error);
                     switch (result)
                     {
@@ -130,7 +132,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
                         case MessageBoxResult.Cancel:
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new ArgumentOutOfRangeException(Resource.MessageBoxResult,
+                                Resource.Messgae_ArgumentOutOfRangeException);
                     }
                 }
             }
@@ -145,7 +148,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private void Rename()
         {
             if (NameBackup == PropertyWindowModel.Name) return;
-            MessageBoxResult result = MessageBox.Show("确定要修改文件、文件夹名称？", "提示", MessageBoxButton.OKCancel,
+            MessageBoxResult result = MessageBox.Show("确定要修改文件、文件夹名称？", Resource.Caption_Info, MessageBoxButton.OKCancel,
                 MessageBoxImage.Information);
             if (result == MessageBoxResult.OK)
             {

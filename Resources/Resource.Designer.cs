@@ -61,6 +61,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 错误 的本地化字符串。
+        /// </summary>
+        public static string Caption_Error {
+            get {
+                return ResourceManager.GetString("Caption_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提示 的本地化字符串。
+        /// </summary>
+        public static string Caption_Info {
+            get {
+                return ResourceManager.GetString("Caption_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开文件出错 的本地化字符串。
+        /// </summary>
+        public static string Caption_OpenFileError {
+            get {
+                return ResourceManager.GetString("Caption_OpenFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 属性刷新错误 的本地化字符串。
+        /// </summary>
+        public static string Caption_RefreshError {
+            get {
+                return ResourceManager.GetString("Caption_RefreshError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         public static System.Drawing.Bitmap DEFAULT {
@@ -97,6 +133,105 @@ namespace Resources {
             get {
                 object obj = ResourceManager.GetObject("folder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数DbModelBuilder不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_DbModelBuilder {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_DbModelBuilder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数ExplorerProperty不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_ExplorerProperty {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_ExplorerProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数ExplorerPropertyList不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_ExplorerPropertyList {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_ExplorerPropertyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数FileInfo不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_FileInfo {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_FileInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数Files不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_Files {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_Files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数Folders不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_Folders {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_Folders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数Monitor不能为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentNullException_Monitor {
+            get {
+                return ResourceManager.GetString("Message_ArgumentNullException_Monitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 MessageBoxResult 的本地化字符串。
+        /// </summary>
+        public static string MessageBoxResult {
+            get {
+                return ResourceManager.GetString("MessageBoxResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ArgumentOutOfRangeException 的本地化字符串。
+        /// </summary>
+        public static string Messgae_ArgumentOutOfRangeException {
+            get {
+                return ResourceManager.GetString("Messgae_ArgumentOutOfRangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文件 的本地化字符串。
+        /// </summary>
+        public static string Property_Type_File {
+            get {
+                return ResourceManager.GetString("Property_Type_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文件夹 的本地化字符串。
+        /// </summary>
+        public static string Property_Type_Folder {
+            get {
+                return ResourceManager.GetString("Property_Type_Folder", resourceCulture);
             }
         }
     }

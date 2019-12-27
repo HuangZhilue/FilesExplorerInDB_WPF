@@ -1,3 +1,6 @@
+using System;
+using Resources;
+
 namespace FilesExplorerInDB_EF.EFModels
 {
     using System.Data.Entity;
@@ -6,7 +9,7 @@ namespace FilesExplorerInDB_EF.EFModels
     {
         public static FilesDB GetFilesDb { get; } = new FilesDB();
 
-        private FilesDB()
+        public FilesDB()
             : base("name=FilesDB")
         {
         }
@@ -17,6 +20,7 @@ namespace FilesExplorerInDB_EF.EFModels
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            if(modelBuilder==null)throw new Exception(Resource.Message_ArgumentNullException_DbModelBuilder);
             modelBuilder.Entity<Folders>()
                 .HasMany(e => e.Files)
                 .WithRequired(e => e.Folders)

@@ -1,5 +1,6 @@
 ﻿using FilesExplorerInDB_WPF.Helper;
 using System.Windows;
+using FilesExplorerInDB_EF.EFModels;
 
 namespace FilesExplorerInDB_WPF
 {
@@ -25,6 +26,13 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         public MainWindow()
         {
+            //using (FilesDB db = new FilesDB())
+            //{
+            //    db.Folders.Add(new Folders { FolderId = 0, FolderName = "root" });
+            //    db.Files.Add(new Files { FileName = "test" });
+            //    db.Monitor.Add(new Monitor { Operator = "user", MessageType = "test", OperationType = "test" });
+            //    db.SaveChanges();
+            //}
             InitializeComponent();
             WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
         }

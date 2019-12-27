@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6,13 +8,13 @@ using Command;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
+using Resources;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
     public class MonitorManager : IMonitorManager
     {
         private readonly IMonitorService _dbService = UnityContainerHelp.GetServer<IMonitorService>();
-        //private readonly IMonitorMongoDbService _dbService = UnityContainerHelp.GetServer<IMonitorMongoDbService>();
         private Monitor _monitor;
 
         #region 基础操作
@@ -30,7 +32,7 @@ namespace FilesExplorerInDB_Manager.Implements
             return _dbService.MonitorFind(keyValue);
         }
 
-        private IQueryable<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where)
+        private List<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where)
         {
             return _dbService.LoadMonitorEntites(where);
         }
@@ -65,7 +67,7 @@ namespace FilesExplorerInDB_Manager.Implements
             SystemError
         }
 
-        private String[] Operation { get; } =
+        private string[] Operation { get; } =
         {
             "添加文件", //AddFile,
             "新建文件夹", //AddFolder,
@@ -82,7 +84,7 @@ namespace FilesExplorerInDB_Manager.Implements
 
         public string GetOperation(OpType op)
         {
-            return Operation[Convert.ToInt32(op)];
+            return Operation[Convert.ToInt32(op,CultureInfo.CurrentCulture)];
         }
 
         public enum MessageType
@@ -94,7 +96,7 @@ namespace FilesExplorerInDB_Manager.Implements
             Danger
         }
 
-        private String[] MessageTypeName { get; } =
+        private string[] MessageTypeName { get; } =
         {
             "主要", //Primary,
             "成功", //Success,
@@ -105,24 +107,24 @@ namespace FilesExplorerInDB_Manager.Implements
 
         public string GetMessageTypeName(MessageType op)
         {
-            return MessageTypeName[Convert.ToInt32(op)];
+            return MessageTypeName[Convert.ToInt32(op, CultureInfo.CurrentCulture)];
         }
 
-        public enum Operator
+        public enum OperatorName
         {
             User,
             System
         }
 
-        private String[] OperatorName { get; } =
+        private string[] OperatorType { get; } =
         {
             "用户", //User,
             "系统" //System
         };
 
-        public string GetOperatorName(Operator op)
+        public string GetOperatorType(OperatorName op)
         {
-            return OperatorName[Convert.ToInt32(op)];
+            return OperatorType[Convert.ToInt32(op, CultureInfo.CurrentCulture)];
         }
 
         #endregion
@@ -135,7 +137,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="operatorName">操作员</param>
         /// <param name="objectName">操作对象</param>
         /// <param name="message">消息</param>
-        public void AddMonitorRecord(MessageType messageType, OpType opType, Operator operatorName, string objectName,
+        public void AddMonitorRecord(MessageType messageType, OpType opType, OperatorName operatorName, string objectName,
             string message)
         {
             _monitor = UnityContainerHelp.GetServer<Monitor>();
@@ -143,7 +145,7 @@ namespace FilesExplorerInDB_Manager.Implements
             _monitor.MessageType = GetMessageTypeName(messageType);
             _monitor.ObjectName = objectName;
             _monitor.OperationType = GetOperation(opType);
-            _monitor.Operator = GetOperatorName(operatorName);
+            _monitor.Operator = GetOperatorType(operatorName);
             _monitor.Time = DateTime.Now;
             MonitorAdd(_monitor, true);
         }
@@ -154,25 +156,25 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="exception">错误对象</param>
         public void ErrorRecord(Exception exception)
         {
-            string message = "\n\r";
+            var message = Environment.NewLine;
             if (exception != null)
             {
-                message += "异常信息：\n\r" + exception.Message;
-                message += "\n\r";
+                message += "异常信息：" + Environment.NewLine + exception.Message;
+                message += Environment.NewLine;
                 message += "输出信息：错误位置";
-                message += "位置信息：\n\r" + exception.StackTrace;
-                message += "\n\r";
+                message += "位置信息：" + Environment.NewLine + exception.StackTrace;
+                message += Environment.NewLine;
 
                 if (exception.InnerException != null)
                 {
-                    message += "异常信息：\n\r" + exception.InnerException.Message;
-                    message += "\n\r";
-                    message += "输出信息：错误位置\n\r";
-                    message += "位置信息：\n\r" + exception.InnerException.StackTrace;
-                    message += "\n\r";
+                    message += "内部异常信息：" + Environment.NewLine + exception.InnerException.Message;
+                    message += Environment.NewLine;
+                    message += "输出信息：错误位置" + Environment.NewLine;
+                    message += "位置信息：" + Environment.NewLine + exception.InnerException.StackTrace;
+                    message += Environment.NewLine;
                 }
 
-                AddMonitorRecord(MessageType.Danger, OpType.SystemError, Operator.System, exception.Source, message);
+                AddMonitorRecord(MessageType.Danger, OpType.SystemError, OperatorName.System, exception.Source, message);
             }
         }
 
@@ -183,12 +185,13 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">目标文件</param>
         public void AddFileRecord(string objectName, Files files)
         {
-            string message = "\n\r";
-            message += "原文件：" + objectName + "；\n\r";
-            message += "复制到：" + files.RealName + "；\n\r";
-            message += "文件标识ID：" + files.FileId + "；\n\r";
-            message += "父文件夹标识ID" + files.FolderLocalId + "；\n\r";
-            AddMonitorRecord(MessageType.Primary, OpType.AddFile, Operator.User, objectName, message);
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "原文件：" + objectName + "；" + Environment.NewLine;
+            message += "复制到：" + files.RealName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.AddFile, OperatorName.User, objectName, message);
         }
 
         /// <summary>
@@ -197,11 +200,12 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">目标文件</param>
         public void DeleteFileRecord(Files files)
         {
-            string message = "\n\r";
-            message += "目标文件：" + files.FileName + "；\n\r";
-            message += "文件标识ID：" + files.FileId + "；\n\r";
-            message += "父文件夹标识ID" + files.FolderLocalId + "；\n\r";
-            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, Operator.User, files.FileName, message);
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, OperatorName.User, files.FileName, message);
         }
 
         /// <summary>
@@ -210,11 +214,12 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folders">目标文件夹</param>
         public void DeleteFolderRecord(Folders folders)
         {
-            string message = "\n\r";
-            message += "目标文件夹：" + folders.FolderName + "；\n\r";
-            message += "文件夹标识ID：" + folders.FolderId + "；\n\r";
-            message += "父文件夹标识ID" + folders.FolderLocalId + "；\n\r";
-            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, Operator.User, folders.FolderName, message);
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var message = Environment.NewLine;
+            message += "目标文件夹：" + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, OperatorName.User, folders.FolderName, message);
         }
 
         /// <summary>
@@ -224,12 +229,14 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="fileInfo">物理文件信息</param>
         public void DeleteCompleteRecord(Files files, FileInfo fileInfo)
         {
-            string message = "\n\r";
-            message += "目标文件：" + files.FileName + "；\n\r";
-            message += "文件标识ID：" + files.FileId + "；\n\r";
-            message += "父文件夹标识ID" + files.FolderLocalId + "；\n\r";
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (fileInfo == null) throw new Exception(Resource.Message_ArgumentNullException_FileInfo);
+            var message = Environment.NewLine;
+            message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
             message += "物理文件：" + fileInfo.FullName;
-            AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, Operator.User, files.FileName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, OperatorName.User, files.FileName, message);
         }
 
         /// <summary>
@@ -238,11 +245,117 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folders">新建文件夹</param>
         public void AddFolderRecord(Folders folders)
         {
-            string message = "\n\r";
-            message += "新建文件夹：" + folders.FolderName + "；\n\r";
-            message += "文件夹标识ID：" + folders.FolderId + "；\n\r";
-            message += "父文件夹标识ID" + folders.FolderLocalId + "；\n\r";
-            AddMonitorRecord(MessageType.Primary, OpType.AddFolder, Operator.User, folders.FolderName, message);
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var message = Environment.NewLine;
+            message += "新建文件夹：" + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.AddFolder, OperatorName.User, folders.FolderName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 重命名文件夹
+        /// </summary>
+        /// <param name="folders">重命名文件夹</param>
+        /// <param name="oldName">旧文件夹名称</param>
+        public void RenameFolderRecord(Folders folders, string oldName)
+        {
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var message = Environment.NewLine;
+            message += "重命名文件夹：" + oldName + " --> " + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.RenameFolder, OperatorName.User, folders.FolderName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 重命名文件
+        /// </summary>
+        /// <param name="files">重命名文件</param>
+        /// <param name="oldName">旧文件名称</param>
+        public void RenameFileRecord(Files files, string oldName)
+        {
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "重命名文件：" + oldName + " --> " + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.RenameFile, OperatorName.User, files.FileName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 复制文件
+        /// </summary>
+        /// <param name="files">复制的文件</param>
+        /// <param name="oldFolderLocalId">原父文件夹标识ID</param>
+        public void CopyFileRecord(Files files, string oldFolderLocalId)
+        {
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "文件：" + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + oldFolderLocalId + " --> " + files.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.CopyPath, OperatorName.User, files.FileName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 复制文件夹
+        /// </summary>
+        /// <param name="folders">复制的文件夹</param>
+        /// <param name="newFolderLocalId">新父文件夹标识ID</param>
+        public void CopyFolderRecord(Folders folders, string newFolderLocalId)
+        {
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var message = Environment.NewLine;
+            message += "文件夹：" + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + folders.FolderLocalId + " --> " + newFolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.CopyPath, OperatorName.User, folders.FolderName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 剪切文件
+        /// </summary>
+        /// <param name="files">剪切的文件</param>
+        /// <param name="oldFolderLocalId">原父文件夹标识ID</param>
+        public void CutFileRecord(Files files, string oldFolderLocalId)
+        {
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "文件：" + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + oldFolderLocalId + " --> " + files.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.CutPath, OperatorName.User, files.FileName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 剪切文件夹
+        /// </summary>
+        /// <param name="folders">剪切的文件夹</param>
+        /// <param name="oldFolderLocalId">原父文件夹标识ID</param>
+        public void CutFolderRecord(Folders folders, string oldFolderLocalId)
+        {
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var message = Environment.NewLine;
+            message += "文件夹：" + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + oldFolderLocalId + " --> " + folders.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Primary, OpType.CutPath, OperatorName.User, folders.FolderName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 标记丢失的文件
+        /// </summary>
+        /// <param name="files">丢失的文件</param>
+        public void SetMissStateRecord(Files files)
+        {
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "文件：" + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
+            message += "物理文件：" + files.RealName;
+            AddMonitorRecord(MessageType.Warning, OpType.SetMissState, OperatorName.User, files.FileName, message);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -23,9 +24,9 @@ namespace FilesExplorerInDB_EF.Interface
 
         void FoldersRemove(Folders entity);
 
-        IQueryable<Files> LoadFilesEntites(Expression<Func<Files, bool>> where);
+        List<Files> LoadFilesEntites(Expression<Func<Files, bool>> @where);
 
-        IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
+        List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> @where);
 
         int SaveChanges();
     }

@@ -1,6 +1,8 @@
-﻿using FilesExplorerInDB_EF.EFModels;
+﻿using System;
+using FilesExplorerInDB_EF.EFModels;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Resources;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -110,6 +112,7 @@ namespace FilesExplorerInDB_WPF.Models
         /// </summary>
         public Folders Button_PathPrevious_Click(Folders folderNow)
         {
+            if (folderNow == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
             Debug.WriteLine(folderNow.FolderId);
             if (folderNow.FolderId == 0) return null;
             if (folderNow != PreFolder.Peek())

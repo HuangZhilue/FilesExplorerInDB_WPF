@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Command;
+using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.Interface;
+using FilesExplorerInDB_Manager.Interface;
+using FilesExplorerInDB_Models.Models;
+using Resources;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -10,33 +16,28 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Command;
-using FilesExplorerInDB_EF.EFModels;
-using FilesExplorerInDB_EF.Interface;
-using FilesExplorerInDB_Manager.Interface;
-using FilesExplorerInDB_Models.Models;
-using Resources;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
     public class FilesDbManager : IFilesDbManager
     {
-        private readonly IFilesDbService _dbService = UnityContainerHelp.GetServer<IFilesDbService>();
-        private readonly IFileIcon _fileIcon = UnityContainerHelp.GetServer<IFileIcon>();
-        private readonly IMonitorManager _monitorManager = UnityContainerHelp.GetServer<IMonitorManager>();
-        private ExplorerProperty _property;
-        private FilesDbManager _filesDbManager;
+        private IFilesDbService DBService { get; } = UnityContainerHelp.GetServer<IFilesDbService>();
+        private IFileIcon FileIcon { get; } = UnityContainerHelp.GetServer<IFileIcon>();
+        private IMonitorManager MonitorManager { get; } = UnityContainerHelp.GetServer<IMonitorManager>();
+        private ExplorerProperty Property { get; set; }
+        private FilesDbManager DbManager { get; set; }
 
         #region 基础操作
 
         public Files FilesAdd(FileInfo fileInfo, int folderLocalId, string pathForSave)
         {
+            if (fileInfo == null) throw new Exception(Resource.Message_ArgumentNullException_FileInfo);
             if (!Directory.Exists(pathForSave))
             {
                 Directory.CreateDirectory(pathForSave);
             }
 
-            Files files = UnityContainerHelp.GetServer<Files>();
+            Files files = (Files) Activator.CreateInstance(typeof(Files));
             files.FolderLocalId = folderLocalId;
             files.AccessTime = fileInfo.LastAccessTime;
             files.CreationTime = fileInfo.CreationTime;
@@ -49,13 +50,13 @@ namespace FilesExplorerInDB_Manager.Implements
             fileInfo = fileInfo.CopyTo(pathForSave + "\\" + files.FileId + "." + files.FileType, true);
             files.RealName = fileInfo.FullName;
             FilesModified(files, true);
-            _monitorManager.AddFileRecord(originName, files);
+            MonitorManager.AddFileRecord(originName, files);
             return files;
         }
 
         private Files FilesAdd(Files entity, bool isSave)
         {
-            entity = _dbService.FilesAdd(entity);
+            entity = DBService.FilesAdd(entity);
             if (isSave)
                 SaveChanges();
             return entity;
@@ -63,17 +64,17 @@ namespace FilesExplorerInDB_Manager.Implements
 
         public Files FilesFind(params object[] keyValue)
         {
-            return _dbService.FilesFind(keyValue);
+            return DBService.FilesFind(keyValue);
         }
 
-        public IQueryable<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
+        public List<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
         {
-            return _dbService.LoadFilesEntites(where);
+            return DBService.LoadFilesEntites(where).ToList();
         }
 
         private Folders FoldersAdd(Folders entity, bool isSave)
         {
-            entity = _dbService.FoldersAdd(entity);
+            entity = DBService.FoldersAdd(entity);
             if (isSave)
                 SaveChanges();
             return entity;
@@ -81,35 +82,36 @@ namespace FilesExplorerInDB_Manager.Implements
 
         public Folders FoldersFind(params object[] keyValue)
         {
-            return _dbService.FoldersFind(keyValue);
+            return DBService.FoldersFind(keyValue);
         }
 
-        public IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
+        public List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
         {
-            return _dbService.LoadFoldersEntites(where);
+            return DBService.LoadFoldersEntites(where).ToList();
         }
 
         private void FilesModified(Files files, bool isSave = false)
         {
-            _dbService.FilesModified(files);
+            DBService.FilesModified(files);
             if (isSave) SaveChanges();
         }
 
         private void FoldersModified(Folders folder, bool isSave = false)
         {
-            _dbService.FoldersModified(folder);
+            DBService.FoldersModified(folder);
             if (isSave) SaveChanges();
         }
 
         private int SaveChanges()
         {
-            return _dbService.SaveChanges();
+            return DBService.SaveChanges();
         }
 
         #endregion
 
         public List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow)
         {
+            if (localFolderId < 0) localFolderId = 0;
             var list = new List<ExplorerProperty>();
             folderNow = FoldersFind(localFolderId);
             Debug.WriteLine(folderNow);
@@ -132,6 +134,14 @@ namespace FilesExplorerInDB_Manager.Implements
             return list;
         }
 
+        public ExplorerProperty SetExplorerItem(Folders folderNow)
+        {
+            if (folderNow == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            Debug.WriteLine(folderNow);
+            var e = SetExplorerItems_Folders(folderNow, GetImage(Resource.folder));
+            return e;
+        }
+
         /// <summary>
         /// 设置文件信息
         /// </summary>
@@ -141,32 +151,33 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>文件信息</returns>
         private ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap)
         {
-            _property = UnityContainerHelp.GetServer<ExplorerProperty>();
-            _property.Id = file.FileId;
-            _property.FolderLocalId = file.FolderLocalId;
-            _property.IsFolder = false;
-            _property.Name = file.FileName;
-            _property.AccessTime = file.AccessTime.ToString(CultureInfo.CurrentCulture);
-            _property.CreationTime = file.CreationTime.ToString(CultureInfo.CurrentCulture);
-            _property.ModifyTime = file.ModifyTime.ToString(CultureInfo.CurrentCulture);
-            _property.Size = file.Size;
-            _property.Type = file.FileType;
+            Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
+            Property.Id = file.FileId;
+            Property.FolderLocalId = file.FolderLocalId;
+            Property.IsFolder = false;
+            Property.Name = file.FileName;
+            Property.AccessTime = file.AccessTime.ToString(CultureInfo.CurrentCulture);
+            Property.CreationTime = file.CreationTime.ToString(CultureInfo.CurrentCulture);
+            Property.ModifyTime = file.ModifyTime.ToString(CultureInfo.CurrentCulture);
+            Property.Size = file.Size;
+            Property.Type = file.FileType;
             if (file.RealName != null && File.Exists(file.RealName))
             {
-                _property.ImageSource =
-                    GetImage(_fileIcon.GetBitmapFromFilePath(file.RealName, FileIcon.IconSizeEnum.ExtraLargeIcon));
+                Property.ImageSource =
+                    GetImage(FileIcon.GetBitmapFromFilePath(file.RealName,
+                        Implements.FileIcon.IconSizeEnum.ExtraLargeIcon));
             }
             else if (file.RealName == null)
             {
-                _property.ImageSource = GetImage(defaultBitmap);
+                Property.ImageSource = GetImage(defaultBitmap);
             }
             else
             {
                 SetFilesProperty(file.FileId);
-                _property.ImageSource = GetImage(errorBitmap);
+                Property.ImageSource = GetImage(errorBitmap);
             }
 
-            return _property;
+            return Property;
         }
 
         /// <summary>
@@ -177,18 +188,18 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>文件夹信息</returns>
         private ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
         {
-            _property = UnityContainerHelp.GetServer<ExplorerProperty>();
-            _property.Id = folder.FolderId;
-            _property.FolderLocalId = folder.FolderLocalId;
-            _property.IsFolder = true;
-            _property.Name = folder.FolderName;
-            _property.AccessTime = "";
-            _property.CreationTime = folder.CreationTime.ToString("yyyy/MM/dd HH:mm");
-            _property.ModifyTime = folder.ModifyTime.ToString("yyyy/MM/dd HH:mm");
-            _property.Size = folder.Size;
-            _property.Type = "文件夹";
-            _property.ImageSource = imageSource;
-            return _property;
+            Property = (ExplorerProperty)Activator.CreateInstance(typeof(ExplorerProperty));
+            Property.Id = folder.FolderId;
+            Property.FolderLocalId = folder.FolderLocalId;
+            Property.IsFolder = true;
+            Property.Name = folder.FolderName;
+            Property.AccessTime = "";
+            Property.CreationTime = folder.CreationTime.ToString("yyyy/MM/dd HH:mm", CultureInfo.CurrentCulture);
+            Property.ModifyTime = folder.ModifyTime.ToString("yyyy/MM/dd HH:mm", CultureInfo.CurrentCulture);
+            Property.Size = folder.Size;
+            Property.Type = Resource.Property_Type_Folder;
+            Property.ImageSource = imageSource;
+            return Property;
         }
 
         /// <summary>
@@ -221,6 +232,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>是否成功</returns>
         public bool Paste(int folderForPaste, List<ExplorerProperty> items, bool isCutting)
         {
+            if (items == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerPropertyList);
             var lid = 0;
             foreach (var item in items)
             {
@@ -228,15 +240,32 @@ namespace FilesExplorerInDB_Manager.Implements
                 {
                     if (item.IsFolder)
                     {
+                        #region 防止剪切出现剪切粘贴到被剪切的项目里面
+
+                        var idForCheck = folderForPaste;
+                        while (true)
+                        {
+                            if (idForCheck == -1) break;
+                            var f = FoldersFind(idForCheck);
+                            if (f.FolderId == item.Id) return false;
+                            idForCheck = f.FolderLocalId;
+                        }
+
+                        #endregion
+
                         Folders folder = FoldersFind(item.Id);
+                        var oldId = folder.FolderLocalId;
                         folder.FolderLocalId = folderForPaste;
                         FoldersModified(folder);
+                        MonitorManager.CutFolderRecord(folder, oldId.ToString(CultureInfo.CurrentCulture));
                     }
                     else
                     {
                         Files file = FilesFind(item.Id);
+                        var oldId = file.FolderLocalId;
                         file.FolderLocalId = folderForPaste;
                         FilesModified(file);
+                        MonitorManager.CutFileRecord(file, oldId.ToString(CultureInfo.CurrentCulture));
                     }
                 }
                 else //复制
@@ -245,22 +274,25 @@ namespace FilesExplorerInDB_Manager.Implements
                     {
                         Folders folder = FoldersFind(item.Id);
                         PasteChild(folderForPaste, folder.FolderId);
+                        MonitorManager.CopyFolderRecord(folder, folderForPaste.ToString(CultureInfo.CurrentCulture));
                     }
                     else
                     {
                         Files file = FilesFind(item.Id);
+                        var oldLocalId = file.FolderLocalId;
                         file.FolderLocalId = folderForPaste;
-                        Files file2 = UnityContainerHelp.GetServer<Files>();
-                        file2.FolderLocalId = folderForPaste;
-                        file2.AccessTime = DateTime.Now;
-                        file2.CreationTime = DateTime.Now;
-                        file2.FileName = file.FileName;
-                        file2.FileType = file.FileType;
-                        file2.IsDelete = file.IsDelete;
-                        file2.ModifyTime = DateTime.Now;
-                        file2.Size = file.Size;
-                        file2.RealName = file.RealName;
+                        //Files file2 = UnityContainerHelp.GetServer<Files>();
+                        //file2.FolderLocalId = folderForPaste;
+                        //file.AccessTime = DateTime.Now;
+                        file.CreationTime = DateTime.Now;
+                        //file2.FileName = file.FileName;
+                        //file2.FileType = file.FileType;
+                        //file2.IsDelete = file.IsDelete;
+                        //file2.ModifyTime = DateTime.Now;
+                        //file2.Size = file.Size;
+                        //file2.RealName = file.RealName;
                         FilesAdd(file, false);
+                        MonitorManager.CopyFileRecord(file, oldLocalId.ToString(CultureInfo.CurrentCulture));
                     }
                 }
 
@@ -279,10 +311,10 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folderId">原文件夹的ID</param>
         private void PasteChild(int folderForPaste, int folderId)
         {
-            _filesDbManager = new FilesDbManager();
+            DbManager = new FilesDbManager();
 
             Folders folder = FoldersFind(folderId); //原文件夹
-            Folders folder2 = UnityContainerHelp.GetServer<Folders>();
+            Folders folder2 = (Folders) Activator.CreateInstance(folder.GetType());// UnityContainerHelp.GetServer<Folders>();
             folder2.FolderLocalId = folderForPaste;
             folder2.CreationTime = DateTime.Now;
             folder2.FileIncludeCount = folder.FileIncludeCount;
@@ -291,30 +323,30 @@ namespace FilesExplorerInDB_Manager.Implements
             folder2.IsDelete = folder.IsDelete;
             folder2.ModifyTime = DateTime.Now;
             folder2.Size = folder.Size;
-            folder2 = _filesDbManager.FoldersAdd(folder2, true);
-            IQueryable<Folders> foldersList = LoadFoldersEntites(f => f.FolderLocalId == folder.FolderId);
+            folder2 = DbManager.FoldersAdd(folder2, true);
+            List<Folders> foldersList = LoadFoldersEntites(f => f.FolderLocalId == folder.FolderId);
             foreach (var folders in foldersList) //获取原文件夹的子文件夹
             {
                 PasteChild(folder2.FolderId, folders.FolderId);
             }
 
-            IQueryable<Files> filesList = LoadFilesEntites(f => f.FolderLocalId == folder.FolderId);
+            List<Files> filesList = LoadFilesEntites(f => f.FolderLocalId == folder.FolderId);
             foreach (var files in filesList) //获取原文件夹下的文件
             {
-                Files file = UnityContainerHelp.GetServer<Files>();
-                file.FolderLocalId = folder2.FolderId;
-                file.AccessTime = DateTime.Now;
-                file.CreationTime = DateTime.Now;
-                file.FileName = files.FileName;
-                file.FileType = files.FileType;
-                file.IsDelete = files.IsDelete;
-                file.ModifyTime = DateTime.Now;
-                file.Size = files.Size;
-                file.RealName = files.RealName;
-                _filesDbManager.FilesAdd(file, false);
+                //Files file = UnityContainerHelp.GetServer<Files>();
+                files.FolderLocalId = folder2.FolderId;
+                //file.AccessTime = DateTime.Now;
+                files.CreationTime = DateTime.Now;
+                //file.FileName = files.FileName;
+                //file.FileType = files.FileType;
+                //file.IsDelete = files.IsDelete;
+                //file.ModifyTime = DateTime.Now;
+                //file.Size = files.Size;
+                //file.RealName = files.RealName;
+                DbManager.FilesAdd(files, false);
             }
 
-            _filesDbManager.SaveChanges();
+            DbManager.SaveChanges();
         }
 
         #endregion
@@ -328,6 +360,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>成功状态</returns>
         public bool SetDeleteState(List<ExplorerProperty> items)
         {
+            if (items == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerPropertyList);
             int lid = 0;
             foreach (ExplorerProperty item in items)
             {
@@ -336,14 +369,14 @@ namespace FilesExplorerInDB_Manager.Implements
                     Folders folder = FoldersFind(item.Id);
                     folder.IsDelete = true;
                     FoldersModified(folder);
-                    _monitorManager.DeleteFolderRecord(folder);
+                    MonitorManager.DeleteFolderRecord(folder);
                 }
                 else
                 {
                     Files file = FilesFind(item.Id);
                     file.IsDelete = true;
                     FilesModified(file);
-                    _monitorManager.DeleteFileRecord(file);
+                    MonitorManager.DeleteFileRecord(file);
                 }
 
                 lid = item.FolderLocalId;
@@ -365,7 +398,7 @@ namespace FilesExplorerInDB_Manager.Implements
             file.IsDelete = true;
             FilesModified(file, true);
             SetParentFoldersProperty(file.FolderLocalId);
-            _monitorManager.DeleteFileRecord(file);
+            MonitorManager.DeleteFileRecord(file);
             return true;
         }
 
@@ -381,21 +414,26 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>成功状态</returns>
         public bool Rename(List<ExplorerProperty> items, string newName)
         {
+            if (items == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerPropertyList);
             foreach (ExplorerProperty item in items)
             {
                 if (item.IsFolder)
                 {
                     Folders folder = FoldersFind(item.Id);
+                    var oldName = folder.FolderName;
                     folder.FolderName = newName;
                     folder.ModifyTime = DateTime.Now;
                     FoldersModified(folder);
+                    MonitorManager.RenameFolderRecord(folder, oldName);
                 }
                 else
                 {
                     Files file = FilesFind(item.Id);
+                    var oldName = file.FileName;
                     file.FileName = newName;
                     file.ModifyTime = DateTime.Now;
                     FilesModified(file);
+                    MonitorManager.RenameFileRecord(file, oldName);
                 }
             }
 
@@ -409,9 +447,12 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="newName">新名称</param>
         public void Rename(Files file, string newName)
         {
+            if (file == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var oldName = file.FileName;
             file.FileName = newName;
             file.ModifyTime = DateTime.Now;
             FilesModified(file, true);
+            MonitorManager.RenameFileRecord(file, oldName);
         }
 
         /// <summary>
@@ -421,9 +462,12 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="newName">新名称</param>
         public void Rename(Folders folder, string newName)
         {
+            if (folder == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var oldName = folder.FolderName;
             folder.FolderName = newName;
             folder.ModifyTime = DateTime.Now;
             FoldersModified(folder, true);
+            MonitorManager.RenameFolderRecord(folder, oldName);
         }
 
         #endregion
@@ -442,13 +486,13 @@ namespace FilesExplorerInDB_Manager.Implements
             folder.CreationTime = DateTime.Now;
             folder.FileIncludeCount = 0;
             folder.FolderIncludeCount = 0;
-            folder.FolderName = "新建文件夹" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff");
+            folder.FolderName = "新建文件夹" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff", CultureInfo.CurrentCulture);
             folder.IsDelete = false;
             folder.ModifyTime = DateTime.Now;
             folder.Size = 0;
             folder = FoldersAdd(folder, true);
             SetParentFoldersProperty(parentFoldersId);
-            _monitorManager.AddFolderRecord(folder);
+            MonitorManager.AddFolderRecord(folder);
             return folder;
         }
 
@@ -581,6 +625,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 {
                     files.IsMiss = true;
                     files.ModifyTime = DateTime.Now;
+                    MonitorManager.SetMissStateRecord(files);
                 }
             }
             else if (files != null)
@@ -588,6 +633,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 files.IsMiss = true;
                 files.ModifyTime = DateTime.Now;
                 files.Size = 0;
+                MonitorManager.SetMissStateRecord(files);
             }
 
             FilesModified(files, true);
@@ -650,26 +696,27 @@ namespace FilesExplorerInDB_Manager.Implements
         {
             if (size >= GB)
             {
-                return ((double) size / GB).ToString("0.00") + " GB";
+                return ((double) size / GB).ToString("0.00", CultureInfo.CurrentCulture) + " GB";
             }
-            else if (size >= MB)
+
+            if (size >= MB)
             {
                 double value = (double) size / MB;
-                return value.ToString("0.00") + " MB";
+                return value.ToString("0.00", CultureInfo.CurrentCulture) + " MB";
             }
-            else if (size >= KB)
+
+            if (size >= KB)
             {
                 double value = (double) size / KB;
-                return value.ToString("0.00") + " KB";
+                return value.ToString("0.00", CultureInfo.CurrentCulture) + " KB";
             }
-            else if (size == -1)
+
+            if (size == -1)
             {
                 return "";
             }
-            else
-            {
-                return size.ToString("0.00") + " B";
-            }
+
+            return size.ToString("0.00", CultureInfo.CurrentCulture) + " B";
         }
 
         #endregion

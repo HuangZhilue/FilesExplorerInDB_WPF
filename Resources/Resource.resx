@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Caption_Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Caption_Info" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Caption_OpenFileError" xml:space="preserve">
+    <value>打开文件出错</value>
+  </data>
+  <data name="Caption_RefreshError" xml:space="preserve">
+    <value>属性刷新错误</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="DEFAULT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\DEFAULT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -129,5 +141,38 @@
   </data>
   <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MessageBoxResult" xml:space="preserve">
+    <value>MessageBoxResult</value>
+  </data>
+  <data name="Message_ArgumentNullException_DbModelBuilder" xml:space="preserve">
+    <value>参数DbModelBuilder不能为NULL</value>
+  </data>
+  <data name="Message_ArgumentNullException_ExplorerProperty" xml:space="preserve">
+    <value>参数ExplorerProperty不能为NULL</value>
+  </data>
+  <data name="Message_ArgumentNullException_ExplorerPropertyList" xml:space="preserve">
+    <value>参数ExplorerPropertyList不能为NULL</value>
+  </data>
+  <data name="Message_ArgumentNullException_FileInfo" xml:space="preserve">
+    <value>参数FileInfo不能为NULL</value>
+  </data>
+  <data name="Message_ArgumentNullException_Files" xml:space="preserve">
+    <value>参数Files不能为NULL</value>
+  </data>
+  <data name="Message_ArgumentNullException_Folders" xml:space="preserve">
+    <value>参数Folders不能为NULL</value>
+  </data>
+  <data name="Message_ArgumentNullException_Monitor" xml:space="preserve">
+    <value>参数Monitor不能为NULL</value>
+  </data>
+  <data name="Messgae_ArgumentOutOfRangeException" xml:space="preserve">
+    <value>ArgumentOutOfRangeException</value>
+  </data>
+  <data name="Property_Type_File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Property_Type_Folder" xml:space="preserve">
+    <value>文件夹</value>
   </data>
 </root>

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
+using Resources;
 using Sikiro.Nosql.Mongo;
 
 namespace FilesExplorerInDB_MongoDb.Implements
@@ -14,24 +17,30 @@ namespace FilesExplorerInDB_MongoDb.Implements
 
         public Files FilesAdd(Files entity)
         {
-            entity.FileId = _mongoRepository.Count<Files>(f => f.FileId != -1) + 1;
-            return _mongoRepository.Add(entity) ? entity : null;
+            if (entity == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            entity.FileId = (int)_mongoRepository.Count<Files>(f => f.FileId != -1) + 1;
+            _mongoRepository.Add(entity);
+            return entity;
         }
 
         public Folders FoldersAdd(Folders entity)
         {
-            entity.FolderId = _mongoRepository.Count<Folders>(f => f.FolderId != -1) + 1;
-            return _mongoRepository.Add(entity) ? entity : null;
+            if (entity == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            entity.FolderId = (int)_mongoRepository.Count<Folders>(f => f.FolderId != -1) + 1;
+            _mongoRepository.Add(entity);
+            return entity;
         }
 
         public Files FilesFind(params object[] keyValue)
         {
-            return _mongoRepository.Get<Files>(f => f.FileId == Convert.ToInt32(keyValue[0]));
+            return _mongoRepository.Get<Files>(
+                f => f.FileId == Convert.ToInt32(keyValue[0], CultureInfo.CurrentCulture));
         }
 
         public Folders FoldersFind(params object[] keyValue)
         {
-            return _mongoRepository.Get<Folders>(f => f.FolderId == Convert.ToInt32(keyValue[0]));
+            return _mongoRepository.Get<Folders>(f =>
+                f.FolderId == Convert.ToInt32(keyValue[0], CultureInfo.CurrentCulture));
         }
 
         public void FilesModified(Files entity)
@@ -54,14 +63,14 @@ namespace FilesExplorerInDB_MongoDb.Implements
             _mongoRepository.Delete<Folders>(f => f.FolderId == entity.FolderId);
         }
 
-        public IQueryable<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
+        public List<Files> LoadFilesEntites(Expression<Func<Files, bool>> @where)
         {
-            return _mongoRepository.ToList(where).AsQueryable();
+            return _mongoRepository.ToList(where);
         }
 
-        public IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
+        public List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> @where)
         {
-            return _mongoRepository.ToList(where).AsQueryable();
+            return _mongoRepository.ToList(where);
         }
 
         public int SaveChanges()

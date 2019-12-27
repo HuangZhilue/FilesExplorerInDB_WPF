@@ -1,4 +1,5 @@
-﻿using FilesExplorerInDB_EF.EFModels;
+﻿using System;
+using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
 using Resources;
 using System.Windows.Media;
@@ -110,6 +111,7 @@ namespace FilesExplorerInDB_WPF.Models
         /// </summary>
         public void GetPropertyFromExplorerItems(ExplorerProperty property)
         {
+            if (property == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerProperty);
             TxtLabelName = property.Name;
             TxtLabelType = property.Type;
             TxtLabelOther2 = "创建时间：" + property.CreationTime;

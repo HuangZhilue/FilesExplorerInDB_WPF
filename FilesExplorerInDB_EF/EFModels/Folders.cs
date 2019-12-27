@@ -11,7 +11,7 @@ namespace FilesExplorerInDB_EF.EFModels
 
     [Mongo("FilesExplorerDB", "Folders")]
     [Table("Folders")]
-    public class Folders : MongoEntity, IFolders
+    public sealed class Folders : MongoEntity, IFolders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Folders()
@@ -23,7 +23,7 @@ namespace FilesExplorerInDB_EF.EFModels
         /// 解决Sikiro.Nosql.Mongo中内置的_Id与MSSQL中的字段不相符的问题
         /// </summary>
         [NotMapped]
-        protected new string Id { get; set; }
+        private new string Id { get; set; }
 
 
         [Key]
@@ -48,7 +48,7 @@ namespace FilesExplorerInDB_EF.EFModels
         public bool IsDelete { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Files> Files { get; set; }
+        public ICollection<Files> Files { get; set; }
 
         [NotMapped]
         public List<Folders> FolderNodes { get; set; }

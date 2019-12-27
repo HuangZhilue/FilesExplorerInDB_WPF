@@ -11,10 +11,10 @@ namespace FilesExplorerInDB_Manager.Interface
 
         string GetMessageTypeName(MonitorManager.MessageType op);
 
-        string GetOperatorName(MonitorManager.Operator op);
+        string GetOperatorType(MonitorManager.OperatorName op);
 
         void AddMonitorRecord(MonitorManager.MessageType messageType, MonitorManager.OpType opType,
-            MonitorManager.Operator operatorName, string objectName, string message);
+            MonitorManager.OperatorName operatorName, string objectName, string message);
 
         void ErrorRecord(Exception exception);
 
@@ -27,5 +27,19 @@ namespace FilesExplorerInDB_Manager.Interface
         void DeleteFolderRecord(Folders folders);
 
         void DeleteCompleteRecord(Files files, FileInfo fileInfo);
+
+        void RenameFolderRecord(Folders folders, string oldName);
+
+        void RenameFileRecord(Files files, string oldName);
+
+        void CopyFileRecord(Files files, string newFolderLocalId);
+
+        void CopyFolderRecord(Folders folders, string newFolderLocalId);
+
+        void CutFileRecord(Files files, string oldFolderLocalId);
+
+        void CutFolderRecord(Folders folders, string oldFolderLocalId);
+
+        void SetMissStateRecord(Files files);
     }
 }

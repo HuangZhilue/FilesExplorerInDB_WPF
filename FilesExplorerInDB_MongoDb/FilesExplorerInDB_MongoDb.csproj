@@ -88,6 +88,10 @@
       <Project>{df77f3eb-4f89-490f-b7e7-76d19e30ff0d}</Project>
       <Name>FilesExplorerInDB_EF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{AAA95A71-A248-4044-AC13-93B2C1A27794}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

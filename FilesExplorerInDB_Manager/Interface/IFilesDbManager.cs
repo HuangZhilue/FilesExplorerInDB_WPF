@@ -18,9 +18,11 @@ namespace FilesExplorerInDB_Manager.Interface
 
         Folders FoldersFind(params object[] keyValue);
 
-        IQueryable<Files> LoadFilesEntites(Expression<Func<Files, bool>> where);
+        List<Files> LoadFilesEntites(Expression<Func<Files, bool>> where);
 
-        IQueryable<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
+        List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
+
+        ExplorerProperty SetExplorerItem(Folders folderNow);
 
         List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow);
 

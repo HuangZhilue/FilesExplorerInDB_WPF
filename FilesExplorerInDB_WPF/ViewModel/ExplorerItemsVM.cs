@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Resources;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -110,6 +111,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     ExplorerItems.GetFolder(folderLocalId);
                     break;
             }
+
             PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
             PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
         }
@@ -202,7 +204,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("文件物理路径错误", "打开文件出错", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("文件物理路径错误", Resource.Caption_OpenFileError, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
@@ -245,7 +247,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 folderIdForPaste = ExplorerItems.FolderNow.FolderId;
             }
 
-            FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting);
+            if (!FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting))
+                MessageBox.Show("无法粘贴到被剪切的项目里面", Resource.Caption_Info);
             if (IsCutting) MouseLeftButtonDown(SelectItemForPaste);
             Refresh();
             IsCopying = false;
@@ -264,7 +267,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show("错误", ex.Message, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message, Resource.Caption_Error, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -308,8 +311,16 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Property()
         {
-            if (SelectItem == null || SelectItem.Count < 1) return;
-            PropertyWindowVM.SetProperty(SelectItem[0]);
+            if (SelectItem == null || SelectItem.Count < 1)
+            {
+                var f = ExplorerItems.FolderNow;
+                var e = FilesDbManager.SetExplorerItem(f);
+                PropertyWindowVM.SetProperty(e);
+            }
+            else
+            {
+                PropertyWindowVM.SetProperty(SelectItem[0]);
+            }
             bool? result = WindowManager.Show(nameof(PropertyWindow), true);
             if (result != null && result == true)
                 Refresh();
@@ -333,12 +344,12 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 else if (Directory.Exists(s))
                 {
                     // 是文件夹
-                    MessageBox.Show("暂不支持文件夹拖放操作！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("暂不支持文件夹拖放操作！", Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     // 都不是
-                    MessageBox.Show("未检测到文件！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("未检测到文件！", Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }

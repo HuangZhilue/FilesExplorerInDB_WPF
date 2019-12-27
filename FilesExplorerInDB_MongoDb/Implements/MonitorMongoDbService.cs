@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
+using Resources;
 using Sikiro.Nosql.Mongo;
 
 namespace FilesExplorerInDB_MongoDb.Implements
@@ -14,13 +17,15 @@ namespace FilesExplorerInDB_MongoDb.Implements
 
         public Monitor MonitorAdd(Monitor entity)
         {
-            entity.MonitorId = _mongoRepository.Count<Monitor>(f => f.MonitorId != -1) + 1;
-            return _mongoRepository.Add(entity) ? entity : null;
+            if (entity == null) throw new Exception(Resource.Message_ArgumentNullException_Monitor);
+            entity.MonitorId = (int)_mongoRepository.Count<Monitor>(f => f.MonitorId != -1) + 1;
+            _mongoRepository.Add(entity);
+            return entity;
         }
 
         public Monitor MonitorFind(params object[] keyValue)
         {
-            return _mongoRepository.Get<Monitor>(f => f.MonitorId == Convert.ToInt32(keyValue[0]));
+            return _mongoRepository.Get<Monitor>(f => f.MonitorId == Convert.ToInt32(keyValue[0],CultureInfo.CurrentCulture));
         }
 
         public void MonitorModified(Monitor entity)
@@ -33,9 +38,9 @@ namespace FilesExplorerInDB_MongoDb.Implements
             _mongoRepository.Delete<Monitor>(f => f.MonitorId == entity.MonitorId);
         }
 
-        public IQueryable<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where)
+        public List<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where)
         {
-            return _mongoRepository.ToList(where).AsQueryable();
+            return _mongoRepository.ToList(where);
         }
 
         public int SaveChanges()

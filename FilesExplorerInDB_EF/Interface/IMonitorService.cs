@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FilesExplorerInDB_EF.EFModels;
@@ -15,7 +16,7 @@ namespace FilesExplorerInDB_EF.Interface
 
         void MonitorRemove(Monitor entity);
 
-        IQueryable<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where);
+        List<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> @where);
 
         int SaveChanges();
     }
