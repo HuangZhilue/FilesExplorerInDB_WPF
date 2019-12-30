@@ -200,6 +200,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 无法粘贴到被剪切的项目里面 的本地化字符串。
+        /// </summary>
+        public static string Message_PasteError {
+            get {
+                return ResourceManager.GetString("Message_PasteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Folders查询结果为NULL 的本地化字符串。
+        /// </summary>
+        public static string Message_ResultIsNull_Folders {
+            get {
+                return ResourceManager.GetString("Message_ResultIsNull_Folders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 MessageBoxResult 的本地化字符串。
         /// </summary>
         public static string MessageBoxResult {

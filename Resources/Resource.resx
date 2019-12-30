@@ -166,6 +166,12 @@
   <data name="Message_ArgumentNullException_Monitor" xml:space="preserve">
     <value>参数Monitor不能为NULL</value>
   </data>
+  <data name="Message_PasteError" xml:space="preserve">
+    <value>无法粘贴到被剪切的项目里面</value>
+  </data>
+  <data name="Message_ResultIsNull_Folders" xml:space="preserve">
+    <value>Folders查询结果为NULL</value>
+  </data>
   <data name="Messgae_ArgumentOutOfRangeException" xml:space="preserve">
     <value>ArgumentOutOfRangeException</value>
   </data>

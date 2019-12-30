@@ -247,8 +247,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 folderIdForPaste = ExplorerItems.FolderNow.FolderId;
             }
 
-            if (!FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting))
-                MessageBox.Show("无法粘贴到被剪切的项目里面", Resource.Caption_Info);
+            FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting);
             if (IsCutting) MouseLeftButtonDown(SelectItemForPaste);
             Refresh();
             IsCopying = false;

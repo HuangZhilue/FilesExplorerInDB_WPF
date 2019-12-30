@@ -114,6 +114,7 @@ namespace FilesExplorerInDB_Manager.Implements
             if (localFolderId < 0) localFolderId = 0;
             var list = new List<ExplorerProperty>();
             folderNow = FoldersFind(localFolderId);
+            if (folderNow == null) throw new Exception(Resource.Message_ResultIsNull_Folders);
             Debug.WriteLine(folderNow);
             folderNow.FolderNodes = LoadFoldersEntites(f => f.FolderLocalId == localFolderId && f.IsDelete == false)
                 .ToList();
@@ -247,7 +248,7 @@ namespace FilesExplorerInDB_Manager.Implements
                         {
                             if (idForCheck == -1) break;
                             var f = FoldersFind(idForCheck);
-                            if (f.FolderId == item.Id) return false;
+                            if (f.FolderId == item.Id) throw new Exception(Resource.Message_PasteError);
                             idForCheck = f.FolderLocalId;
                         }
 
