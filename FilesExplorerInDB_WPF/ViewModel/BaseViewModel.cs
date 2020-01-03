@@ -9,7 +9,10 @@ namespace FilesExplorerInDB_WPF.ViewModel
 {
     public enum SettingType
     {
-        FileStorageLocation
+        FileStorageLocation,
+        IsLocal,
+        DBType,
+        ConnectionString
     }
 
     public class BaseViewModel
@@ -29,6 +32,15 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 case SettingType.FileStorageLocation:
                     Settings.FileStorageLocation = (string) value;
                     break;
+                case SettingType.IsLocal:
+                    Settings.IsLocal = (bool)value;
+                    break;
+                case SettingType.DBType:
+                    Settings.DBType = (string)value;
+                    break;
+                case SettingType.ConnectionString:
+                    Settings.ConnectionString = (string)value;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -42,6 +54,12 @@ namespace FilesExplorerInDB_WPF.ViewModel
             {
                 case SettingType.FileStorageLocation:
                     return Settings.FileStorageLocation;
+                case SettingType.IsLocal:
+                    return Settings.IsLocal;
+                case SettingType.DBType:
+                    return Settings.DBType;
+                case SettingType.ConnectionString:
+                    return Settings.ConnectionString;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

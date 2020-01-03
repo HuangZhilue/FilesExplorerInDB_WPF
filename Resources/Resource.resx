@@ -181,4 +181,10 @@
   <data name="Property_Type_Folder" xml:space="preserve">
     <value>文件夹</value>
   </data>
+  <data name="Settings_IsLocal_False" xml:space="preserve">
+    <value>数据库在远程计算机或远程服务器中</value>
+  </data>
+  <data name="Settings_IsLocal_True" xml:space="preserve">
+    <value>数据库在当前计算机中</value>
+  </data>
 </root>

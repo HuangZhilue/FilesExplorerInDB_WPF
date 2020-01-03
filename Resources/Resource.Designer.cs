@@ -252,5 +252,23 @@ namespace Resources {
                 return ResourceManager.GetString("Property_Type_Folder", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 数据库在远程计算机或远程服务器中 的本地化字符串。
+        /// </summary>
+        public static string Settings_IsLocal_False {
+            get {
+                return ResourceManager.GetString("Settings_IsLocal_False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据库在当前计算机中 的本地化字符串。
+        /// </summary>
+        public static string Settings_IsLocal_True {
+            get {
+                return ResourceManager.GetString("Settings_IsLocal_True", resourceCulture);
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FilesExplorerInDB_WPF.Helper;
 using System.Windows;
-using FilesExplorerInDB_EF.EFModels;
+//using FilesExplorerInDB_EF.EFModels;
 
 namespace FilesExplorerInDB_WPF
 {
@@ -35,6 +35,7 @@ namespace FilesExplorerInDB_WPF
             //}
             InitializeComponent();
             WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
+            WindowManager.Register<SettingsWindow>(nameof(SettingsWindow));
         }
     }
 }

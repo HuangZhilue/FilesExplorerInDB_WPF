@@ -38,6 +38,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand CommandDelete { get; }
         public ICommand CommandRename { get; }
         public ICommand CommandProperty { get; }
+        public ICommand CommandSettings { get; }
         public ICommand CommandLostFocus { get; }
         public ICommand CommandPreviewKeyDown { get; }
 
@@ -80,6 +81,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandOpen = new DelegateCommand(Open);
             CommandPaste = new DelegateCommand(Paste);
             CommandProperty = new DelegateCommand(Property);
+            CommandSettings = new DelegateCommand(Settings);
             CommandRefresh = new DelegateCommand(Refresh);
             CommandRefreshAll = new DelegateCommand(RefreshAll);
             CommandRename = new DelegateCommand(Rename);
@@ -323,6 +325,11 @@ namespace FilesExplorerInDB_WPF.ViewModel
             bool? result = WindowManager.Show(nameof(PropertyWindow), true);
             if (result != null && result == true)
                 Refresh();
+        }
+
+        private void Settings()
+        {
+            WindowManager.Show(nameof(SettingsWindow), true);
         }
 
         public void OnFileDrop(string[] filePaths)

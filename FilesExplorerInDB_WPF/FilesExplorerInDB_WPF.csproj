@@ -197,16 +197,21 @@
     <Compile Include="Models\FolderTree.cs" />
     <Compile Include="Models\PathViewModel.cs" />
     <Compile Include="Models\PropertyItems.cs" />
+    <Compile Include="Models\SettingsWindowModel.cs" />
     <Compile Include="Models\PropertyWindowModel.cs" />
     <Compile Include="PropertyWindow.xaml.cs">
       <DependentUpon>PropertyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ExplorerItemsVM.cs" />
     <Compile Include="ViewModel\FolderTreeVM.cs" />
     <Compile Include="ViewModel\PathViewVM.cs" />
     <Compile Include="ViewModel\PropertyItemVM.cs" />
+    <Compile Include="ViewModel\SettingsWindowVM.cs" />
     <Compile Include="ViewModel\PropertyWindowVM.cs" />
     <Compile Include="View\Explorer.xaml.cs">
       <DependentUpon>Explorer.xaml</DependentUpon>
@@ -240,6 +245,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PropertyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

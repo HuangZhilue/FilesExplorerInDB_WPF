@@ -25,20 +25,30 @@ namespace FilesExplorerInDB_WPF
             // Process unhandled exception
             if (e.Exception != null)
             {
+#if DEBUG
                 Debug.WriteLine($"Exception.Message:\t{e.Exception.Message}");
                 Debug.WriteLine($"Exception.Source:\t{e.Exception.Source}");
                 Debug.WriteLine($"Exception.StackTrace:\t{e.Exception.StackTrace}");
 
                 MessageBox.Show(e.Exception.Message + "\r\n" + e.Exception.StackTrace, Resource.Caption_Error,
                     MessageBoxButton.OK, MessageBoxImage.Error);
+#else
+                MessageBox.Show(e.Exception.Message, Resource.Caption_Error, MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+#endif
                 if (e.Exception.InnerException != null)
                 {
+#if DEBUG
                     Debug.WriteLine($"Exception.InnerException.Message:\t{e.Exception.InnerException.Message}");
                     Debug.WriteLine($"Exception.InnerException.Source:\t{e.Exception.InnerException.Source}");
                     Debug.WriteLine($"Exception.InnerException.StackTrace:\t{e.Exception.InnerException.StackTrace}");
 
-                    MessageBox.Show(e.Exception.InnerException.Message + "\r\n" + e.Exception.InnerException.StackTrace, Resource.Caption_Error,
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(e.Exception.InnerException.Message + "\r\n" + e.Exception.InnerException.StackTrace,
+                        Resource.Caption_Error, MessageBoxButton.OK, MessageBoxImage.Error);
+#else
+                    MessageBox.Show(e.Exception.InnerException.Message, Resource.Caption_Error, MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+#endif
                 }
 
                 UnityContainerHelp.GetServer<IMonitorManager>().ErrorRecord(e.Exception);
