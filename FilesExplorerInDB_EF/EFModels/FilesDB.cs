@@ -5,7 +5,7 @@ namespace FilesExplorerInDB_EF.EFModels
 {
     using System.Data.Entity;
 
-    public sealed class FilesDB : DbContext//, IFilesDB
+    public sealed class FilesDB : DbContext //, IFilesDB
     {
         public static FilesDB GetFilesDb { get; } = new FilesDB();
 
@@ -20,7 +20,7 @@ namespace FilesExplorerInDB_EF.EFModels
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            if(modelBuilder==null)throw new Exception(Resource.Message_ArgumentNullException_DbModelBuilder);
+            if (modelBuilder == null) throw new Exception(Resource.Message_ArgumentNullException_DbModelBuilder);
             modelBuilder.Entity<Folders>()
                 .HasMany(e => e.Files)
                 .WithRequired(e => e.Folders)

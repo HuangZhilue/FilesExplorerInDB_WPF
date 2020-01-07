@@ -8,12 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FilesExplorerInDB_WPF.Properties {
+namespace Resources.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -61,13 +61,52 @@ namespace FilesExplorerInDB_WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("server=127.0.0.1;port=3306;database=FilesExplorerDB;uid=root;password=admin9647;s" +
+            "slmode=none;AllowPublicKeyRetrieval=true;")]
+        public string ConnectionString4MySQL {
             get {
-                return ((string)(this["ConnectionString"]));
+                return ((string)(this["ConnectionString4MySQL"]));
             }
             set {
-                this["ConnectionString"] = value;
+                this["ConnectionString4MySQL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=127.0.0.1;initial catalog=FilesExplorerDB;persist security info=True;" +
+            "user id=sa;password=sasasa;multipleactiveresultsets=True;App=EntityFramework")]
+        public string ConnectionString4MSSQL {
+            get {
+                return ((string)(this["ConnectionString4MSSQL"]));
+            }
+            set {
+                this["ConnectionString4MSSQL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("User Id=&quot;dbo&quot;;Password=admin9112;Data Source=(DESCRIPTION=(ADDRESS=(PRO" +
+            "TOCOL=tcp)(HOST=192.168.68.240)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl))) ")]
+        public string ConnectionString4Oracle {
+            get {
+                return ((string)(this["ConnectionString4Oracle"]));
+            }
+            set {
+                this["ConnectionString4Oracle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mongodb://127.0.0.1:27017")]
+        public string ConnectionString4MongoDB {
+            get {
+                return ((string)(this["ConnectionString4MongoDB"]));
+            }
+            set {
+                this["ConnectionString4MongoDB"] = value;
             }
         }
     }

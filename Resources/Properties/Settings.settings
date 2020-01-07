@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Resources.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FileStorageLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="IsLocal" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DBType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MySQL</Value>
+    </Setting>
+    <Setting Name="ConnectionString4MySQL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">server=127.0.0.1;port=3306;database=FilesExplorerDB;uid=root;password=admin9647;sslmode=none;AllowPublicKeyRetrieval=true;</Value>
+    </Setting>
+    <Setting Name="ConnectionString4MSSQL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">data source=127.0.0.1;initial catalog=FilesExplorerDB;persist security info=True;user id=sa;password=sasasa;multipleactiveresultsets=True;App=EntityFramework</Value>
+    </Setting>
+    <Setting Name="ConnectionString4Oracle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">User Id=&amp;quot;dbo&amp;quot;;Password=admin9112;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.68.240)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl))) </Value>
+    </Setting>
+    <Setting Name="ConnectionString4MongoDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mongodb://127.0.0.1:27017</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

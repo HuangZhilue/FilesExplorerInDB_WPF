@@ -12,10 +12,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Resources.Properties;
+using static System.String;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
@@ -26,6 +29,7 @@ namespace FilesExplorerInDB_Manager.Implements
         private IMonitorManager MonitorManager { get; } = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty Property { get; set; }
         private FilesDbManager DbManager { get; set; }
+        private static Settings Settings { get; } = new Settings();
 
         #region 基础操作
 
@@ -128,7 +132,7 @@ namespace FilesExplorerInDB_Manager.Implements
             {
                 if (file.IsDelete) continue;
                 if (file.IsMiss) imageBitmap = Resource.fileNotFount;
-                list.Add(SetExplorerItems_Files(file, imageBitmap, Resource.fileNotFount));
+                list.Add(SetExplorerItems_Files(file, imageBitmap));
                 imageBitmap = Resource.DEFAULT;
             }
 
@@ -148,9 +152,8 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="file">文件</param>
         /// <param name="defaultBitmap">默认的文件类型图标</param>
-        /// <param name="errorBitmap">错误标识的图标</param>
         /// <returns>文件信息</returns>
-        private ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap)
+        private ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap)
         {
             Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
             Property.Id = file.FileId;
@@ -162,20 +165,20 @@ namespace FilesExplorerInDB_Manager.Implements
             Property.ModifyTime = file.ModifyTime.ToString(CultureInfo.CurrentCulture);
             Property.Size = file.Size;
             Property.Type = file.FileType;
-            if (file.RealName != null && File.Exists(file.RealName))
+            if (CheckFilePath(file))
             {
                 Property.ImageSource =
                     GetImage(FileIcon.GetBitmapFromFilePath(file.RealName,
                         Implements.FileIcon.IconSizeEnum.ExtraLargeIcon));
             }
-            else if (file.RealName == null)
-            {
-                Property.ImageSource = GetImage(defaultBitmap);
-            }
+            //else if (IsNullOrWhiteSpace(file.RealName))
+            //{
+            //    Property.ImageSource = GetImage(defaultBitmap);
+            //}
             else
             {
                 SetFilesProperty(file.FileId);
-                Property.ImageSource = GetImage(errorBitmap);
+                Property.ImageSource = GetImage(Resource.fileNotFount);
             }
 
             return Property;
@@ -613,10 +616,10 @@ namespace FilesExplorerInDB_Manager.Implements
         public Files SetFilesProperty(int filesId)
         {
             Files files = FilesFind(filesId);
-            if (files?.RealName != null)
+            if (files != null && !IsNullOrWhiteSpace(files.RealName))
             {
                 FileInfo fileInfo = new FileInfo(files.RealName);
-                if (fileInfo.Exists)
+                if (fileInfo.Exists && CheckFilePath(files))
                 {
                     files.AccessTime = fileInfo.LastAccessTime;
                     files.CreationTime = fileInfo.CreationTime;
@@ -721,5 +724,21 @@ namespace FilesExplorerInDB_Manager.Implements
         }
 
         #endregion
+
+        private bool CheckFilePath(Files files)
+        {
+            if (files == null || IsNullOrWhiteSpace(files.RealName)) return false;
+            if (!File.Exists(files.RealName)) return false;
+            var nameMatches = Regex.Matches(files.RealName, @"\d+\." + files.FileType);
+            if (nameMatches.Count < 1)
+            {
+                Debug.WriteLine("CheckFilePath Error");
+                return false;
+            }
+            var name = nameMatches[nameMatches.Count - 1];
+            if (!File.Exists(Settings.FileStorageLocation + "\\" + name)) return false;
+
+            return true;
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace Command
             //Container = new UnityContainer();
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
             Container.LoadConfiguration(section, "FirstClass");
+            Container.LoadConfiguration(section, "EF_SQL");
         }
 
         public static T GetServer<T>()

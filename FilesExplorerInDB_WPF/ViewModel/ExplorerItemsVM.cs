@@ -198,15 +198,18 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
             else
             {
-                string path = (GetSetting(SettingType.FileStorageLocation) as string) + SelectItem[0].Id + "." +
-                              SelectItem[0].Type;
-                if (File.Exists(path))
+                Files files = FilesDbManager.FilesFind(SelectItem[0].Id);
+                if (files != null)
                 {
-                    System.Diagnostics.Process.Start(path);
-                }
-                else
-                {
-                    MessageBox.Show("文件物理路径错误", Resource.Caption_OpenFileError, MessageBoxButton.OK, MessageBoxImage.Information);
+                    var path = files.RealName;
+                    if (File.Exists(path))
+                    {
+                        System.Diagnostics.Process.Start(path);
+                    }
+                    else
+                    {
+                        MessageBox.Show("文件物理路径错误", Resource.Caption_OpenFileError, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
         }

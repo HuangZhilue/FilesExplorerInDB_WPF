@@ -14,7 +14,6 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand CommandEnter { get; }
         public ICommand CommandCheckLocal { get; }
         public ICommand CommandDBTypeChange { get; }
-        public ICommand CommandGetPath { get; }
 
         public static SettingsWindowVM GetInstance { get; } = new SettingsWindowVM();
 
@@ -24,7 +23,6 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandEnter = new DelegateCommand(Enter);
             CommandCheckLocal = new DelegateCommand(CheckLocal);
             CommandDBTypeChange = new DelegateCommand(DBTypeChange);
-            CommandGetPath = new DelegateCommand(GetPath);
             SetSettings_DBSetting();
         }
 
@@ -36,7 +34,25 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 : Resource.Settings_IsLocal_False;
             SettingsWindowModel.DBType = GetSetting(SettingType.DBType).ToString();
             SettingsWindowModel.DBTypeText = $"{SettingsWindowModel.DBType}数据库";
-            SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString).ToString();
+            switch (SettingsWindowModel.DBType)
+            {
+                case "MySQL":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MySQL).ToString();
+                    break;
+                case "SQL Server":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MSSQL).ToString();
+                    break;
+                case "Oracle":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4Oracle).ToString();
+                    break;
+                case "MongoDB":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MongoDB).ToString();
+                    break;
+                default:
+                    SettingsWindowModel.ConnectionString = "";
+                    break;
+            }
+
             if (SettingsWindowModel.IsLocal)
             {
                 SettingsWindowModel.IsVisibilityFileStorageLocation = Visibility.Visible;
@@ -65,6 +81,24 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private void DBTypeChange()
         {
             SettingsWindowModel.DBTypeText = $"{SettingsWindowModel.DBType}数据库";
+            switch (SettingsWindowModel.DBType)
+            {
+                case "MySQL":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MySQL).ToString();
+                    break;
+                case "SQL Server":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MSSQL).ToString();
+                    break;
+                case "Oracle":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4Oracle).ToString();
+                    break;
+                case "MongoDB":
+                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MongoDB).ToString();
+                    break;
+                default:
+                    SettingsWindowModel.ConnectionString = "";
+                    break;
+            }
         }
 
         private void Enter()
@@ -74,17 +108,31 @@ namespace FilesExplorerInDB_WPF.ViewModel
             Close();
         }
 
-        private void GetPath()
-        {
-
-        }
-
         private void SaveSettings_DBSetting()
         {
             SaveSetting(SettingType.IsLocal, SettingsWindowModel.IsLocal);
             SaveSetting(SettingType.DBType, SettingsWindowModel.DBType);
-            SaveSetting(SettingType.ConnectionString, SettingsWindowModel.ConnectionString);
+            switch (SettingsWindowModel.DBType)
+            {
+                case "MySQL":
+                    SaveSetting(SettingType.ConnectionString4MySQL, SettingsWindowModel.ConnectionString);
+                    break;
+                case "SQL Server":
+                    SaveSetting(SettingType.ConnectionString4MSSQL, SettingsWindowModel.ConnectionString);
+                    break;
+                case "Oracle":
+                    SaveSetting(SettingType.ConnectionString4Oracle, SettingsWindowModel.ConnectionString);
+                    break;
+                case "MongoDB":
+                    SaveSetting(SettingType.ConnectionString4MongoDB, SettingsWindowModel.ConnectionString);
+                    break;
+            }
             SaveSetting(SettingType.FileStorageLocation, SettingsWindowModel.FileStorageLocation);
+
+            var result = MessageBox.Show("立即重启？", Resource.Caption_Info, MessageBoxButton.YesNo);
+            if (result != MessageBoxResult.Yes) return;
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
     }
 }

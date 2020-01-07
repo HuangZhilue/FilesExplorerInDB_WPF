@@ -1,6 +1,6 @@
 ﻿using Command;
 using FilesExplorerInDB_Manager.Interface;
-using FilesExplorerInDB_WPF.Properties;
+using Resources.Properties;
 using System;
 using System.IO;
 using static System.String;
@@ -12,7 +12,10 @@ namespace FilesExplorerInDB_WPF.ViewModel
         FileStorageLocation,
         IsLocal,
         DBType,
-        ConnectionString
+        ConnectionString4MySQL,
+        ConnectionString4MSSQL,
+        ConnectionString4Oracle,
+        ConnectionString4MongoDB
     }
 
     public class BaseViewModel
@@ -38,8 +41,17 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 case SettingType.DBType:
                     Settings.DBType = (string)value;
                     break;
-                case SettingType.ConnectionString:
-                    Settings.ConnectionString = (string)value;
+                case SettingType.ConnectionString4MySQL:
+                    Settings.ConnectionString4MySQL = (string)value;
+                    break;
+                case SettingType.ConnectionString4MSSQL:
+                    Settings.ConnectionString4MSSQL = (string)value;
+                    break;
+                case SettingType.ConnectionString4Oracle:
+                    Settings.ConnectionString4Oracle = (string)value;
+                    break;
+                case SettingType.ConnectionString4MongoDB:
+                    Settings.ConnectionString4MongoDB = (string)value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -58,8 +70,14 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     return Settings.IsLocal;
                 case SettingType.DBType:
                     return Settings.DBType;
-                case SettingType.ConnectionString:
-                    return Settings.ConnectionString;
+                case SettingType.ConnectionString4MySQL:
+                    return Settings.ConnectionString4MySQL;
+                case SettingType.ConnectionString4MSSQL:
+                    return Settings.ConnectionString4MSSQL;
+                case SettingType.ConnectionString4Oracle:
+                    return Settings.ConnectionString4Oracle;
+                case SettingType.ConnectionString4MongoDB:
+                    return Settings.ConnectionString4MongoDB;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
