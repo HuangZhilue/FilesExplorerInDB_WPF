@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Resources;
+using static Resources.Properties.Settings;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {

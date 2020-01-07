@@ -621,6 +621,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 FileInfo fileInfo = new FileInfo(files.RealName);
                 if (fileInfo.Exists && CheckFilePath(files))
                 {
+                    files.IsMiss = false;
                     files.AccessTime = fileInfo.LastAccessTime;
                     files.CreationTime = fileInfo.CreationTime;
                     files.ModifyTime = fileInfo.LastWriteTime;
@@ -736,8 +737,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 return false;
             }
             var name = nameMatches[nameMatches.Count - 1];
-            if (!File.Exists(Settings.FileStorageLocation + "\\" + name)) return false;
-
+            if (!File.Exists(Settings.GetSetting(Settings.SettingType.FileStorageLocation) + "\\" + name)) return false;
             return true;
         }
     }
