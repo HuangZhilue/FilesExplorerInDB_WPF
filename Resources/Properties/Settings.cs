@@ -114,6 +114,24 @@ namespace Resources.Properties
             }
         }
 
+        public static string GetConnectionString()
+        {
+            var dbType = GetSetting(SettingType.DBType).ToString();
+            switch (dbType)
+            {
+                case "MySQL":
+                    return SettingsInstance.ConnectionString4MySQL;
+                case "SQL Server":
+                    return SettingsInstance.ConnectionString4MSSQL;
+                case "Oracle":
+                    return SettingsInstance.ConnectionString4Oracle;
+                case "MongoDB":
+                    return SettingsInstance.ConnectionString4MongoDB;
+                default:
+                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
+            }
+        }
+
         public enum SettingType
         {
             FileStorageLocation,

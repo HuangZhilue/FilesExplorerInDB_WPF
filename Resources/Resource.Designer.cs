@@ -200,6 +200,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 找不到对应的数据库类型 的本地化字符串。
+        /// </summary>
+        public static string Message_ArgumentOutOfRangeException_DBType {
+            get {
+                return ResourceManager.GetString("Message_ArgumentOutOfRangeException_DBType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法粘贴到被剪切的项目里面 的本地化字符串。
         /// </summary>
         public static string Message_PasteError {

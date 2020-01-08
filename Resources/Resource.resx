@@ -166,6 +166,9 @@
   <data name="Message_ArgumentNullException_Monitor" xml:space="preserve">
     <value>参数Monitor不能为NULL</value>
   </data>
+  <data name="Message_ArgumentOutOfRangeException_DBType" xml:space="preserve">
+    <value>找不到对应的数据库类型</value>
+  </data>
   <data name="Message_PasteError" xml:space="preserve">
     <value>无法粘贴到被剪切的项目里面</value>
   </data>
