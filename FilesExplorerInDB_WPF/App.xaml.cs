@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using Command;
 using FilesExplorerInDB_Manager.Interface;
+using FilesExplorerInDB_WPF.Helper;
 using Resources;
 
 namespace FilesExplorerInDB_WPF
@@ -12,6 +14,8 @@ namespace FilesExplorerInDB_WPF
     /// </summary>
     public partial class App : Application
     {
+        private static string ErrorType { get; set; } = "";
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -36,26 +40,42 @@ namespace FilesExplorerInDB_WPF
                 MessageBox.Show(e.Exception.Message, Resource.Caption_Error, MessageBoxButton.OK,
                     MessageBoxImage.Error);
 #endif
-                if (e.Exception.InnerException != null)
+                GetInnerException(e.Exception);
+                if (ErrorType == "无法连接")
                 {
-#if DEBUG
-                    Debug.WriteLine($"Exception.InnerException.Message:\t{e.Exception.InnerException.Message}");
-                    Debug.WriteLine($"Exception.InnerException.Source:\t{e.Exception.InnerException.Source}");
-                    Debug.WriteLine($"Exception.InnerException.StackTrace:\t{e.Exception.InnerException.StackTrace}");
+                    WindowManager.Register<SettingsWindow>(nameof(SettingsWindow));
+                    WindowManager.Show(nameof(SettingsWindow), false);
+                }
+                else
+                {
+                    UnityContainerHelp.GetServer<IMonitorManager>().ErrorRecord(e.Exception);
+                }
+            }
 
-                    MessageBox.Show(e.Exception.InnerException.Message + "\r\n" + e.Exception.InnerException.StackTrace,
-                        Resource.Caption_Error, MessageBoxButton.OK, MessageBoxImage.Error);
+            ErrorType = "";
+
+            // Prevent default unhandled exception processing
+            e.Handled = true;
+        }
+
+        void GetInnerException(Exception e)
+        {
+            if (e.InnerException != null)
+            {
+#if DEBUG
+                Debug.WriteLine($"Exception.InnerException.Message:\t{e.InnerException.Message}");
+                Debug.WriteLine($"Exception.InnerException.Source:\t{e.InnerException.Source}");
+                Debug.WriteLine($"Exception.InnerException.StackTrace:\t{e.InnerException.StackTrace}");
+
+                MessageBox.Show(e.InnerException.Message + "\r\n" + e.InnerException.StackTrace,
+                    Resource.Caption_Error, MessageBoxButton.OK, MessageBoxImage.Error);
 #else
                     MessageBox.Show(e.Exception.InnerException.Message, Resource.Caption_Error, MessageBoxButton.OK,
                         MessageBoxImage.Error);
 #endif
-                }
-
-                UnityContainerHelp.GetServer<IMonitorManager>().ErrorRecord(e.Exception);
+                if (e.InnerException.Message.Contains("无法连接")) ErrorType = "无法连接";
+                if (e.InnerException.InnerException != null) GetInnerException(e.InnerException);
             }
-
-            // Prevent default unhandled exception processing
-            e.Handled = true;
         }
     }
 }

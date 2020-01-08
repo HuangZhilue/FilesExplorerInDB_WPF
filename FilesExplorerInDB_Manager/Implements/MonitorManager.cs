@@ -164,17 +164,26 @@ namespace FilesExplorerInDB_Manager.Implements
                 message += "位置信息：" + Environment.NewLine + exception.StackTrace;
                 message += Environment.NewLine;
 
-                if (exception.InnerException != null)
-                {
-                    message += "内部异常信息：" + Environment.NewLine + exception.InnerException.Message;
-                    message += Environment.NewLine;
-                    message += "输出信息：错误位置" + Environment.NewLine;
-                    message += "位置信息：" + Environment.NewLine + exception.InnerException.StackTrace;
-                    message += Environment.NewLine;
-                }
+                GetInnerException(exception);
 
                 AddMonitorRecord(MessageType.Danger, OpType.SystemError, OperatorName.System, exception.Source, message);
             }
+        }
+
+        private string GetInnerException(Exception e)
+        {
+            var message = "";
+            if (e.InnerException != null)
+            {
+                message += "内部异常信息：" + Environment.NewLine + e.InnerException.Message;
+                message += Environment.NewLine;
+                message += "输出信息：错误位置" + Environment.NewLine;
+                message += "位置信息：" + Environment.NewLine + e.InnerException.StackTrace;
+                message += Environment.NewLine;
+                if (e.InnerException.InnerException != null) message += GetInnerException(e.InnerException);
+            }
+
+            return message;
         }
 
         /// <summary>
