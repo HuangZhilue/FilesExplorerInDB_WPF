@@ -1,6 +1,7 @@
 using System;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.SqlServer;
 using MySql.Data.EntityFramework;
 using MySql.Data.MySqlClient;
 using Oracle.ManagedDataAccess.EntityFramework;
@@ -45,7 +46,27 @@ namespace FilesExplorerInDB_EF.EFModels
 
         public MultipleDbConfiguration()
         {
-            SetProviderServices(MySqlProviderInvariantName.ProviderName, new MySqlProviderServices());
+            //SetProviderServices(MySqlProviderInvariantName.ProviderName, new MySqlProviderServices());
+
+            var dbType = GetSetting(SettingType.DBType).ToString();
+            switch (dbType)
+            {
+                case "MySQL":
+                    SetProviderServices(MySqlProviderInvariantName.ProviderName, new MySqlProviderServices());
+                    break;
+                case "SQL Server":
+                    //TODO 视乎SQL Server并不需要在这里进行处理
+                    //SetProviderServices(SqlProviderServices.ProviderInvariantName, SqlProviderServices.Instance);
+                    break;
+                case "Oracle":
+                    SetProviderServices("Oracle.ManagedDataAccess.Client", EFOracleProviderServices.Instance);
+                    break;
+                //case "MongoDB":
+                //    var mongodbFactory = new MySqlConnectionFactory();
+                //    return mongodbFactory.CreateConnection(GetConnectionString());
+                default:
+                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
+            }
         }
 
         #endregion Constructors
@@ -54,6 +75,7 @@ namespace FilesExplorerInDB_EF.EFModels
 
         public static DbConnection GetMyConnection()
         {
+            //var multipleDbConfiguration = new MultipleDbConfiguration();
             var dbType = GetSetting(SettingType.DBType).ToString();
             switch (dbType)
             {
@@ -61,20 +83,14 @@ namespace FilesExplorerInDB_EF.EFModels
                     var mysqlFactory = new MySqlConnectionFactory();
                     return mysqlFactory.CreateConnection(GetConnectionString());
                 case "SQL Server":
-                    var mssqlFactory = new SqlConnectionFactory();
+                    var mssqlFactory = new LocalDbConnectionFactory();
                     return mssqlFactory.CreateConnection(GetConnectionString());
                 case "Oracle":
                     var oracleFactory = new OracleConnectionFactory();
                     return oracleFactory.CreateConnection(GetConnectionString());
-                //case "MongoDB":
-                //    var mongodbFactory = new MySqlConnectionFactory();
-                //    return mongodbFactory.CreateConnection(GetConnectionString());
                 default:
                     throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
             }
-            //var connectionFactory = new MySqlConnectionFactory();
-
-            //return connectionFactory.CreateConnection(connectionString);
         }
 
         #endregion Public methods

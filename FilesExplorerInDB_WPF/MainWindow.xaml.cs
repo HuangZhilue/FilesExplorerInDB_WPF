@@ -1,6 +1,7 @@
-﻿using FilesExplorerInDB_WPF.Helper;
+﻿using System;
+using FilesExplorerInDB_WPF.Helper;
 using System.Windows;
-//using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.EFModels;
 
 namespace FilesExplorerInDB_WPF
 {
@@ -28,9 +29,9 @@ namespace FilesExplorerInDB_WPF
         {
             //using (FilesDB db = new FilesDB())
             //{
-            //    db.Folders.Add(new Folders { FolderId = 0, FolderName = "root" });
-            //    db.Files.Add(new Files { FileName = "test" });
-            //    db.Monitor.Add(new Monitor { Operator = "user", MessageType = "test", OperationType = "test" });
+            //    db.Folders.Add(new Folders { FolderId = 0, FolderName = "root", ModifyTime = DateTime.Now, CreationTime = DateTime.Now});
+            //    db.Files.Add(new Files { FileName = "test", CreationTime = DateTime.Now, ModifyTime = DateTime.Now, AccessTime = DateTime.Now});
+            //    db.Monitor.Add(new Monitor { Operator = "user", MessageType = "test", OperationType = "test", Time = DateTime.Now});
             //    db.SaveChanges();
             //}
             InitializeComponent();

@@ -74,8 +74,9 @@ namespace Resources.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("data source=127.0.0.1;initial catalog=FilesExplorerDB;persist security info=True;" +
-            "user id=sa;password=sasasa;multipleactiveresultsets=True;App=EntityFramework")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=C:\\USERS\\HUANG\\DOCUMENTS\\FILES" +
+            "EXPLORERINDB.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust" +
+            "ServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")]
         public string ConnectionString4MSSQL {
             get {
                 return ((string)(this["ConnectionString4MSSQL"]));
