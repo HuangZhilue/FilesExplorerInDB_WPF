@@ -55,7 +55,7 @@ namespace FilesExplorerInDB_EF.EFModels
                     SetProviderServices(MySqlProviderInvariantName.ProviderName, new MySqlProviderServices());
                     break;
                 case "SQL Server":
-                    //TODO 视乎SQL Server并不需要在这里进行处理
+                    //TODO 似乎SQL Server并不需要在这里进行处理
                     //SetProviderServices(SqlProviderServices.ProviderInvariantName, SqlProviderServices.Instance);
                     break;
                 case "Oracle":

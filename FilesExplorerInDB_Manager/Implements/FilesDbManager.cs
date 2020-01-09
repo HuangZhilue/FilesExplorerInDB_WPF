@@ -29,7 +29,7 @@ namespace FilesExplorerInDB_Manager.Implements
         private IMonitorManager MonitorManager { get; } = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty Property { get; set; }
         private FilesDbManager DbManager { get; set; }
-        private static Settings Settings { get; } = new Settings();
+        //private static Settings Settings { get; } = new Settings();
 
         #region 基础操作
 
@@ -51,7 +51,9 @@ namespace FilesExplorerInDB_Manager.Implements
             files.Size = fileInfo.Length;
             files = FilesAdd(files, true);
             string originName = fileInfo.FullName;
-            fileInfo = fileInfo.CopyTo(pathForSave + "\\" + files.FileId + "." + files.FileType, true);
+            fileInfo = fileInfo.CopyTo(
+                pathForSave + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff", CultureInfo.CurrentCulture) + "-" + files.FileId + "." +
+                files.FileType, true);
             files.RealName = fileInfo.FullName;
             FilesModified(files, true);
             MonitorManager.AddFileRecord(originName, files);
@@ -127,13 +129,13 @@ namespace FilesExplorerInDB_Manager.Implements
                 list.Add(SetExplorerItems_Folders(folder, GetImage(Resource.folder)));
             }
 
-            var imageBitmap = Resource.DEFAULT;
+            //var imageBitmap = Resource.DEFAULT;
             foreach (var file in folderNow.Files)
             {
                 if (file.IsDelete) continue;
-                if (file.IsMiss) imageBitmap = Resource.fileNotFount;
-                list.Add(SetExplorerItems_Files(file, imageBitmap));
-                imageBitmap = Resource.DEFAULT;
+                //if (file.IsMiss) imageBitmap = Resource.fileNotFount;
+                list.Add(SetExplorerItems_Files(file/*, imageBitmap*/));
+                //imageBitmap = Resource.DEFAULT;
             }
 
             return list;
@@ -151,9 +153,9 @@ namespace FilesExplorerInDB_Manager.Implements
         /// 设置文件信息
         /// </summary>
         /// <param name="file">文件</param>
-        /// <param name="defaultBitmap">默认的文件类型图标</param>
         /// <returns>文件信息</returns>
-        private ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap)
+        //// <param name="defaultBitmap">默认的文件类型图标</param>
+        private ExplorerProperty SetExplorerItems_Files(Files file/*, Bitmap defaultBitmap*/)
         {
             Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
             Property.Id = file.FileId;
@@ -730,7 +732,8 @@ namespace FilesExplorerInDB_Manager.Implements
         {
             if (files == null || IsNullOrWhiteSpace(files.RealName)) return false;
             if (!File.Exists(files.RealName)) return false;
-            var nameMatches = Regex.Matches(files.RealName, @"\d+\." + files.FileType);
+            var nameMatches = Regex.Matches(files.RealName,
+                @"(\d+\." + files.FileType + @")|(\d+\-\d+\." + files.FileType + ")");
             if (nameMatches.Count < 1)
             {
                 Debug.WriteLine("CheckFilePath Error");
