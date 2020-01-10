@@ -139,7 +139,10 @@
                                 Visibility="Hidden"
                                 d:LayoutOverrides="Height" />
                         </Grid>
-                        <Grid x:Name="Grid_FileStorageLocation" Height="30">
+                        <Grid
+                            x:Name="Grid_FileStorageLocation"
+                            Height="30"
+                            Visibility="{Binding SettingsWindowModel.IsVisibilityFileStorageLocation, Source={x:Static viewModel:SettingsWindowVM.GetInstance}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition />

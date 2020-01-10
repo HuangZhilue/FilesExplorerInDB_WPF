@@ -1,4 +1,5 @@
-﻿using FilesExplorerInDB_WPF.Helper;
+﻿using System.Diagnostics;
+using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
 using Resources;
@@ -62,7 +63,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             else
             {
                 SettingsWindowModel.IsVisibilityFileStorageLocation = Visibility.Collapsed;
-                SettingsWindowModel.FileStorageLocation = "";
+                //SettingsWindowModel.FileStorageLocation = "";
             }
         }
 
@@ -73,7 +74,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void CheckLocal()
         {
-            SettingsWindowModel.IsVisibilityFileStorageLocation = SettingsWindowModel.IsLocal ? Visibility.Collapsed : Visibility.Visible;
+            SettingsWindowModel.IsVisibilityFileStorageLocation =
+                SettingsWindowModel.IsLocal ? Visibility.Visible : Visibility.Collapsed;
             SettingsWindowModel.IsLocalText = SettingsWindowModel.IsLocal
                 ? Resource.Settings_IsLocal_True
                 : Resource.Settings_IsLocal_False;
@@ -128,11 +130,12 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     SaveSetting(SettingType.ConnectionString4MongoDB, SettingsWindowModel.ConnectionString);
                     break;
             }
+
             SaveSetting(SettingType.FileStorageLocation, SettingsWindowModel.FileStorageLocation);
 
             var result = MessageBox.Show("立即重启？", Resource.Caption_Info, MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes) return;
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
     }
