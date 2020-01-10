@@ -114,7 +114,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     SetText_Files(files);
                 else
                 {
-                    MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留", Resource.Caption_RefreshError,
+                    MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留",
+                        Resource.Caption_RefreshError,
                         MessageBoxButton.YesNo, MessageBoxImage.Error);
                     switch (result)
                     {
@@ -148,25 +149,39 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private void Rename()
         {
             if (NameBackup == PropertyWindowModel.Name) return;
-            MessageBoxResult result = MessageBox.Show("确定要修改文件、文件夹名称？", Resource.Caption_Info, MessageBoxButton.OKCancel,
-                MessageBoxImage.Information);
-            if (result == MessageBoxResult.OK)
+            if (PropertyWindowModel.Name.CheckNameIsNullOrWhiteSpace())
             {
-                if (IsFolder)
-                {
-                    FilesDbManager.Rename(Folders, PropertyWindowModel.Name);
-                }
-                else
-                {
-                    FilesDbManager.Rename(Files, PropertyWindowModel.Name);
-                }
-
-                NameBackup = PropertyWindowModel.Name;
-                WindowManager.SetDialogResult(nameof(PropertyWindow), true);
+                MessageBox.Show(Resource.Message_NameCheckIsNullOrWhiteSpace, Resource.Caption_Info,
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else if (!PropertyWindowModel.Name.CheckNameIsNameRegex())
+            {
+                MessageBox.Show(Resource.Message_NameCheckError, Resource.Caption_Info, MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
             else
             {
-                PropertyWindowModel.Name = NameBackup;
+                MessageBoxResult result = MessageBox.Show("确定要修改文件、文件夹名称？", Resource.Caption_Info,
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Information);
+                if (result == MessageBoxResult.OK)
+                {
+                    if (IsFolder)
+                    {
+                        FilesDbManager.Rename(Folders, PropertyWindowModel.Name);
+                    }
+                    else
+                    {
+                        FilesDbManager.Rename(Files, PropertyWindowModel.Name);
+                    }
+
+                    NameBackup = PropertyWindowModel.Name;
+                    WindowManager.SetDialogResult(nameof(PropertyWindow), true);
+                }
+                else
+                {
+                    PropertyWindowModel.Name = NameBackup;
+                }
             }
         }
     }

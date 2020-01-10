@@ -209,6 +209,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 文件名不能为包含以下任何字符： \ / : &quot; ? * &lt; &gt; | 的本地化字符串。
+        /// </summary>
+        public static string Message_NameCheckError {
+            get {
+                return ResourceManager.GetString("Message_NameCheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文件名不能为空 的本地化字符串。
+        /// </summary>
+        public static string Message_NameCheckIsNullOrWhiteSpace {
+            get {
+                return ResourceManager.GetString("Message_NameCheckIsNullOrWhiteSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法粘贴到被剪切的项目里面 的本地化字符串。
         /// </summary>
         public static string Message_PasteError {

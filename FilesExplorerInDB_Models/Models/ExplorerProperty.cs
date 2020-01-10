@@ -14,6 +14,7 @@ namespace FilesExplorerInDB_Models.Models
         private readonly object _lock = new object();
         private string _name;
         private bool _focusable;
+        private bool _isFocused;
         private bool _isReadOnly = true;
         private int _id;
         private int _folderLocalId;
@@ -173,6 +174,16 @@ namespace FilesExplorerInDB_Models.Models
             {
                 _focusable = value;
                 OnPropertyChanged(nameof(Focusable));
+            }
+        }
+
+        public bool IsFocused
+        {
+            get => _isFocused;
+            set
+            {
+                _isFocused = value;
+                OnPropertyChanged(nameof(IsFocused));
             }
         }
     }

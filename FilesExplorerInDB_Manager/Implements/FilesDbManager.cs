@@ -28,6 +28,7 @@ namespace FilesExplorerInDB_Manager.Implements
         private IFileIcon FileIcon { get; } = UnityContainerHelp.GetServer<IFileIcon>();
         private IMonitorManager MonitorManager { get; } = UnityContainerHelp.GetServer<IMonitorManager>();
         private ExplorerProperty Property { get; set; }
+
         private FilesDbManager DbManager { get; set; }
         //private static Settings Settings { get; } = new Settings();
 
@@ -52,7 +53,8 @@ namespace FilesExplorerInDB_Manager.Implements
             files = FilesAdd(files, true);
             string originName = fileInfo.FullName;
             fileInfo = fileInfo.CopyTo(
-                pathForSave + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff", CultureInfo.CurrentCulture) + "-" + files.FileId + "." +
+                pathForSave + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff", CultureInfo.CurrentCulture) + "-" +
+                files.FileId + "." +
                 files.FileType, true);
             files.RealName = fileInfo.FullName;
             FilesModified(files, true);
@@ -134,7 +136,7 @@ namespace FilesExplorerInDB_Manager.Implements
             {
                 if (file.IsDelete) continue;
                 //if (file.IsMiss) imageBitmap = Resource.fileNotFount;
-                list.Add(SetExplorerItems_Files(file/*, imageBitmap*/));
+                list.Add(SetExplorerItems_Files(file /*, imageBitmap*/));
                 //imageBitmap = Resource.DEFAULT;
             }
 
@@ -155,7 +157,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="file">文件</param>
         /// <returns>文件信息</returns>
         //// <param name="defaultBitmap">默认的文件类型图标</param>
-        private ExplorerProperty SetExplorerItems_Files(Files file/*, Bitmap defaultBitmap*/)
+        private ExplorerProperty SetExplorerItems_Files(Files file /*, Bitmap defaultBitmap*/)
         {
             Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
             Property.Id = file.FileId;
@@ -194,7 +196,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>文件夹信息</returns>
         private ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
         {
-            Property = (ExplorerProperty)Activator.CreateInstance(typeof(ExplorerProperty));
+            Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
             Property.Id = folder.FolderId;
             Property.FolderLocalId = folder.FolderLocalId;
             Property.IsFolder = true;
@@ -320,7 +322,8 @@ namespace FilesExplorerInDB_Manager.Implements
             DbManager = new FilesDbManager();
 
             Folders folder = FoldersFind(folderId); //原文件夹
-            Folders folder2 = (Folders) Activator.CreateInstance(folder.GetType());// UnityContainerHelp.GetServer<Folders>();
+            Folders folder2 =
+                (Folders) Activator.CreateInstance(folder.GetType()); // UnityContainerHelp.GetServer<Folders>();
             folder2.FolderLocalId = folderForPaste;
             folder2.CreationTime = DateTime.Now;
             folder2.FileIncludeCount = folder.FileIncludeCount;
@@ -739,6 +742,7 @@ namespace FilesExplorerInDB_Manager.Implements
                 Debug.WriteLine("CheckFilePath Error");
                 return false;
             }
+
             var name = nameMatches[nameMatches.Count - 1];
             if (!File.Exists(Settings.GetSetting(Settings.SettingType.FileStorageLocation) + "\\" + name)) return false;
             return true;

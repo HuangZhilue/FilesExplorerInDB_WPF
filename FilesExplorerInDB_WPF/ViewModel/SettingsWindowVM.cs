@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
@@ -51,8 +52,9 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MongoDB).ToString();
                     break;
                 default:
-                    SettingsWindowModel.ConnectionString = "";
-                    break;
+                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
+                    //SettingsWindowModel.ConnectionString = "";
+                    //break;
             }
 
             if (SettingsWindowModel.IsLocal)
@@ -99,8 +101,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MongoDB).ToString();
                     break;
                 default:
-                    SettingsWindowModel.ConnectionString = "";
-                    break;
+                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
             }
         }
 
@@ -129,6 +130,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 case "MongoDB":
                     SaveSetting(SettingType.ConnectionString4MongoDB, SettingsWindowModel.ConnectionString);
                     break;
+                default:
+                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
             }
 
             SaveSetting(SettingType.FileStorageLocation, SettingsWindowModel.FileStorageLocation);

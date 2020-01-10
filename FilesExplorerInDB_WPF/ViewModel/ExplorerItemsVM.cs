@@ -292,6 +292,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             item.IsReadOnly = false;
             item.Cursor = null;
             item.Focusable = true;
+            item.IsFocused = true;
         }
 
         private void LostFocus()
@@ -303,12 +304,25 @@ namespace FilesExplorerInDB_WPF.ViewModel
             item.IsReadOnly = true;
             item.Cursor = Cursors.Arrow;
             item.Focusable = false;
+            item.IsFocused = false;
         }
 
         private void PreviewKeyDown()
         {
-            NameBackup = ExplorerItems.ExplorerList[ExplorerItems.SelectIndex].Name;
-            FilesDbManager.Rename(SelectItem, NameBackup);
+            NameBackup = ExplorerItems.ExplorerList[ExplorerItems.SelectIndex].Name.TrimStart();
+            if (NameBackup.CheckNameIsNullOrWhiteSpace())
+            {
+                MessageBox.Show(Resource.Message_NameCheckIsNullOrWhiteSpace, Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else if (NameBackup.CheckNameIsNameRegex())
+            {
+                FilesDbManager.Rename(SelectItem, NameBackup);
+            }
+            else
+            {
+                MessageBox.Show(Resource.Message_NameCheckError, Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
             LostFocus();
             Refresh();
             NameBackup = "";

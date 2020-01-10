@@ -1,23 +1,25 @@
-﻿<UserControl x:Class="FilesExplorerInDB_WPF.View.Explorer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:helper="clr-namespace:FilesExplorerInDB_WPF.Helper"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-             x:Name="userControl"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="FilesExplorerInDB_WPF.View.Explorer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="clr-namespace:FilesExplorerInDB_WPF.Helper"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
+    x:Name="userControl"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <Grid AllowDrop="True">
-        <ListView x:Name="ListView_Explorer"
-                  VerticalContentAlignment="Center"
-                  helper:FileDragDropHelper.FileDragDropTarget="{Binding}"
-                  helper:FileDragDropHelper.IsFileDragDropEnabled="True"
-                  AllowDrop="True"
-                  ItemsSource="{Binding ExplorerItems.ExplorerList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedIndex="{Binding ExplorerItems.SelectIndex, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+        <ListView
+            x:Name="ListView_Explorer"
+            VerticalContentAlignment="Center"
+            helper:FileDragDropHelper.FileDragDropTarget="{Binding}"
+            helper:FileDragDropHelper.IsFileDragDropEnabled="True"
+            AllowDrop="True"
+            ItemsSource="{Binding ExplorerItems.ExplorerList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{Binding ExplorerItems.SelectIndex, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="打开" Visibility="{Binding ContextMenuModel.IsVisibleOpen, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}">
@@ -102,13 +104,15 @@
                     <GridViewColumn Header="名称">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Background="{x:Null}"
-                                         BorderBrush="{x:Null}"
-                                         BorderThickness="{Binding BorderThickness}"
-                                         Cursor="{Binding Cursor}"
-                                         Focusable="{Binding Focusable}"
-                                         IsReadOnly="{Binding IsReadOnly}"
-                                         Text="{Binding Name, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox
+                                    helper:FocusExtension.IsFocused="{Binding IsFocused}"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    BorderThickness="{Binding BorderThickness}"
+                                    Cursor="{Binding Cursor}"
+                                    Focusable="{Binding Focusable}"
+                                    IsReadOnly="{Binding IsReadOnly}"
+                                    Text="{Binding Name, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
                                     <TextBox.InputBindings>
                                         <KeyBinding Key="Enter" Command="{Binding CommandPreviewKeyDown, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                     </TextBox.InputBindings>

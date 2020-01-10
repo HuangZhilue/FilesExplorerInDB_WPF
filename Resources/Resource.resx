@@ -169,6 +169,12 @@
   <data name="Message_ArgumentOutOfRangeException_DBType" xml:space="preserve">
     <value>找不到对应的数据库类型</value>
   </data>
+  <data name="Message_NameCheckError" xml:space="preserve">
+    <value>文件名不能为包含以下任何字符： \ / : " ? * &lt; &gt; |</value>
+  </data>
+  <data name="Message_NameCheckIsNullOrWhiteSpace" xml:space="preserve">
+    <value>文件名不能为空</value>
+  </data>
   <data name="Message_PasteError" xml:space="preserve">
     <value>无法粘贴到被剪切的项目里面</value>
   </data>
