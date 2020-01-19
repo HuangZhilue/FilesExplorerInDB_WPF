@@ -9,8 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Resources;
-using static Resources.Properties.Settings;
+using static Resources.Properties.Settings.SettingType;
+using static Resources.Resource;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -96,6 +96,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         {
             GetProperty(parameter);
             ExplorerItems.SelectIndex = -1;
+            LostFocus();
         }
 
         private void OpenFolder(object parameter)
@@ -110,7 +111,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     ExplorerItems.GetFolder(IsPathPrevious ? folders.FolderLocalId : folders.FolderId);
                     IsPathPrevious = false;
                     break;
-                case int folderLocalId:
+                case string folderLocalId:
                     ExplorerItems.GetFolder(folderLocalId);
                     break;
             }
@@ -132,7 +133,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
         }
 
-        private bool IsProperty(object parameter)
+        private static bool IsProperty(object parameter)
         {
             switch (parameter)
             {
@@ -144,7 +145,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
         }
 
-        private bool IsValid(object parameter)
+        private static bool IsValid(object parameter)
         {
             switch (parameter)
             {
@@ -209,7 +210,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     }
                     else
                     {
-                        MessageBox.Show("文件物理路径错误", Resource.Caption_OpenFileError, MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("文件物理路径错误", Caption_OpenFileError, MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
@@ -223,7 +224,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void RefreshAll()
         {
-            FilesDbManager.SetFoldersProperty(0);
+            FilesDbManager.SetFoldersProperty(GetSetting(RootFolderId).ToString());
             FolderTreeVM.FolderTree.RefreshFolderTree();
         }
 
@@ -243,7 +244,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Paste()
         {
-            int folderIdForPaste;
+            string folderIdForPaste;
             if (SelectItem != null && SelectItem.Count == 1)
             {
                 folderIdForPaste = SelectItemForPaste[0].Id;
@@ -272,7 +273,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Resource.Caption_Error, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message, Caption_Error, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -299,6 +300,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         {
             ExplorerProperty item = ExplorerItems.ExplorerList.SingleOrDefault(t => t.Focusable && !t.IsReadOnly);
             if (item == null) return;
+            if (ExplorerItems.SelectIndex > -1 && NameBackup != null) PreviewKeyDown();
             item.Name = NameBackup;
             item.BorderThickness = new Thickness(0);
             item.IsReadOnly = true;
@@ -312,7 +314,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             NameBackup = ExplorerItems.ExplorerList[ExplorerItems.SelectIndex].Name.TrimStart();
             if (NameBackup.CheckNameIsNullOrWhiteSpace())
             {
-                MessageBox.Show(Resource.Message_NameCheckIsNullOrWhiteSpace, Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Message_NameCheckIsNullOrWhiteSpace, Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (NameBackup.CheckNameIsNameRegex())
             {
@@ -320,12 +322,12 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
             else
             {
-                MessageBox.Show(Resource.Message_NameCheckError, Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Message_NameCheckError, Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
+            NameBackup = null;
             LostFocus();
             Refresh();
-            NameBackup = "";
         }
 
         private void Property()
@@ -362,18 +364,18 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     // 是文件
                     var fi = new FileInfo(s);
                     FilesDbManager.FilesAdd(fi, ExplorerItems.FolderNow.FolderId,
-                        GetSetting(SettingType.FileStorageLocation) as string);
+                        GetSetting(FileStorageLocation) as string);
                     Refresh();
                 }
                 else if (Directory.Exists(s))
                 {
                     // 是文件夹
-                    MessageBox.Show("暂不支持文件夹拖放操作！", Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("暂不支持文件夹拖放操作！", Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     // 都不是
-                    MessageBox.Show("未检测到文件！", Resource.Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("未检测到文件！", Caption_Info, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }

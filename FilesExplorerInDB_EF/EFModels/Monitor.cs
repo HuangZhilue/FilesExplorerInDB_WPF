@@ -16,18 +16,15 @@ namespace FilesExplorerInDB_EF.EFModels
         [NotMapped]
         protected new string Id { get; set; }
 
-        public int MonitorId { get; set; }
+        public string MonitorId { get; set; }
 
-        [Required]
-        public string MessageType { get; set; }
+        [Required] public string MessageType { get; set; }
 
-        [Required]
-        public string OperationType { get; set; }
+        [Required] public string OperationType { get; set; }
 
         public string ObjectName { get; set; }
 
-        [Required]
-        public string Operator { get; set; }
+        [Required] public string Operator { get; set; }
 
         public string Message { get; set; }
 

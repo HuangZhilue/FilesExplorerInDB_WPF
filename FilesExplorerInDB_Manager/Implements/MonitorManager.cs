@@ -8,43 +8,43 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq.Expressions;
+using static System.Activator;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
     public class MonitorManager : IMonitorManager
     {
-        private readonly IMonitorService _dbService = UnityContainerHelp.GetServer<IMonitorService>();
+        private IMonitorService DBService { get; } = UnityContainerHelp.GetServer<IMonitorService>();
         private Monitor _monitor;
 
         #region 基础操作
 
-        private Monitor MonitorAdd(Monitor entity, bool isSave)
+        private Monitor MonitorAdd(Monitor entity, bool isSave, bool autoId = false)
         {
-            entity = _dbService.MonitorAdd(entity);
-            if (isSave)
-                SaveChanges();
+            entity = DBService.MonitorAdd(entity,autoId);
+            if (isSave) SaveChanges();
             return entity;
         }
 
         private Monitor MonitorFind(params object[] keyValue)
         {
-            return _dbService.MonitorFind(keyValue);
+            return DBService.MonitorFind(keyValue);
         }
 
-        private List<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where)
+        private List<Monitor> LoadMonitorEntities(Expression<Func<Monitor, bool>> where)
         {
-            return _dbService.LoadMonitorEntites(where);
+            return DBService.LoadMonitorEntities(where);
         }
 
         private void MonitorModified(Monitor files, bool isSave = false)
         {
-            _dbService.MonitorModified(files);
+            DBService.MonitorModified(files);
             if (isSave) SaveChanges();
         }
 
         private int SaveChanges()
         {
-            return _dbService.SaveChanges();
+            return DBService.SaveChanges();
         }
 
         #endregion
@@ -139,14 +139,14 @@ namespace FilesExplorerInDB_Manager.Implements
         public void AddMonitorRecord(MessageType messageType, OpType opType, OperatorName operatorName, string objectName,
             string message)
         {
-            _monitor = UnityContainerHelp.GetServer<Monitor>();
+            _monitor = (Monitor) CreateInstance(typeof(Monitor));
             _monitor.Message = message;
             _monitor.MessageType = GetMessageTypeName(messageType);
             _monitor.ObjectName = objectName;
             _monitor.OperationType = GetOperation(opType);
             _monitor.Operator = GetOperatorType(operatorName);
             _monitor.Time = DateTime.Now;
-            MonitorAdd(_monitor, true);
+            MonitorAdd(_monitor, true, true);
         }
 
         /// <summary>
@@ -155,33 +155,29 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="exception">错误对象</param>
         public void ErrorRecord(Exception exception)
         {
+            if (exception == null) return;
             var message = Environment.NewLine;
-            if (exception != null)
-            {
-                message += "异常信息：" + Environment.NewLine + exception.Message;
-                message += Environment.NewLine;
-                message += "输出信息：错误位置";
-                message += "位置信息：" + Environment.NewLine + exception.StackTrace;
-                message += Environment.NewLine;
+            message += "异常信息：" + Environment.NewLine + exception.Message;
+            message += Environment.NewLine;
+            message += "输出信息：错误位置";
+            message += "位置信息：" + Environment.NewLine + exception.StackTrace;
+            message += Environment.NewLine;
 
-                GetInnerException(exception);
+            GetInnerException(exception);
 
-                AddMonitorRecord(MessageType.Danger, OpType.SystemError, OperatorName.System, exception.Source, message);
-            }
+            AddMonitorRecord(MessageType.Danger, OpType.SystemError, OperatorName.System, exception.Source, message);
         }
 
-        private string GetInnerException(Exception e)
+        private static string GetInnerException(Exception e)
         {
             var message = "";
-            if (e.InnerException != null)
-            {
-                message += "内部异常信息：" + Environment.NewLine + e.InnerException.Message;
-                message += Environment.NewLine;
-                message += "输出信息：错误位置" + Environment.NewLine;
-                message += "位置信息：" + Environment.NewLine + e.InnerException.StackTrace;
-                message += Environment.NewLine;
-                if (e.InnerException.InnerException != null) message += GetInnerException(e.InnerException);
-            }
+            if (e.InnerException == null) return message;
+            message += "内部异常信息：" + Environment.NewLine + e.InnerException.Message;
+            message += Environment.NewLine;
+            message += "输出信息：错误位置" + Environment.NewLine;
+            message += "位置信息：" + Environment.NewLine + e.InnerException.StackTrace;
+            message += Environment.NewLine;
+            if (e.InnerException.InnerException != null) message += GetInnerException(e.InnerException);
 
             return message;
         }

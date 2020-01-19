@@ -23,5 +23,8 @@
     <Setting Name="ConnectionString4MongoDB" Type="System.String" Scope="User">
       <Value Profile="(Default)">mongodb://127.0.0.1:27017</Value>
     </Setting>
+    <Setting Name="RootFolderId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">648f3522-178a-4646-8d00-55dcff2b2a1b</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

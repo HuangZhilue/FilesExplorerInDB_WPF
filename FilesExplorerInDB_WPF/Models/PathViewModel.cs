@@ -2,7 +2,7 @@
 using FilesExplorerInDB_EF.EFModels;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Resources;
+using static Resources.Resource;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -37,7 +37,7 @@ namespace FilesExplorerInDB_WPF.Models
 
         }
 
-        public void SetPathString(int folderId)
+        public void SetPathString(string folderId)
         {
             PathString = "";
             Stack<Folders> stack = FilesDbManager.GetRelativePath_Folder(folderId);
@@ -112,9 +112,9 @@ namespace FilesExplorerInDB_WPF.Models
         /// </summary>
         public Folders Button_PathPrevious_Click(Folders folderNow)
         {
-            if (folderNow == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folderNow == null) throw new Exception(Message_ArgumentNullException_Folders);
             Debug.WriteLine(folderNow.FolderId);
-            if (folderNow.FolderId == 0) return null;
+            if (folderNow.FolderId == App_RootLocalFolderId) return null;
             if (folderNow != PreFolder.Peek())
                 PreFolder.Push(folderNow);
             FwdFolder.Clear();

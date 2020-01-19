@@ -1,9 +1,11 @@
-﻿using System;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
 using Resources;
+using System;
 using System.Windows.Media;
 using static FilesExplorerInDB_WPF.AssemblyInformation;
+using static Resources.Properties.Settings.SettingType;
+using static Resources.Resource;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -111,7 +113,7 @@ namespace FilesExplorerInDB_WPF.Models
         /// </summary>
         public void GetPropertyFromExplorerItems(ExplorerProperty property)
         {
-            if (property == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerProperty);
+            if (property == null) throw new Exception(Message_ArgumentNullException_ExplorerProperty);
             TxtLabelName = property.Name;
             TxtLabelType = property.Type;
             TxtLabelOther2 = "创建时间：" + property.CreationTime;
@@ -136,9 +138,9 @@ namespace FilesExplorerInDB_WPF.Models
         /// <summary>
         /// 点击资源管理器(ListView)空白区域
         /// </summary>
-        public void GetPropertyFromExplorerBlock(int nowFolderId)
+        public void GetPropertyFromExplorerBlock(string nowFolderId)
         {
-            if (nowFolderId != 0)
+            if (nowFolderId != GetSetting(RootFolderId).ToString())
             {
                 Folders folder = FilesDbManager.FoldersFind(nowFolderId);
                 TxtLabelName = folder.FolderName;
@@ -159,7 +161,7 @@ namespace FilesExplorerInDB_WPF.Models
                 TxtLabelOther3 = "";
                 TxtLabelOther4 = "";
                 TxtLabelOther5 = "";
-                ImageSource = FilesDbManager.GetImage(Resource.explorer);
+                ImageSource = FilesDbManager.GetImage(explorer);
             }
         }
 

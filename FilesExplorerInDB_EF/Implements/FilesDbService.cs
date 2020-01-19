@@ -1,72 +1,82 @@
-﻿using System;
+﻿using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_EF.Interface;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using FilesExplorerInDB_EF.EFModels;
-using FilesExplorerInDB_EF.Interface;
+using static FilesExplorerInDB_EF.EFModels.FilesDB;
+using static Resources.Resource;
 
 namespace FilesExplorerInDB_EF.Implements
 {
     public class FilesDbService : IFilesDbService
     {
-        private readonly FilesDB _dbContext = FilesDB.GetFilesDb;
+        private FilesDB DBContext { get; } = GetFilesDb;
 
-        public Files FilesAdd(Files entity)
+        public Files FilesAdd(Files entity, bool autoId = false)
         {
-            _dbContext.Files.Add(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Files);
+            if (autoId) entity.FileId = Guid.NewGuid().ToString();
+            DBContext.Files.Add(entity);
             return entity;
         }
 
-        public Folders FoldersAdd(Folders entity)
+        public Folders FoldersAdd(Folders entity, bool autoId = false)
         {
-            _dbContext.Folders.Add(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Folders);
+            if (autoId) entity.FolderId = Guid.NewGuid().ToString();
+            DBContext.Folders.Add(entity);
             return entity;
         }
 
         public Files FilesFind(params object[] keyValue)
         {
-            return _dbContext.Files.Find(keyValue);
+            return DBContext.Files.Find(keyValue);
         }
 
         public Folders FoldersFind(params object[] keyValue)
         {
-            return _dbContext.Folders.Find(keyValue);
+            return DBContext.Folders.Find(keyValue);
         }
 
         public void FilesModified(Files entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Files);
+            DBContext.Entry(entity).State = EntityState.Modified;
         }
 
         public void FoldersModified(Folders entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Folders);
+            DBContext.Entry(entity).State = EntityState.Modified;
         }
 
         public void FilesRemove(Files entity)
         {
-            _dbContext.Files.Remove(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Files);
+            DBContext.Files.Remove(entity);
         }
 
         public void FoldersRemove(Folders entity)
         {
-            _dbContext.Folders.Remove(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Folders);
+            DBContext.Folders.Remove(entity);
         }
 
-        public List<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
+        public List<Files> LoadFilesEntities(Expression<Func<Files, bool>> where)
         {
-            return _dbContext.Files.Where(where).ToList();
+            return DBContext.Files.Where(where).ToList();
         }
 
-        public List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
+        public List<Folders> LoadFoldersEntities(Expression<Func<Folders, bool>> where)
         {
-            return _dbContext.Folders.Where(where).ToList();
+            return DBContext.Folders.Where(where).ToList();
         }
 
         public int SaveChanges()
         {
-            return _dbContext.SaveChanges();
+            return DBContext.SaveChanges();
         }
     }
 }

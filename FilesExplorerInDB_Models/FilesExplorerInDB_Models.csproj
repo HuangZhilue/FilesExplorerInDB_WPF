@@ -57,12 +57,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IProperty.cs" />
     <Compile Include="Models\ExplorerProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Implements\" />
+    <Folder Include="Interface\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

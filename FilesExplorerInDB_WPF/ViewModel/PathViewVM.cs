@@ -43,7 +43,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PathViewModel.PathPush(folderNow);
         }
 
-        public void SetPathString(int folderId)
+        public void SetPathString(string folderId)
         {
             PathViewModel.SetPathString(folderId);
         }

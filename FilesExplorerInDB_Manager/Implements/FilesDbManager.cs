@@ -1,5 +1,4 @@
-﻿using Command;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
 using FilesExplorerInDB_Models.Models;
@@ -17,32 +16,29 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Resources.Properties;
+using static Command.UnityContainerHelp;
+using static Resources.Properties.Settings;
+using static Resources.Resource;
+using static System.Activator;
 using static System.String;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
     public class FilesDbManager : IFilesDbManager
     {
-        private IFilesDbService DBService { get; } = UnityContainerHelp.GetServer<IFilesDbService>();
-        private IFileIcon FileIcon { get; } = UnityContainerHelp.GetServer<IFileIcon>();
-        private IMonitorManager MonitorManager { get; } = UnityContainerHelp.GetServer<IMonitorManager>();
+        private IFilesDbService DBService { get; } = GetServer<IFilesDbService>();
+        private IFileIcon FileIcon { get; } = GetServer<IFileIcon>();
+        private IMonitorManager MonitorManager { get; } = GetServer<IMonitorManager>();
         private ExplorerProperty Property { get; set; }
-
-        private FilesDbManager DbManager { get; set; }
-        //private static Settings Settings { get; } = new Settings();
 
         #region 基础操作
 
-        public Files FilesAdd(FileInfo fileInfo, int folderLocalId, string pathForSave)
+        public Files FilesAdd(FileInfo fileInfo, string folderLocalId, string pathForSave)
         {
-            if (fileInfo == null) throw new Exception(Resource.Message_ArgumentNullException_FileInfo);
-            if (!Directory.Exists(pathForSave))
-            {
-                Directory.CreateDirectory(pathForSave);
-            }
+            if (fileInfo == null) throw new Exception(Message_ArgumentNullException_FileInfo);
+            if (!Directory.Exists(pathForSave)) Directory.CreateDirectory(pathForSave);
 
-            Files files = (Files) Activator.CreateInstance(typeof(Files));
+            Files files = (Files) CreateInstance(typeof(Files));
             files.FolderLocalId = folderLocalId;
             files.AccessTime = fileInfo.LastAccessTime;
             files.CreationTime = fileInfo.CreationTime;
@@ -50,23 +46,19 @@ namespace FilesExplorerInDB_Manager.Implements
             files.FileType = fileInfo.Extension.Substring(1, fileInfo.Extension.Length - 1);
             files.ModifyTime = fileInfo.LastWriteTime;
             files.Size = fileInfo.Length;
-            files = FilesAdd(files, true);
-            string originName = fileInfo.FullName;
-            fileInfo = fileInfo.CopyTo(
-                pathForSave + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfffffff", CultureInfo.CurrentCulture) + "-" +
-                files.FileId + "." +
-                files.FileType, true);
+            files.FileId = Guid.NewGuid().ToString();
+            var originName = fileInfo.FullName;
+            fileInfo = fileInfo.CopyTo(pathForSave + "\\" + files.FileId + "." + files.FileType, true);
             files.RealName = fileInfo.FullName;
-            FilesModified(files, true);
+            files = FilesAdd(files, true);
             MonitorManager.AddFileRecord(originName, files);
             return files;
         }
 
-        private Files FilesAdd(Files entity, bool isSave)
+        private Files FilesAdd(Files entity, bool isSave, bool autoId = false)
         {
-            entity = DBService.FilesAdd(entity);
-            if (isSave)
-                SaveChanges();
+            entity = DBService.FilesAdd(entity, autoId);
+            if (isSave) SaveChanges();
             return entity;
         }
 
@@ -75,16 +67,15 @@ namespace FilesExplorerInDB_Manager.Implements
             return DBService.FilesFind(keyValue);
         }
 
-        public List<Files> LoadFilesEntites(Expression<Func<Files, bool>> where)
+        public List<Files> LoadFilesEntities(Expression<Func<Files, bool>> where)
         {
-            return DBService.LoadFilesEntites(where).ToList();
+            return DBService.LoadFilesEntities(where);
         }
 
-        private Folders FoldersAdd(Folders entity, bool isSave)
+        private Folders FoldersAdd(Folders entity, bool isSave, bool autoId = false)
         {
-            entity = DBService.FoldersAdd(entity);
-            if (isSave)
-                SaveChanges();
+            entity = DBService.FoldersAdd(entity, autoId);
+            if (isSave) SaveChanges();
             return entity;
         }
 
@@ -93,9 +84,9 @@ namespace FilesExplorerInDB_Manager.Implements
             return DBService.FoldersFind(keyValue);
         }
 
-        public List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where)
+        public List<Folders> LoadFoldersEntities(Expression<Func<Folders, bool>> where)
         {
-            return DBService.LoadFoldersEntites(where).ToList();
+            return DBService.LoadFoldersEntities(where);
         }
 
         private void FilesModified(Files files, bool isSave = false)
@@ -117,37 +108,27 @@ namespace FilesExplorerInDB_Manager.Implements
 
         #endregion
 
-        public List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow)
+        public List<ExplorerProperty> SetExplorerItemsList(string localFolderId, out Folders folderNow)
         {
-            if (localFolderId < 0) localFolderId = 0;
-            var list = new List<ExplorerProperty>();
-            folderNow = FoldersFind(localFolderId);
-            if (folderNow == null) throw new Exception(Resource.Message_ResultIsNull_Folders);
-            Debug.WriteLine(folderNow);
-            folderNow.FolderNodes = LoadFoldersEntites(f => f.FolderLocalId == localFolderId && f.IsDelete == false)
-                .ToList();
-            foreach (var folder in folderNow.FolderNodes)
-            {
-                list.Add(SetExplorerItems_Folders(folder, GetImage(Resource.folder)));
-            }
+            if (IsNullOrWhiteSpace(localFolderId) || localFolderId == App_RootLocalFolderId)
+                localFolderId = GetSetting(SettingType.RootFolderId).ToString();
 
-            //var imageBitmap = Resource.DEFAULT;
-            foreach (var file in folderNow.Files)
-            {
-                if (file.IsDelete) continue;
-                //if (file.IsMiss) imageBitmap = Resource.fileNotFount;
-                list.Add(SetExplorerItems_Files(file /*, imageBitmap*/));
-                //imageBitmap = Resource.DEFAULT;
-            }
+            folderNow = FoldersFind(localFolderId);
+
+            if (folderNow == null) throw new Exception(Message_ResultIsNull_Folders);
+            Debug.WriteLine(folderNow);
+            folderNow.FolderNodes = LoadFoldersEntities(f => f.FolderLocalId == localFolderId && f.IsDelete == false);
+            var list = folderNow.FolderNodes.Select(folder => SetExplorerItems_Folders(folder, GetImage(Resource.folder))).ToList();
+            list.AddRange(from file in folderNow.Files where !file.IsDelete select SetExplorerItems_Files(file));
 
             return list;
         }
 
         public ExplorerProperty SetExplorerItem(Folders folderNow)
         {
-            if (folderNow == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folderNow == null) throw new Exception(Message_ArgumentNullException_Folders);
             Debug.WriteLine(folderNow);
-            var e = SetExplorerItems_Folders(folderNow, GetImage(Resource.folder));
+            var e = SetExplorerItems_Folders(folderNow, GetImage(folder));
             return e;
         }
 
@@ -157,9 +138,9 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="file">文件</param>
         /// <returns>文件信息</returns>
         //// <param name="defaultBitmap">默认的文件类型图标</param>
-        private ExplorerProperty SetExplorerItems_Files(Files file /*, Bitmap defaultBitmap*/)
+        private ExplorerProperty SetExplorerItems_Files(Files file)
         {
-            Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
+            Property = (ExplorerProperty) CreateInstance(typeof(ExplorerProperty));
             Property.Id = file.FileId;
             Property.FolderLocalId = file.FolderLocalId;
             Property.IsFolder = false;
@@ -175,14 +156,10 @@ namespace FilesExplorerInDB_Manager.Implements
                     GetImage(FileIcon.GetBitmapFromFilePath(file.RealName,
                         Implements.FileIcon.IconSizeEnum.ExtraLargeIcon));
             }
-            //else if (IsNullOrWhiteSpace(file.RealName))
-            //{
-            //    Property.ImageSource = GetImage(defaultBitmap);
-            //}
             else
             {
                 SetFilesProperty(file.FileId);
-                Property.ImageSource = GetImage(Resource.fileNotFount);
+                Property.ImageSource = GetImage(fileNotFount);
             }
 
             return Property;
@@ -196,7 +173,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>文件夹信息</returns>
         private ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
         {
-            Property = (ExplorerProperty) Activator.CreateInstance(typeof(ExplorerProperty));
+            Property = (ExplorerProperty) CreateInstance(typeof(ExplorerProperty));
             Property.Id = folder.FolderId;
             Property.FolderLocalId = folder.FolderLocalId;
             Property.IsFolder = true;
@@ -205,7 +182,7 @@ namespace FilesExplorerInDB_Manager.Implements
             Property.CreationTime = folder.CreationTime.ToString("yyyy/MM/dd HH:mm", CultureInfo.CurrentCulture);
             Property.ModifyTime = folder.ModifyTime.ToString("yyyy/MM/dd HH:mm", CultureInfo.CurrentCulture);
             Property.Size = folder.Size;
-            Property.Type = Resource.Property_Type_Folder;
+            Property.Type = Property_Type_Folder;
             Property.ImageSource = imageSource;
             return Property;
         }
@@ -216,7 +193,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folderId">父目录ID</param>
         /// <param name="folders">除了父目录外的其他目录数据</param>
         /// <returns>父目录数据</returns>
-        public List<Folders> GetFoldersTree(int folderId, List<Folders> folders)
+        public List<Folders> GetFoldersTree(string folderId, List<Folders> folders)
         {
             List<Folders> mainFolders = folders.Where(f => f.FolderLocalId == folderId && f.IsDelete == false).ToList();
             List<Folders> otherFolders =
@@ -238,10 +215,10 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="items">要粘贴的项目</param>
         /// <param name="isCutting">是否为剪切</param>
         /// <returns>是否成功</returns>
-        public bool Paste(int folderForPaste, List<ExplorerProperty> items, bool isCutting)
+        public bool Paste(string folderForPaste, List<ExplorerProperty> items, bool isCutting)
         {
-            if (items == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerPropertyList);
-            var lid = 0;
+            if (items == null) throw new Exception(Message_ArgumentNullException_ExplorerPropertyList);
+            var lid = "";
             foreach (var item in items)
             {
                 if (isCutting) //剪切
@@ -253,9 +230,9 @@ namespace FilesExplorerInDB_Manager.Implements
                         var idForCheck = folderForPaste;
                         while (true)
                         {
-                            if (idForCheck == -1) break;
+                            if (idForCheck == App_RootLocalFolderId || IsNullOrWhiteSpace(idForCheck)) break;
                             var f = FoldersFind(idForCheck);
-                            if (f.FolderId == item.Id) throw new Exception(Resource.Message_PasteError);
+                            if (f.FolderId == item.Id) throw new Exception(Message_PasteError);
                             idForCheck = f.FolderLocalId;
                         }
 
@@ -281,25 +258,26 @@ namespace FilesExplorerInDB_Manager.Implements
                     if (item.IsFolder)
                     {
                         Folders folder = FoldersFind(item.Id);
-                        PasteChild(folderForPaste, folder.FolderId);
+                        PasteChild(folderForPaste, folder);
                         MonitorManager.CopyFolderRecord(folder, folderForPaste.ToString(CultureInfo.CurrentCulture));
                     }
                     else
                     {
                         Files file = FilesFind(item.Id);
+                        Files file2 = (Files) CreateInstance(typeof(Files));
                         var oldLocalId = file.FolderLocalId;
-                        file.FolderLocalId = folderForPaste;
-                        //Files file2 = UnityContainerHelp.GetServer<Files>();
-                        //file2.FolderLocalId = folderForPaste;
-                        //file.AccessTime = DateTime.Now;
-                        file.CreationTime = DateTime.Now;
-                        //file2.FileName = file.FileName;
-                        //file2.FileType = file.FileType;
-                        //file2.IsDelete = file.IsDelete;
-                        //file2.ModifyTime = DateTime.Now;
-                        //file2.Size = file.Size;
-                        //file2.RealName = file.RealName;
-                        FilesAdd(file, false);
+                        file2.AccessTime = file.AccessTime;
+                        file2.FileName = file.FileName;
+                        file2.FileType = file.FileType;
+                        file2.FolderLocalId = file.FolderLocalId;
+                        file2.IsDelete = file.IsDelete;
+                        file2.IsMiss = file.IsMiss;
+                        file2.ModifyTime = file.ModifyTime;
+                        file2.RealName = file.RealName;
+                        file2.Size = file.Size;
+                        file2.FolderLocalId = folderForPaste;
+                        file2.CreationTime = DateTime.Now;
+                        FilesAdd(file2, false, true);
                         MonitorManager.CopyFileRecord(file, oldLocalId.ToString(CultureInfo.CurrentCulture));
                     }
                 }
@@ -316,14 +294,13 @@ namespace FilesExplorerInDB_Manager.Implements
         /// 粘贴（子文件夹与子文件）
         /// </summary>
         /// <param name="folderForPaste">要粘贴到的文件夹的ID</param>
-        /// <param name="folderId">原文件夹的ID</param>
-        private void PasteChild(int folderForPaste, int folderId)
+        /// <param name="folder">原文件夹</param>
+        private void PasteChild(string folderForPaste, Folders folder)
         {
-            DbManager = new FilesDbManager();
+            //DbManager = new FilesDbManager();
 
-            Folders folder = FoldersFind(folderId); //原文件夹
-            Folders folder2 =
-                (Folders) Activator.CreateInstance(folder.GetType()); // UnityContainerHelp.GetServer<Folders>();
+            //var folder = FoldersFind(folderId); //原文件夹
+            var folder2 = (Folders) CreateInstance(folder.GetType());
             folder2.FolderLocalId = folderForPaste;
             folder2.CreationTime = DateTime.Now;
             folder2.FileIncludeCount = folder.FileIncludeCount;
@@ -332,30 +309,30 @@ namespace FilesExplorerInDB_Manager.Implements
             folder2.IsDelete = folder.IsDelete;
             folder2.ModifyTime = DateTime.Now;
             folder2.Size = folder.Size;
-            folder2 = DbManager.FoldersAdd(folder2, true);
-            List<Folders> foldersList = LoadFoldersEntites(f => f.FolderLocalId == folder.FolderId);
+            folder2 = FoldersAdd(folder2, false, true);
+            var foldersList = LoadFoldersEntities(f => f.FolderLocalId == folder.FolderId && !f.IsDelete);
             foreach (var folders in foldersList) //获取原文件夹的子文件夹
             {
-                PasteChild(folder2.FolderId, folders.FolderId);
+                PasteChild(folder2.FolderId, folders);
             }
 
-            List<Files> filesList = LoadFilesEntites(f => f.FolderLocalId == folder.FolderId);
+            var filesList = LoadFilesEntities(f => f.FolderLocalId == folder.FolderId && !f.IsDelete);
             foreach (var files in filesList) //获取原文件夹下的文件
             {
-                //Files file = UnityContainerHelp.GetServer<Files>();
-                files.FolderLocalId = folder2.FolderId;
-                //file.AccessTime = DateTime.Now;
-                files.CreationTime = DateTime.Now;
-                //file.FileName = files.FileName;
-                //file.FileType = files.FileType;
-                //file.IsDelete = files.IsDelete;
-                //file.ModifyTime = DateTime.Now;
-                //file.Size = files.Size;
-                //file.RealName = files.RealName;
-                DbManager.FilesAdd(files, false);
+                var file2 = (Files)CreateInstance(typeof(Files));
+                file2.AccessTime = files.AccessTime;
+                file2.FileName = files.FileName;
+                file2.FileType = files.FileType;
+                file2.FolderLocalId = files.FolderLocalId;
+                file2.IsDelete = files.IsDelete;
+                file2.IsMiss = files.IsMiss;
+                file2.ModifyTime = files.ModifyTime;
+                file2.RealName = files.RealName;
+                file2.Size = files.Size;
+                file2.FolderLocalId = folder2.FolderId;
+                file2.CreationTime = DateTime.Now;
+                FilesAdd(file2, false, true);
             }
-
-            DbManager.SaveChanges();
         }
 
         #endregion
@@ -369,8 +346,8 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>成功状态</returns>
         public bool SetDeleteState(List<ExplorerProperty> items)
         {
-            if (items == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerPropertyList);
-            int lid = 0;
+            if (items == null) throw new Exception(Message_ArgumentNullException_ExplorerPropertyList);
+            var lid = "";
             foreach (ExplorerProperty item in items)
             {
                 if (item.IsFolder)
@@ -401,7 +378,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="filesForDelete">要删除的文件的ID</param>
         /// <returns>成功状态</returns>
-        public bool SetDeleteState(int filesForDelete)
+        public bool SetDeleteState(string filesForDelete)
         {
             Files file = FilesFind(filesForDelete);
             file.IsDelete = true;
@@ -423,7 +400,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <returns>成功状态</returns>
         public bool Rename(List<ExplorerProperty> items, string newName)
         {
-            if (items == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerPropertyList);
+            if (items == null) throw new Exception(Message_ArgumentNullException_ExplorerPropertyList);
             foreach (ExplorerProperty item in items)
             {
                 if (item.IsFolder)
@@ -456,7 +433,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="newName">新名称</param>
         public void Rename(Files file, string newName)
         {
-            if (file == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (file == null) throw new Exception(Message_ArgumentNullException_Files);
             var oldName = file.FileName;
             file.FileName = newName;
             file.ModifyTime = DateTime.Now;
@@ -471,7 +448,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="newName">新名称</param>
         public void Rename(Folders folder, string newName)
         {
-            if (folder == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folder == null) throw new Exception(Message_ArgumentNullException_Folders);
             var oldName = folder.FolderName;
             folder.FolderName = newName;
             folder.ModifyTime = DateTime.Now;
@@ -488,9 +465,9 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="parentFoldersId">父文件夹ID</param>
         /// <returns>建立好的新文件夹</returns>
-        public Folders CreateFolders(int parentFoldersId)
+        public Folders CreateFolders(string parentFoldersId)
         {
-            Folders folder = UnityContainerHelp.GetServer<Folders>();
+            Folders folder = GetServer<Folders>();
             folder.FolderLocalId = parentFoldersId;
             folder.CreationTime = DateTime.Now;
             folder.FileIncludeCount = 0;
@@ -499,7 +476,7 @@ namespace FilesExplorerInDB_Manager.Implements
             folder.IsDelete = false;
             folder.ModifyTime = DateTime.Now;
             folder.Size = 0;
-            folder = FoldersAdd(folder, true);
+            folder = FoldersAdd(folder, true, true);
             SetParentFoldersProperty(parentFoldersId);
             MonitorManager.AddFolderRecord(folder);
             return folder;
@@ -516,14 +493,14 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="foldersId">父文件夹ID</param>
         /// <returns>父文件夹</returns>
-        public Folders SetFoldersProperty(int foldersId)
+        public Folders SetFoldersProperty(string foldersId)
         {
             Folders parentFolders = FoldersFind(foldersId);
             //将需要叠加统计的数据，初始化为0，否则将导致下一次叠加统计时数据错误。
             parentFolders.FileIncludeCount = 0;
             parentFolders.FolderIncludeCount = 0;
             parentFolders.Size = 0;
-            parentFolders = SetChildFoldersProperty(parentFolders, -1);
+            parentFolders = SetChildFoldersProperty(parentFolders, App_RootLocalFolderId);
             SaveChanges();
             return parentFolders;
         }
@@ -534,13 +511,12 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="parentFolders">父文件夹</param>
         /// <param name="endFolderId">最终的文件夹（当设置子文件夹到最终文件夹时，停止继续设置子文件夹，避免设置整个文件夹系统）</param>
         /// <returns>子文件夹的属性</returns>
-        private Folders SetChildFoldersProperty(Folders parentFolders, int endFolderId)
+        private Folders SetChildFoldersProperty(Folders parentFolders, string endFolderId)
         {
-            List<Folders> folders =
-                LoadFoldersEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete).ToList();
-            List<Folders> foldersList = new List<Folders>();
+            var folders = LoadFoldersEntities(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete);
+            var foldersList = new List<Folders>();
             if (parentFolders.FolderId != endFolderId) //当刷新子文件夹到最终文件夹时，停止继续刷新子文件夹
-                foreach (Folders childFolders in folders)
+                foreach (var childFolders in folders)
                 {
                     //将需要叠加统计的数据，初始化为0，否则将导致下一次叠加统计时数据错误。
                     childFolders.FileIncludeCount = 0;
@@ -549,8 +525,7 @@ namespace FilesExplorerInDB_Manager.Implements
                     foldersList.Add(SetChildFoldersProperty(childFolders, endFolderId));
                 }
 
-            List<Files> files = LoadFilesEntites(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete)
-                .ToList();
+            var files = LoadFilesEntities(f => f.FolderLocalId == parentFolders.FolderId && !f.IsDelete);
             files = SetFilesListProperty(files);
             if (!folders.Any())
             {
@@ -578,17 +553,16 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="foldersId">子项目所在文件夹</param>
         /// <returns>父文件夹</returns>
-        private Folders SetParentFoldersProperty(int foldersId)
+        private Folders SetParentFoldersProperty(string foldersId)
         {
-            if (foldersId == -1)
+            if (foldersId == App_RootLocalFolderId || IsNullOrWhiteSpace(foldersId))
             {
                 SaveChanges();
                 return null;
             }
 
-            List<Folders> folders =
-                LoadFoldersEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
-            List<Files> files = LoadFilesEntites(f => f.FolderLocalId == foldersId && !f.IsDelete).ToList();
+            var folders = LoadFoldersEntities(f => f.FolderLocalId == foldersId && !f.IsDelete);
+            var files = LoadFilesEntities(f => f.FolderLocalId == foldersId && !f.IsDelete);
             files = SetFilesListProperty(files);
             Folders folder = FoldersFind(foldersId);
             folder.FileIncludeCount = folders.Sum(f => f.FileIncludeCount) + files.Count;
@@ -604,13 +578,7 @@ namespace FilesExplorerInDB_Manager.Implements
 
         private List<Files> SetFilesListProperty(List<Files> filesList)
         {
-            List<Files> filesList2 = new List<Files>();
-            foreach (Files files in filesList)
-            {
-                filesList2.Add(SetFilesProperty(files.FileId));
-            }
-
-            return filesList2;
+            return filesList.Select(files => SetFilesProperty(files.FileId)).ToList();
         }
 
         /// <summary>
@@ -618,7 +586,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="filesId">文件ID</param>
         /// <returns>文件属性</returns>
-        public Files SetFilesProperty(int filesId)
+        public Files SetFilesProperty(string filesId)
         {
             Files files = FilesFind(filesId);
             if (files != null && !IsNullOrWhiteSpace(files.RealName))
@@ -656,10 +624,10 @@ namespace FilesExplorerInDB_Manager.Implements
 
         #region 获取文件夹的相对路径
 
-        public Stack<Folders> GetRelativePath_Folder(int folderId)
+        public Stack<Folders> GetRelativePath_Folder(string folderId)
         {
-            Stack<Folders> stack = new Stack<Folders>();
-            while (folderId != -1)
+            var stack = new Stack<Folders>();
+            while (folderId != App_RootLocalFolderId)
             {
                 Folders folders = FoldersFind(folderId);
                 stack.Push(folders);
@@ -736,7 +704,7 @@ namespace FilesExplorerInDB_Manager.Implements
             if (files == null || IsNullOrWhiteSpace(files.RealName)) return false;
             if (!File.Exists(files.RealName)) return false;
             var nameMatches = Regex.Matches(files.RealName,
-                @"(\d+\." + files.FileType + @")|(\d+\-\d+\." + files.FileType + ")");
+                @"([\d|A-Za-z]+\." + files.FileType + @")|([\d+|A-Za-z\-\d|A-Za-z]+\." + files.FileType + ")");
             if (nameMatches.Count < 1)
             {
                 Debug.WriteLine("CheckFilePath Error");
@@ -744,7 +712,7 @@ namespace FilesExplorerInDB_Manager.Implements
             }
 
             var name = nameMatches[nameMatches.Count - 1];
-            if (!File.Exists(Settings.GetSetting(Settings.SettingType.FileStorageLocation) + "\\" + name)) return false;
+            if (!File.Exists(GetSetting(SettingType.FileStorageLocation) + "\\" + name)) return false;
             return true;
         }
     }

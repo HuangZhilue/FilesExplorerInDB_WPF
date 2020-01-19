@@ -7,8 +7,8 @@ namespace FilesExplorerInDB_WPF.Helper
 {
     public static class WindowManager
     {
-        private static readonly Hashtable RegisterWindow = new Hashtable();
-        private static readonly List<Window> Window = new List<Window>();
+        private static Hashtable RegisterWindow { get; } = new Hashtable();
+        private static List<Window> Window { get; } = new List<Window>();
 
         public static void Register<T>(string key)
         {

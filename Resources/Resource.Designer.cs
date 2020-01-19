@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 RootLocalFolderId 的本地化字符串。
+        /// </summary>
+        public static string App_RootLocalFolderId {
+            get {
+                return ResourceManager.GetString("App_RootLocalFolderId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 错误 的本地化字符串。
         /// </summary>
         public static string Caption_Error {

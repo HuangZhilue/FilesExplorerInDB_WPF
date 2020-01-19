@@ -1,14 +1,13 @@
-﻿using System.ComponentModel;
+﻿using JetBrains.Annotations;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using FilesExplorerInDB_Models.Interface;
-using JetBrains.Annotations;
 
 namespace FilesExplorerInDB_Models.Models
 {
-    public class ExplorerProperty : IProperty, INotifyPropertyChanged
+    public class ExplorerProperty : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly object _lock = new object();
@@ -16,8 +15,8 @@ namespace FilesExplorerInDB_Models.Models
         private bool _focusable;
         private bool _isFocused;
         private bool _isReadOnly = true;
-        private int _id;
-        private int _folderLocalId;
+        private string _id;
+        private string _folderLocalId;
         private bool _isFolder;
         private string _type;
         private long _size;
@@ -37,7 +36,7 @@ namespace FilesExplorerInDB_Models.Models
             }
         }
 
-        public int Id
+        public string Id
         {
             get => _id;
             set
@@ -47,7 +46,7 @@ namespace FilesExplorerInDB_Models.Models
             }
         }
 
-        public int FolderLocalId
+        public string FolderLocalId
         {
             get => _folderLocalId;
             set

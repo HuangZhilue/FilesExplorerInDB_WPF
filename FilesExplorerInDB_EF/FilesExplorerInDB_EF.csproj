@@ -141,10 +141,7 @@
     <Compile Include="EFModels\Monitor.cs" />
     <Compile Include="Implements\MonitorService.cs" />
     <Compile Include="Implements\FilesDbService.cs" />
-    <Compile Include="Interface\IFiles.cs" />
-    <Compile Include="Interface\IFilesDB.cs" />
     <Compile Include="Interface\IFilesDbService.cs" />
-    <Compile Include="Interface\IFolders.cs" />
     <Compile Include="Interface\IMonitorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,42 +1,37 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
+using FilesExplorerInDB_Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Media;
-using FilesExplorerInDB_Models.Models;
 
 namespace FilesExplorerInDB_Manager.Interface
 {
     public interface IFilesDbManager
     {
-        Files FilesAdd(FileInfo fileInfo, int folderLocalId, string pathForSave);
+        Files FilesAdd(FileInfo fileInfo, string folderLocalId, string pathForSave);
 
         Files FilesFind(params object[] keyValue);
 
         Folders FoldersFind(params object[] keyValue);
 
-        List<Files> LoadFilesEntites(Expression<Func<Files, bool>> where);
+        List<Files> LoadFilesEntities(Expression<Func<Files, bool>> where);
 
-        List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> where);
+        List<Folders> LoadFoldersEntities(Expression<Func<Folders, bool>> where);
 
         ExplorerProperty SetExplorerItem(Folders folderNow);
 
-        List<ExplorerProperty> SetExplorerItemsList(int localFolderId, out Folders folderNow);
+        List<ExplorerProperty> SetExplorerItemsList(string localFolderId, out Folders folderNow);
 
-        //ExplorerProperty SetExplorerItems_Files(Files file, Bitmap defaultBitmap, Bitmap errorBitmap);
+        List<Folders> GetFoldersTree(string folderId, List<Folders> folders);
 
-        //ExplorerProperty SetExplorerItems_Folders(Folders file, ImageSource imageSource);
-
-        List<Folders> GetFoldersTree(int folderId, List<Folders> folders);
-
-        bool Paste(int folderForPaste, List<ExplorerProperty> items, bool isCutting);
+        bool Paste(string folderForPaste, List<ExplorerProperty> items, bool isCutting);
 
         bool SetDeleteState(List<ExplorerProperty> items);
 
-        bool SetDeleteState(int filesForDelete);
+        bool SetDeleteState(string filesForDelete);
 
         bool Rename(List<ExplorerProperty> items, string newName);
 
@@ -44,13 +39,13 @@ namespace FilesExplorerInDB_Manager.Interface
 
         void Rename(Folders folder, string newName);
 
-        Stack<Folders> GetRelativePath_Folder(int folderId);
+        Stack<Folders> GetRelativePath_Folder(string folderId);
 
-        Folders CreateFolders(int parentFoldersId);
+        Folders CreateFolders(string parentFoldersId);
 
-        Folders SetFoldersProperty(int foldersId);
+        Folders SetFoldersProperty(string foldersId);
 
-        Files SetFilesProperty(int filesId);
+        Files SetFilesProperty(string filesId);
 
         ImageSource GetImage(Bitmap imageBitmap);
 

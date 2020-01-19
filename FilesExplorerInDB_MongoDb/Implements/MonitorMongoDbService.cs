@@ -1,46 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
-using Resources;
 using Sikiro.Nosql.Mongo;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using static Resources.Resource;
+using static System.Configuration.ConfigurationManager;
 
 namespace FilesExplorerInDB_MongoDb.Implements
 {
     public class MonitorMongoDbService : IMonitorService
     {
-        private readonly MongoRepository _mongoRepository = new MongoRepository(ConfigurationManager.ConnectionStrings["FilesDB_MongoDB"].ConnectionString);
+        private MongoRepository MongoRepository { get; } =
+            new MongoRepository(ConnectionStrings["FilesDB_MongoDB"].ConnectionString);
 
-        public Monitor MonitorAdd(Monitor entity)
+        public Monitor MonitorAdd(Monitor entity, bool autoId = false)
         {
-            if (entity == null) throw new Exception(Resource.Message_ArgumentNullException_Monitor);
-            entity.MonitorId = (int)_mongoRepository.Count<Monitor>(f => f.MonitorId != -1) + 1;
-            _mongoRepository.Add(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Monitor);
+            if (autoId) entity.MonitorId = Guid.NewGuid().ToString();
+            MongoRepository.Add(entity);
             return entity;
         }
 
         public Monitor MonitorFind(params object[] keyValue)
         {
-            return _mongoRepository.Get<Monitor>(f => f.MonitorId == Convert.ToInt32(keyValue[0],CultureInfo.CurrentCulture));
+            return MongoRepository.Get<Monitor>(f => f.MonitorId == keyValue[0].ToString());
         }
 
         public void MonitorModified(Monitor entity)
         {
-            _mongoRepository.Update(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Monitor);
+            MongoRepository.Update(entity);
         }
 
         public void MonitorRemove(Monitor entity)
         {
-            _mongoRepository.Delete<Monitor>(f => f.MonitorId == entity.MonitorId);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Monitor);
+            MongoRepository.Delete<Monitor>(f => f.MonitorId == entity.MonitorId);
         }
 
-        public List<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> where)
+        public List<Monitor> LoadMonitorEntities(Expression<Func<Monitor, bool>> where)
         {
-            return _mongoRepository.ToList(where);
+            return MongoRepository.ToList(where);
         }
 
         public int SaveChanges()

@@ -80,6 +80,9 @@ namespace Resources.Properties
                 case SettingType.ConnectionString4MongoDB:
                     SettingsInstance.ConnectionString4MongoDB = (string) value;
                     break;
+                case SettingType.RootFolderId:
+                    SettingsInstance.RootFolderId = (string) value;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -109,6 +112,8 @@ namespace Resources.Properties
                     return SettingsInstance.ConnectionString4Oracle;
                 case SettingType.ConnectionString4MongoDB:
                     return SettingsInstance.ConnectionString4MongoDB;
+                case SettingType.RootFolderId:
+                    return SettingsInstance.RootFolderId;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -140,7 +145,8 @@ namespace Resources.Properties
             ConnectionString4MySQL,
             ConnectionString4MSSQL,
             ConnectionString4Oracle,
-            ConnectionString4MongoDB
+            ConnectionString4MongoDB,
+            RootFolderId
         }
     }
 }

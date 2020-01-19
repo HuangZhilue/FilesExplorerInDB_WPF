@@ -1,6 +1,5 @@
 namespace FilesExplorerInDB_EF.EFModels
 {
-    using Interface;
     using MongoDB.Bson.Serialization.Attributes;
     using Sikiro.Nosql.Mongo.Base;
     using System;
@@ -9,7 +8,7 @@ namespace FilesExplorerInDB_EF.EFModels
 
     [Mongo("FilesExplorerDB", "Files")]
     [Table("Files")]
-    public class Files : MongoEntity, IFiles
+    public class Files : MongoEntity
     {
         /// <summary>
         /// 解决Sikiro.Nosql.Mongo中内置的_Id与MSSQL中的字段不相符的问题
@@ -17,15 +16,13 @@ namespace FilesExplorerInDB_EF.EFModels
         [NotMapped]
         protected new string Id { get; set; }
 
-        [Key]
-        public int FileId { get; set; }
+        [Key] public string FileId { get; set; }
 
-        [Required]
-        public string FileName { get; set; }
+        [Required] public string FileName { get; set; }
 
         public string FileType { get; set; }
 
-        public int FolderLocalId { get; set; }
+        public string FolderLocalId { get; set; }
 
         public long Size { get; set; }
 

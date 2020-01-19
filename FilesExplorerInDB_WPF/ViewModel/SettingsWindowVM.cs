@@ -1,12 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using FilesExplorerInDB_WPF.Helper;
+﻿using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
-using Resources;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
-using static Resources.Properties.Settings;
+using static Resources.Properties.Settings.SettingType;
+using static Resources.Resource;
+using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -31,36 +32,36 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void SetSettings_DBSetting()
         {
-            SettingsWindowModel.IsLocal = (bool) GetSetting(SettingType.IsLocal);
+            SettingsWindowModel.IsLocal = (bool) GetSetting(IsLocal);
             SettingsWindowModel.IsLocalText = SettingsWindowModel.IsLocal
-                ? Resource.Settings_IsLocal_True
-                : Resource.Settings_IsLocal_False;
-            SettingsWindowModel.DBType = GetSetting(SettingType.DBType).ToString();
+                ? Settings_IsLocal_True
+                : Settings_IsLocal_False;
+            SettingsWindowModel.DBType = GetSetting(DBType).ToString();
             SettingsWindowModel.DBTypeText = $"{SettingsWindowModel.DBType}数据库";
             switch (SettingsWindowModel.DBType)
             {
                 case "MySQL":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MySQL).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4MySQL).ToString();
                     break;
                 case "SQL Server":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MSSQL).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4MSSQL).ToString();
                     break;
                 case "Oracle":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4Oracle).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4Oracle).ToString();
                     break;
                 case "MongoDB":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MongoDB).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4MongoDB).ToString();
                     break;
                 default:
-                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
-                    //SettingsWindowModel.ConnectionString = "";
-                    //break;
+                    throw new Exception(Message_ArgumentOutOfRangeException_DBType);
+                //SettingsWindowModel.ConnectionString = "";
+                //break;
             }
 
             if (SettingsWindowModel.IsLocal)
             {
                 SettingsWindowModel.IsVisibilityFileStorageLocation = Visibility.Visible;
-                SettingsWindowModel.FileStorageLocation = GetSetting(SettingType.FileStorageLocation).ToString();
+                SettingsWindowModel.FileStorageLocation = GetSetting(FileStorageLocation).ToString();
             }
             else
             {
@@ -79,8 +80,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
             SettingsWindowModel.IsVisibilityFileStorageLocation =
                 SettingsWindowModel.IsLocal ? Visibility.Visible : Visibility.Collapsed;
             SettingsWindowModel.IsLocalText = SettingsWindowModel.IsLocal
-                ? Resource.Settings_IsLocal_True
-                : Resource.Settings_IsLocal_False;
+                ? Settings_IsLocal_True
+                : Settings_IsLocal_False;
         }
 
         private void DBTypeChange()
@@ -89,19 +90,19 @@ namespace FilesExplorerInDB_WPF.ViewModel
             switch (SettingsWindowModel.DBType)
             {
                 case "MySQL":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MySQL).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4MySQL).ToString();
                     break;
                 case "SQL Server":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MSSQL).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4MSSQL).ToString();
                     break;
                 case "Oracle":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4Oracle).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4Oracle).ToString();
                     break;
                 case "MongoDB":
-                    SettingsWindowModel.ConnectionString = GetSetting(SettingType.ConnectionString4MongoDB).ToString();
+                    SettingsWindowModel.ConnectionString = GetSetting(ConnectionString4MongoDB).ToString();
                     break;
                 default:
-                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
+                    throw new Exception(Message_ArgumentOutOfRangeException_DBType);
             }
         }
 
@@ -114,29 +115,29 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void SaveSettings_DBSetting()
         {
-            SaveSetting(SettingType.IsLocal, SettingsWindowModel.IsLocal);
-            SaveSetting(SettingType.DBType, SettingsWindowModel.DBType);
+            SaveSetting(IsLocal, SettingsWindowModel.IsLocal);
+            SaveSetting(DBType, SettingsWindowModel.DBType);
             switch (SettingsWindowModel.DBType)
             {
                 case "MySQL":
-                    SaveSetting(SettingType.ConnectionString4MySQL, SettingsWindowModel.ConnectionString);
+                    SaveSetting(ConnectionString4MySQL, SettingsWindowModel.ConnectionString);
                     break;
                 case "SQL Server":
-                    SaveSetting(SettingType.ConnectionString4MSSQL, SettingsWindowModel.ConnectionString);
+                    SaveSetting(ConnectionString4MSSQL, SettingsWindowModel.ConnectionString);
                     break;
                 case "Oracle":
-                    SaveSetting(SettingType.ConnectionString4Oracle, SettingsWindowModel.ConnectionString);
+                    SaveSetting(ConnectionString4Oracle, SettingsWindowModel.ConnectionString);
                     break;
                 case "MongoDB":
-                    SaveSetting(SettingType.ConnectionString4MongoDB, SettingsWindowModel.ConnectionString);
+                    SaveSetting(ConnectionString4MongoDB, SettingsWindowModel.ConnectionString);
                     break;
                 default:
-                    throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
+                    throw new Exception(Message_ArgumentOutOfRangeException_DBType);
             }
 
-            SaveSetting(SettingType.FileStorageLocation, SettingsWindowModel.FileStorageLocation);
+            SaveSetting(FileStorageLocation, SettingsWindowModel.FileStorageLocation);
 
-            var result = MessageBox.Show("立即重启？", Resource.Caption_Info, MessageBoxButton.YesNo);
+            var result = MessageBox.Show("立即重启？", Caption_Info, MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes) return;
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();

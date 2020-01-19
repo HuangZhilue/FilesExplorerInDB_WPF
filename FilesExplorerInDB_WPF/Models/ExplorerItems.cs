@@ -1,5 +1,6 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
+using Resources.Properties;
 using System.Collections.Generic;
 
 namespace FilesExplorerInDB_WPF.Models
@@ -44,10 +45,10 @@ namespace FilesExplorerInDB_WPF.Models
 
         private ExplorerItems()
         {
-            if (ExplorerList == null) GetFolder(0);
+            if (ExplorerList == null) GetFolder(GetSetting(Settings.SettingType.RootFolderId).ToString());
         }
 
-        public void GetFolder(int folderId)
+        public void GetFolder(string folderId)
         {
             ExplorerList = FilesDbManager.SetExplorerItemsList(folderId, out Folders folderNow);
             FolderNow = folderNow;

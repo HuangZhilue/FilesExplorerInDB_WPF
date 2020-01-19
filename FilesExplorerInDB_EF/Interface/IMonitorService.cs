@@ -1,14 +1,13 @@
-﻿using System;
+﻿using FilesExplorerInDB_EF.EFModels;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using FilesExplorerInDB_EF.EFModels;
 
 namespace FilesExplorerInDB_EF.Interface
 {
     public interface IMonitorService
     {
-        Monitor MonitorAdd(Monitor entity);
+        Monitor MonitorAdd(Monitor entity, bool autoId = false);
 
         Monitor MonitorFind(params object[] keyValue);
 
@@ -16,7 +15,7 @@ namespace FilesExplorerInDB_EF.Interface
 
         void MonitorRemove(Monitor entity);
 
-        List<Monitor> LoadMonitorEntites(Expression<Func<Monitor, bool>> @where);
+        List<Monitor> LoadMonitorEntities(Expression<Func<Monitor, bool>> @where);
 
         int SaveChanges();
     }

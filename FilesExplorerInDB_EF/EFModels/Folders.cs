@@ -1,6 +1,5 @@
 namespace FilesExplorerInDB_EF.EFModels
 {
-    using Interface;
     using MongoDB.Bson.Serialization.Attributes;
     using Sikiro.Nosql.Mongo.Base;
     using System;
@@ -11,9 +10,10 @@ namespace FilesExplorerInDB_EF.EFModels
 
     [Mongo("FilesExplorerDB", "Folders")]
     [Table("Folders")]
-    public class Folders : MongoEntity, IFolders
+    public class Folders : MongoEntity
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
+            "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Folders()
         {
             Files = new HashSet<Files>();
@@ -25,13 +25,11 @@ namespace FilesExplorerInDB_EF.EFModels
         [NotMapped]
         private new string Id { get; set; }
 
-
-        [Key]
-        public int FolderId { get; set; }
+        [Key] public string FolderId { get; set; }
 
         public string FolderName { get; set; }
 
-        public int FolderLocalId { get; set; }
+        public string FolderLocalId { get; set; }
 
         public long Size { get; set; }
 
@@ -47,10 +45,10 @@ namespace FilesExplorerInDB_EF.EFModels
 
         public bool IsDelete { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Files> Files { get; set; }//需要virtual修饰符，负责出现初始化时文件列表为空
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
+            "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Files> Files { get; set; } //需要virtual修饰符，负责出现初始化时文件列表为空
 
-        [NotMapped]
-        public List<Folders> FolderNodes { get; set; }
+        [NotMapped] public List<Folders> FolderNodes { get; set; }
     }
 }

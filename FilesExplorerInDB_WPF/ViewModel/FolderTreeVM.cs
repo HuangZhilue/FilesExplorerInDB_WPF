@@ -46,7 +46,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
         }
 
-        private bool IsValid(object parameter)
+        private static bool IsValid(object parameter)
         {
             if (!(parameter is Folders item)) return false;
             return !item.IsDelete;

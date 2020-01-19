@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using FilesExplorerInDB_WPF.Helper;
 using System.Windows;
 using FilesExplorerInDB_EF.EFModels;
+using static Resources.Resource;
+using static Resources.Properties.Settings;
 
 namespace FilesExplorerInDB_WPF
 {
@@ -27,14 +30,64 @@ namespace FilesExplorerInDB_WPF
         /// </summary>
         public MainWindow()
         {
-            //using (FilesDB db = new FilesDB())
-            //{
-            //    db.Folders.Add(new Folders { FolderId = 0, FolderName = "root", ModifyTime = DateTime.Now, CreationTime = DateTime.Now});
-            //    db.Files.Add(new Files { FileName = "test", CreationTime = DateTime.Now, ModifyTime = DateTime.Now, AccessTime = DateTime.Now});
-            //    db.Monitor.Add(new Monitor { Operator = "user", MessageType = "test", OperationType = "test", Time = DateTime.Now});
-            //    db.SaveChanges();
-            //}
-            InitializeComponent();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(GetSetting(SettingType.RootFolderId).ToString()))
+                {
+                    SaveSetting(SettingType.RootFolderId, Guid.NewGuid().ToString());
+                }
+
+                InitializeComponent();
+            }
+            catch
+            {
+                using (var db = new FilesDB())
+                {
+                    var now = DateTime.Now;
+                    db.Folders.Add(new Folders
+                    {
+                        FolderId = GetSetting(SettingType.RootFolderId).ToString(),
+                        FolderName = "root",
+                        ModifyTime = now,
+                        CreationTime = now,
+                        FolderLocalId = App_RootLocalFolderId,
+                        Size = 0,
+                        FileIncludeCount = 0,
+                        FolderIncludeCount = 0,
+                        IsDelete = false
+                    });
+                    db.Files.Add(new Files
+                    {
+                        FileId = Guid.NewGuid().ToString(),
+                        FileName = "null",
+                        CreationTime = now,
+                        ModifyTime = now,
+                        AccessTime = now,
+                        FolderLocalId = GetSetting(SettingType.RootFolderId).ToString(),
+                        FileType = "null",
+                        IsDelete = true,
+                        IsMiss = true,
+                        Size = 0,
+                        RealName = "null",
+                    });
+                    db.Monitor.Add(new Monitor
+                    {
+                        MonitorId = Guid.NewGuid().ToString(), 
+                        Operator = "System", 
+                        MessageType = "Build",
+                        OperationType = "Build", 
+                        Message = "Initialize the directory structure",
+                        ObjectName = "System",
+                        Time = now
+                    });
+                    db.SaveChanges();
+                }
+
+                Process.Start(Application.ResourceAssembly.Location);
+                Environment.Exit(0);
+                return;
+            }
+
             WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
             WindowManager.Register<SettingsWindow>(nameof(SettingsWindow));
         }

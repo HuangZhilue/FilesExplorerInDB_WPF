@@ -110,5 +110,17 @@ namespace Resources.Properties {
                 this["ConnectionString4MongoDB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("648f3522-178a-4646-8d00-55dcff2b2a1b")]
+        public string RootFolderId {
+            get {
+                return ((string)(this["RootFolderId"]));
+            }
+            set {
+                this["RootFolderId"] = value;
+            }
+        }
     }
 }

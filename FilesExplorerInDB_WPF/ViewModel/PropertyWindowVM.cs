@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using static Resources.Resource;
+using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -36,7 +38,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         public void SetProperty(ExplorerProperty explorerProperty)
         {
-            if (explorerProperty == null) throw new Exception(Resource.Message_ArgumentNullException_ExplorerProperty);
+            if (explorerProperty == null) throw new Exception(Message_ArgumentNullException_ExplorerProperty);
             if (explorerProperty.IsFolder)
             {
                 Folders folders = FilesDbManager.FoldersFind(explorerProperty.Id);
@@ -83,7 +85,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PropertyWindowModel.IsVisibilityAccessTime = Visibility.Visible;
         }
 
-        private static string GetLocation(int folderId)
+        private static string GetLocation(string folderId)
         {
             string path = "";
             Stack<Folders> stack = FilesDbManager.GetRelativePath_Folder(folderId);
@@ -115,7 +117,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 else
                 {
                     MessageBoxResult result = MessageBox.Show("文件不存在或者文件读取失败！\n\r是否删除该文件？\n\rYes：删除\n\rNo：保留",
-                        Resource.Caption_RefreshError,
+                        Caption_RefreshError,
                         MessageBoxButton.YesNo, MessageBoxImage.Error);
                     switch (result)
                     {
@@ -134,7 +136,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                             break;
                         default:
                             throw new ArgumentOutOfRangeException(Resource.MessageBoxResult,
-                                Resource.Messgae_ArgumentOutOfRangeException);
+                                Messgae_ArgumentOutOfRangeException);
                     }
                 }
             }
@@ -151,19 +153,22 @@ namespace FilesExplorerInDB_WPF.ViewModel
             if (NameBackup == PropertyWindowModel.Name) return;
             if (PropertyWindowModel.Name.CheckNameIsNullOrWhiteSpace())
             {
-                MessageBox.Show(Resource.Message_NameCheckIsNullOrWhiteSpace, Resource.Caption_Info,
+                MessageBox.Show(Message_NameCheckIsNullOrWhiteSpace, Caption_Info,
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (!PropertyWindowModel.Name.CheckNameIsNameRegex())
             {
-                MessageBox.Show(Resource.Message_NameCheckError, Resource.Caption_Info, MessageBoxButton.OK,
+                MessageBox.Show(Message_NameCheckError, Caption_Info, MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show("确定要修改文件、文件夹名称？", Resource.Caption_Info,
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Information);
+                MessageBoxResult result =
+                    MessageBox.Show(
+                        "确定要修改文件、文件夹名称？",
+                        Caption_Info,
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Information);
                 if (result == MessageBoxResult.OK)
                 {
                     if (IsFolder)

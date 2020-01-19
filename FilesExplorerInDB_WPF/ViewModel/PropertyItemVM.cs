@@ -37,7 +37,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             PropertyItems.GetPropertyFromExplorerItems(property);
         }
 
-        public void SetProperty(int nowFolderId)
+        public void SetProperty(string nowFolderId)
         {
             PropertyItems.GetPropertyFromExplorerBlock(nowFolderId);
         }

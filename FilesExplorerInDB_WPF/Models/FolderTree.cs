@@ -1,6 +1,6 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using System.Collections.Generic;
-using System.Linq;
+using static Resources.Resource;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -18,21 +18,23 @@ namespace FilesExplorerInDB_WPF.Models
             }
         }
 
-        private List<Folders> RootFolderList { get; set; } =
-            FilesDbManager.LoadFoldersEntites(f => f.FolderId != -1 && f.IsDelete == false).ToList();
+        private List<Folders> RootFolderList { get; set; } = new List<Folders>();
+        //FilesDbManager.LoadFoldersEntities(f => f.FolderId != App_RootLocalFolderId && f.IsDelete == false);
 
         public static FolderTree GetInstance { get; } = new FolderTree();
 
         private FolderTree()
         {
-            if (FolderTreeList == null || FolderTreeList.Count <= 0)
-                FolderTreeList = FilesDbManager.GetFoldersTree(-1, RootFolderList);
+            RefreshFolderTree();
+            //if (FolderTreeList == null || FolderTreeList.Count <= 0)
+            //    FolderTreeList = FilesDbManager.GetFoldersTree(App_RootLocalFolderId, RootFolderList);
         }
 
         public void RefreshFolderTree()
         {
-            RootFolderList = FilesDbManager.LoadFoldersEntites(f => f.FolderId != -1 && f.IsDelete == false).ToList();
-            FolderTreeList = FilesDbManager.GetFoldersTree(-1, RootFolderList);
+            RootFolderList = FilesDbManager
+                .LoadFoldersEntities(f => f.FolderId != App_RootLocalFolderId && f.IsDelete == false);
+            FolderTreeList = FilesDbManager.GetFoldersTree(App_RootLocalFolderId, RootFolderList);
         }
     }
 }

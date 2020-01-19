@@ -1,81 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
-using FilesExplorerInDB_EF.EFModels;
+﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
-using Resources;
 using Sikiro.Nosql.Mongo;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using static Resources.Resource;
+using static System.Configuration.ConfigurationManager;
 
 namespace FilesExplorerInDB_MongoDb.Implements
 {
     public class FilesDbMongoDbService : IFilesDbService
     {
-        private readonly MongoRepository _mongoRepository = new MongoRepository(ConfigurationManager.ConnectionStrings["FilesDB_MongoDB"].ConnectionString);
+        private MongoRepository MongoRepository { get; } =
+            new MongoRepository(ConnectionStrings["FilesDB_MongoDB"].ConnectionString);
 
-        public Files FilesAdd(Files entity)
+        public Files FilesAdd(Files entity, bool autoId = false)
         {
-            if (entity == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
-            entity.FileId = (int)_mongoRepository.Count<Files>(f => f.FileId != -1) + 1;
-            _mongoRepository.Add(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Files);
+            if (autoId) entity.FileId = Guid.NewGuid().ToString();
+            MongoRepository.Add(entity);
             return entity;
         }
 
-        public Folders FoldersAdd(Folders entity)
+        public Folders FoldersAdd(Folders entity, bool autoId = false)
         {
-            if (entity == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
-            entity.FolderId = (int)_mongoRepository.Count<Folders>(f => f.FolderId != -1) + 1;
-            _mongoRepository.Add(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Folders);
+            if (autoId) entity.FolderId = Guid.NewGuid().ToString();
+            MongoRepository.Add(entity);
             return entity;
         }
 
         public Files FilesFind(params object[] keyValue)
         {
-            return _mongoRepository.Get<Files>(
-                f => f.FileId == Convert.ToInt32(keyValue[0], CultureInfo.CurrentCulture));
+            return MongoRepository.Get<Files>(f => f.FileId == keyValue[0].ToString());
         }
 
         public Folders FoldersFind(params object[] keyValue)
         {
-            return _mongoRepository.Get<Folders>(f =>
-                f.FolderId == Convert.ToInt32(keyValue[0], CultureInfo.CurrentCulture));
+            return MongoRepository.Get<Folders>(f => f.FolderId == keyValue[0].ToString());
         }
 
         public void FilesModified(Files entity)
         {
-            _mongoRepository.Update(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Files);
+            MongoRepository.Update(entity);
         }
 
         public void FoldersModified(Folders entity)
         {
-            _mongoRepository.Update(entity);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Folders);
+            MongoRepository.Update(entity);
         }
 
         public void FilesRemove(Files entity)
         {
-            _mongoRepository.Delete<Files>(f => f.FileId == entity.FileId);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Files);
+            MongoRepository.Delete<Files>(f => f.FileId == entity.FileId);
         }
 
         public void FoldersRemove(Folders entity)
         {
-            _mongoRepository.Delete<Folders>(f => f.FolderId == entity.FolderId);
+            if (entity == null) throw new Exception(Message_ArgumentNullException_Folders);
+            MongoRepository.Delete<Folders>(f => f.FolderId == entity.FolderId);
         }
 
-        public List<Files> LoadFilesEntites(Expression<Func<Files, bool>> @where)
+        public List<Files> LoadFilesEntities(Expression<Func<Files, bool>> where)
         {
-            return _mongoRepository.ToList(where);
+            return MongoRepository.ToList(where);
         }
 
-        public List<Folders> LoadFoldersEntites(Expression<Func<Folders, bool>> @where)
+        public List<Folders> LoadFoldersEntities(Expression<Func<Folders, bool>> where)
         {
-            return _mongoRepository.ToList(where);
+            return MongoRepository.ToList(where);
         }
 
         public int SaveChanges()
         {
-            return 1; 
+            return 1;
         }
     }
 }

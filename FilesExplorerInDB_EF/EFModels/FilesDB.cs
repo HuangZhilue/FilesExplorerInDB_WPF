@@ -1,11 +1,10 @@
-using System;
-using System.Data.Common;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.SqlServer;
 using MySql.Data.EntityFramework;
 using MySql.Data.MySqlClient;
 using Oracle.ManagedDataAccess.EntityFramework;
 using Resources;
+using System;
+using System.Data.Common;
+using System.Data.Entity.Infrastructure;
 using static Resources.Properties.Settings;
 
 namespace FilesExplorerInDB_EF.EFModels
@@ -13,7 +12,7 @@ namespace FilesExplorerInDB_EF.EFModels
     using System.Data.Entity;
 
     [DbConfigurationType(typeof(MultipleDbConfiguration))]
-    public sealed class FilesDB : DbContext //, IFilesDB
+    public sealed class FilesDB : DbContext
     {
         public static FilesDB GetFilesDb { get; } = new FilesDB();
 
@@ -42,12 +41,8 @@ namespace FilesExplorerInDB_EF.EFModels
 
     public class MultipleDbConfiguration : DbConfiguration
     {
-        #region Constructors 
-
         public MultipleDbConfiguration()
         {
-            //SetProviderServices(MySqlProviderInvariantName.ProviderName, new MySqlProviderServices());
-
             var dbType = GetSetting(SettingType.DBType).ToString();
             switch (dbType)
             {
@@ -61,21 +56,16 @@ namespace FilesExplorerInDB_EF.EFModels
                 case "Oracle":
                     SetProviderServices("Oracle.ManagedDataAccess.Client", EFOracleProviderServices.Instance);
                     break;
-                //case "MongoDB":
-                //    var mongodbFactory = new MySqlConnectionFactory();
-                //    return mongodbFactory.CreateConnection(GetConnectionString());
+                case "MongoDB":
+                    //TODO MongoDB可通过给定的链接直接访问，无需设置这些乱七八糟的
+                    break;
                 default:
                     throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
             }
         }
 
-        #endregion Constructors
-
-        #region Public methods 
-
         public static DbConnection GetMyConnection()
         {
-            //var multipleDbConfiguration = new MultipleDbConfiguration();
             var dbType = GetSetting(SettingType.DBType).ToString();
             switch (dbType)
             {
@@ -92,7 +82,5 @@ namespace FilesExplorerInDB_EF.EFModels
                     throw new Exception(Resource.Message_ArgumentOutOfRangeException_DBType);
             }
         }
-
-        #endregion Public methods
     }
 }
