@@ -38,6 +38,9 @@ namespace FilesExplorerInDB_WPF
                 }
 
                 InitializeComponent();
+
+                WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
+                WindowManager.Register<SettingsWindow>(nameof(SettingsWindow));
             }
             catch
             {
@@ -85,11 +88,7 @@ namespace FilesExplorerInDB_WPF
 
                 Process.Start(Application.ResourceAssembly.Location);
                 Environment.Exit(0);
-                return;
             }
-
-            WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
-            WindowManager.Register<SettingsWindow>(nameof(SettingsWindow));
         }
     }
 }
