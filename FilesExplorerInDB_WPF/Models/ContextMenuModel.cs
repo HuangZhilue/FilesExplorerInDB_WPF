@@ -16,6 +16,18 @@ namespace FilesExplorerInDB_WPF.Models
         private Visibility _isVisibleRename = Visibility.Collapsed;
         private Visibility _isVisibleProperty = Visibility.Collapsed;
 
+        /*
+        public System.Windows.Media.ImageSource OpenImage => FilesDbManager.GetImage(right_arrow_solid_24);
+        public System.Windows.Media.ImageSource RefreshImage => FilesDbManager.GetImage(chevron_right_regular_24);
+        public System.Windows.Media.ImageSource CutImage => FilesDbManager.GetImage(cut_regular_24);
+        public System.Windows.Media.ImageSource CopyImage => FilesDbManager.GetImage(copy_alt_regular_24);
+        public System.Windows.Media.ImageSource PasteImage => FilesDbManager.GetImage(paste_regular_24);
+        public System.Windows.Media.ImageSource CreateImage => FilesDbManager.GetImage(plus_regular_24);
+        public System.Windows.Media.ImageSource DeleteImage => FilesDbManager.GetImage(trash_regular_24);
+        public System.Windows.Media.ImageSource RenameImage => FilesDbManager.GetImage(search_alt_2_regular_24);
+        public System.Windows.Media.ImageSource PropertyImage => FilesDbManager.GetImage(detail_regular_24);
+        */
+
         public Visibility IsVisibleOpen
         {
             get => _isVisibleOpen;

@@ -80,5 +80,113 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chevron-down-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chevron-left-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chevron-right-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chevron-up-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy-alt-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\detail-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\detail-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down-arrow-alt-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down-arrow-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down-arrow-square-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left-arrow-alt-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left-arrow-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left-arrow-square-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\memory-card-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\memory-card-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right-arrow-alt-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right-arrow-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right-arrow-square-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search-alt-2-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search-alt-2-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slider-alt-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slider-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up-arrow-alt-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up-arrow-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up-arrow-square-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus-square-solid-24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

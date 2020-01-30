@@ -17,6 +17,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static Command.UnityContainerHelp;
+using static FilesExplorerInDB_Manager.Implements.FileIcon.IconSizeEnum;
 using static Resources.Properties.Settings;
 using static Resources.Resource;
 using static System.Activator;
@@ -119,6 +120,7 @@ namespace FilesExplorerInDB_Manager.Implements
             Debug.WriteLine(folderNow);
             folderNow.FolderNodes = LoadFoldersEntities(f => f.FolderLocalId == localFolderId && f.IsDelete == false);
             var list = folderNow.FolderNodes.Select(folder => SetExplorerItems_Folders(folder, GetImage(Resource.folder))).ToList();
+            //TODO 获取图标的操作过于频繁
             list.AddRange(from file in folderNow.Files where !file.IsDelete select SetExplorerItems_Files(file));
 
             return list;
@@ -150,15 +152,15 @@ namespace FilesExplorerInDB_Manager.Implements
             Property.ModifyTime = file.ModifyTime.ToString(CultureInfo.CurrentCulture);
             Property.Size = file.Size;
             Property.Type = file.FileType;
+            //TODO 获取图标的操作过于频繁
             if (CheckFilePath(file))
             {
                 Property.ImageSource =
-                    GetImage(FileIcon.GetBitmapFromFilePath(file.RealName,
-                        Implements.FileIcon.IconSizeEnum.ExtraLargeIcon));
+                    GetImage(FileIcon.GetBitmapFromFilePath(file.RealName, ExtraLargeIcon));
             }
             else
             {
-                SetFilesProperty(file.FileId);
+                //SetFilesProperty(file.FileId);
                 Property.ImageSource = GetImage(fileNotFount);
             }
 
@@ -205,6 +207,27 @@ namespace FilesExplorerInDB_Manager.Implements
 
             return mainFolders;
         }
+
+        #region 搜索
+
+        public List<ExplorerProperty> SearchResultList(string name, Folders folderNow)
+        {
+            if (IsNullOrWhiteSpace(name)) return null;
+
+            var sFolder = LoadFoldersEntities(f =>
+                f.FolderLocalId == folderNow.FolderId && f.FolderName.Contains(name) && !f.IsDelete);
+            var cFolder = LoadFoldersEntities(f => f.FolderLocalId == folderNow.FolderId && !f.IsDelete);
+            var list = sFolder.Select(folder => SetExplorerItems_Folders(folder, GetImage(Resource.folder))).ToList();
+            //TODO 获取图标的操作过于频繁
+            list.AddRange(from file in folderNow.Files
+                where !file.IsDelete && file.FileName.Contains(name)
+                select SetExplorerItems_Files(file));
+
+            cFolder.ForEach(f => { list.AddRange(SearchResultList(name, f)); });
+            return list;
+        }
+
+        #endregion
 
         #region 粘贴
 
@@ -699,7 +722,7 @@ namespace FilesExplorerInDB_Manager.Implements
 
         #endregion
 
-        private bool CheckFilePath(Files files)
+        private static bool CheckFilePath(Files files)
         {
             if (files == null || IsNullOrWhiteSpace(files.RealName)) return false;
             if (!File.Exists(files.RealName)) return false;
@@ -712,8 +735,7 @@ namespace FilesExplorerInDB_Manager.Implements
             }
 
             var name = nameMatches[nameMatches.Count - 1];
-            if (!File.Exists(GetSetting(SettingType.FileStorageLocation) + "\\" + name)) return false;
-            return true;
+            return File.Exists(GetSetting(SettingType.FileStorageLocation) + "\\" + name);
         }
     }
 }

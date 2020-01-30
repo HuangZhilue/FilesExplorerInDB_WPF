@@ -27,6 +27,8 @@ namespace FilesExplorerInDB_Manager.Interface
 
         List<Folders> GetFoldersTree(string folderId, List<Folders> folders);
 
+        List<ExplorerProperty> SearchResultList(string name, Folders folderNow);
+
         bool Paste(string folderForPaste, List<ExplorerProperty> items, bool isCutting);
 
         bool SetDeleteState(List<ExplorerProperty> items);

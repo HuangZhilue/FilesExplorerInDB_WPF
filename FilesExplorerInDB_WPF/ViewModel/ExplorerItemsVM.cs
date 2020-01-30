@@ -28,6 +28,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand ClickPathBack { get; }
         public ICommand ClickPathNext { get; }
         public ICommand ClickPathPrevious { get; }
+        public ICommand ClickSearchCancel { get; }
+        public ICommand ClickSearchEnter { get; }
         public ICommand LoadedContextMenu { get; }
         public ICommand CommandOpen { get; }
         public ICommand CommandRefresh { get; }
@@ -74,6 +76,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
             ClickPathBack = new DelegateCommand(Button_PathBack_Click);
             ClickPathNext = new DelegateCommand(Button_PathNext_Click);
             ClickPathPrevious = new DelegateCommand(Button_PathPrevious_Click);
+            ClickSearchCancel = new DelegateCommand(CancelSearch);
+            ClickSearchEnter = new DelegateCommand(SearchExplorer);
             LoadedContextMenu = new DelegateCommand<object>(CheckContextMenu, m => true);
             CommandCopy = new DelegateCommand(Copy);
             CommandCreate = new DelegateCommand(Create);
@@ -122,6 +126,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void GetProperty(object parameter)
         {
+            //TODO 在这里开始，做“主页”工具栏
             switch (parameter)
             {
                 case ExplorerProperty explorerProperty:
@@ -182,6 +187,18 @@ namespace FilesExplorerInDB_WPF.ViewModel
             Folders folders = PathViewVM.PathPrevious(ExplorerItems.FolderNow);
             IsPathPrevious = true;
             OpenFolder(folders);
+        }
+
+        private void CancelSearch()
+        {
+            Refresh();
+            PathViewVM.PathViewModel.SearchString = "";
+        }
+
+        private void SearchExplorer()
+        {
+            ExplorerItems.ExplorerList =
+                FilesDbManager.SearchResultList(PathViewVM.PathViewModel.SearchString, ExplorerItems.FolderNow);
         }
 
         private void CheckContextMenu(object obj)
@@ -354,8 +371,6 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         public void OnFileDrop(string[] filePaths)
         {
-            //TODO 文件拖放 
-
             if (filePaths == null) return;
             foreach (var s in filePaths)
             {

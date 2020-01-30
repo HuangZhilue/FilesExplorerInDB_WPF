@@ -134,8 +134,50 @@
     <value>属性刷新错误</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="chevron_down_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\chevron-down-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="chevron_left_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\chevron-left-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="chevron_right_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\chevron-right-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="chevron_up_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\chevron-up-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cog_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\cog-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cog_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\cog-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="copy_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\copy-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="copy_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\copy-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cut_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\cut-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DEFAULT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\DEFAULT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="detail_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\detail-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="detail_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\detail-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="down_arrow_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\down-arrow-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="down_arrow_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\down-arrow-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="down_arrow_square_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\down-arrow-square-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="explorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\explorer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -145,6 +187,24 @@
   </data>
   <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="left_arrow_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\left-arrow-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="left_arrow_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\left-arrow-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="left_arrow_square_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\left-arrow-square-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="memory_card_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\memory-card-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="memory_card_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\memory-card-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menu_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\menu-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MessageBoxResult" xml:space="preserve">
     <value>MessageBoxResult</value>
@@ -188,16 +248,64 @@
   <data name="Messgae_ArgumentOutOfRangeException" xml:space="preserve">
     <value>ArgumentOutOfRangeException</value>
   </data>
+  <data name="paste_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\paste-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="plus_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\plus-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="plus_square_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\plus-square-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Property_Type_File" xml:space="preserve">
     <value>文件</value>
   </data>
   <data name="Property_Type_Folder" xml:space="preserve">
     <value>文件夹</value>
   </data>
+  <data name="right_arrow_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\right-arrow-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="right_arrow_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\right-arrow-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="right_arrow_square_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\right-arrow-square-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search_alt_2_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\search-alt-2-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search_alt_2_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\search-alt-2-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\search-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Settings_IsLocal_False" xml:space="preserve">
     <value>数据库在远程计算机或远程服务器中</value>
   </data>
   <data name="Settings_IsLocal_True" xml:space="preserve">
     <value>数据库在当前计算机中</value>
+  </data>
+  <data name="slider_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\slider-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="slider_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\slider-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="trash_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\trash-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="up_arrow_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\up-arrow-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="up_arrow_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\up-arrow-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="up_arrow_square_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\up-arrow-square-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="x_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\x-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

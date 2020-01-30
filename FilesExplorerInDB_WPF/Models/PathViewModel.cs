@@ -20,6 +20,24 @@ namespace FilesExplorerInDB_WPF.Models
             }
         }
 
+        private string _searchString;
+
+        public string SearchString
+        {
+            get => _searchString;
+            set
+            {
+                _searchString = value;
+                OnPropertyChanged(nameof(SearchString));
+            }
+        }
+
+        public System.Windows.Media.ImageSource PathBackImage => FilesDbManager.GetImage(chevron_left_regular_24);
+        public System.Windows.Media.ImageSource PathNextImage => FilesDbManager.GetImage(chevron_right_regular_24);
+        public System.Windows.Media.ImageSource PathPreviousImage => FilesDbManager.GetImage(chevron_up_regular_24);
+        public System.Windows.Media.ImageSource CancelImage => FilesDbManager.GetImage(x_regular_24);
+        public System.Windows.Media.ImageSource SearchImage => FilesDbManager.GetImage(search_alt_2_regular_24);
+
         /// <summary>
         /// 文件夹后退的堆栈
         /// </summary>
@@ -115,7 +133,7 @@ namespace FilesExplorerInDB_WPF.Models
             if (folderNow == null) throw new Exception(Message_ArgumentNullException_Folders);
             Debug.WriteLine(folderNow.FolderId);
             if (folderNow.FolderId == App_RootLocalFolderId) return null;
-            if (folderNow != PreFolder.Peek())
+            if (PreFolder.Count != 0 && folderNow != PreFolder.Peek())
                 PreFolder.Push(folderNow);
             FwdFolder.Clear();
 #if DEBUG

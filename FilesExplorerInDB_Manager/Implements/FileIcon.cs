@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FilesExplorerInDB_Manager.Interface;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using FilesExplorerInDB_Manager.Interface;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
@@ -25,11 +25,10 @@ namespace FilesExplorerInDB_Manager.Implements
         [DllImport("user32")]
         private static extern
             IntPtr SendMessage(
-            IntPtr handle,
-            int Msg,
-            IntPtr wParam,
-            IntPtr lParam);
-
+                IntPtr handle,
+                int Msg,
+                IntPtr wParam,
+                IntPtr lParam);
 
         [DllImport("shell32.dll")]
         private static extern int SHGetImageList(
@@ -49,42 +48,33 @@ namespace FilesExplorerInDB_Manager.Implements
         public static extern int DestroyIcon(
             IntPtr hIcon);
 
-        public Bitmap GetBitmapFromFolderPath(
-            string filePath, IconSizeEnum iconSize)
+        public Bitmap GetBitmapFromFolderPath(string filePath, IconSizeEnum iconSize)
         {
             IntPtr hIcon = GetIconHandleFromFolderPath(filePath, iconSize);
             return getBitmapFromIconHandle(hIcon);
         }
 
-        public Bitmap GetBitmapFromFilePath(
-            string filePath, IconSizeEnum iconSize)
+        public Bitmap GetBitmapFromFilePath(string filePath, IconSizeEnum iconSize)
         {
             IntPtr hIcon = GetIconHandleFromFilePath(filePath, iconSize);
             return getBitmapFromIconHandle(hIcon);
         }
 
-        public Bitmap GetBitmapFromPath(
-            string filePath, IconSizeEnum iconSize)
+        public Bitmap GetBitmapFromPath(string filePath, IconSizeEnum iconSize)
         {
             IntPtr hIcon = IntPtr.Zero;
             if (Directory.Exists(filePath))
-            {
                 hIcon = GetIconHandleFromFolderPath(filePath, iconSize);
-            }
-            else
-            {
-                if (File.Exists(filePath))
-                {
-                    hIcon = GetIconHandleFromFilePath(filePath, iconSize);
-                }
-            }
+            else if (File.Exists(filePath))
+                hIcon = GetIconHandleFromFilePath(filePath, iconSize);
+
             return getBitmapFromIconHandle(hIcon);
         }
 
-        private static System.Drawing.Bitmap getBitmapFromIconHandle(IntPtr hIcon)
+        private static Bitmap getBitmapFromIconHandle(IntPtr hIcon)
         {
-            if (hIcon == IntPtr.Zero) throw new System.IO.FileNotFoundException();
-            var myIcon = System.Drawing.Icon.FromHandle(hIcon);
+            if (hIcon == IntPtr.Zero) throw new FileNotFoundException();
+            var myIcon = Icon.FromHandle(hIcon);
             var bitmap = myIcon.ToBitmap();
             myIcon.Dispose();
             DestroyIcon(hIcon);
@@ -104,29 +94,27 @@ namespace FilesExplorerInDB_Manager.Implements
         private static IntPtr GetIconHandleFromFolderPath(string folderpath, IconSizeEnum iconsize)
         {
             var shinfo = new Shell.SHFILEINFO();
-
             const uint SHGFI_ICON = 0x000000100;
             const uint SHGFI_USEFILEATTRIBUTES = 0x000000010;
             const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
             uint flags = SHGFI_ICON | SHGFI_USEFILEATTRIBUTES;
-            return getIconHandleFromFilePathWithFlags(folderpath, iconsize, ref shinfo, FILE_ATTRIBUTE_DIRECTORY, flags);
+            return getIconHandleFromFilePathWithFlags(folderpath, iconsize, ref shinfo, FILE_ATTRIBUTE_DIRECTORY,
+                flags);
         }
 
-        private static IntPtr getIconHandleFromFilePathWithFlags(
-            string filepath, IconSizeEnum iconsize,
+        private static IntPtr getIconHandleFromFilePathWithFlags(string filepath, IconSizeEnum iconsize,
             ref Shell.SHFILEINFO shinfo, int fileAttributeFlag, uint flags)
         {
             const int ILD_TRANSPARENT = 1;
             var retval = SHGetFileInfo(filepath, fileAttributeFlag, ref shinfo, Marshal.SizeOf(shinfo), flags);
-            if (retval == 0) throw (new System.IO.FileNotFoundException());
+            if (retval == 0) throw (new FileNotFoundException());
             var iconIndex = shinfo.iIcon;
             var iImageListGuid = new Guid("46EB5926-582E-4017-9FDF-E8998DAA0950");
             Shell.IImageList iml;
-            var hres = SHGetImageList((int)iconsize, ref iImageListGuid, out iml);
+            var hres = SHGetImageList((int) iconsize, ref iImageListGuid, out iml);
             var hIcon = IntPtr.Zero;
             hres = iml.GetIcon(iconIndex, ILD_TRANSPARENT, ref hIcon);
             return hIcon;
         }
-
     }
 }
