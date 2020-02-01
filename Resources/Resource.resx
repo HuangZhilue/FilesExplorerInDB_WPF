@@ -242,6 +242,9 @@
   <data name="Message_PasteError" xml:space="preserve">
     <value>无法粘贴到被剪切的项目里面</value>
   </data>
+  <data name="Message_PathCheckError" xml:space="preserve">
+    <value>路径不存在</value>
+  </data>
   <data name="Message_ResultIsNull_Folders" xml:space="preserve">
     <value>Folders查询结果为NULL</value>
   </data>

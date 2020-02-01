@@ -1,7 +1,7 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Models.Models;
-using Resources.Properties;
 using System.Collections.Generic;
+using static Resources.Properties.Settings.SettingType;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -45,7 +45,7 @@ namespace FilesExplorerInDB_WPF.Models
 
         private ExplorerItems()
         {
-            if (ExplorerList == null) GetFolder(GetSetting(Settings.SettingType.RootFolderId).ToString());
+            if (ExplorerList == null) GetFolder(GetSetting(RootFolderId).ToString());
         }
 
         public void GetFolder(string folderId)

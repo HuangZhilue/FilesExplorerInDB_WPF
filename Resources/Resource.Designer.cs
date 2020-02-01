@@ -445,6 +445,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 路径不存在 的本地化字符串。
+        /// </summary>
+        public static string Message_PathCheckError {
+            get {
+                return ResourceManager.GetString("Message_PathCheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Folders查询结果为NULL 的本地化字符串。
         /// </summary>
         public static string Message_ResultIsNull_Folders {

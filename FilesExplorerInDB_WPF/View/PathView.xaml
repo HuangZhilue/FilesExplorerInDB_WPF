@@ -51,8 +51,12 @@
             Grid.Column="3"
             Margin="10,0"
             VerticalContentAlignment="Center"
-            Text="{Binding PathViewModel.PathString, Source={x:Static viewModel:PathViewVM.GetInstance}}"
-            TextWrapping="NoWrap" />
+            Text="{Binding PathViewModel.PathString, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, Source={x:Static viewModel:PathViewVM.GetInstance}}"
+            TextWrapping="NoWrap">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding KeyDownPathCheck, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+            </TextBox.InputBindings>
+        </TextBox>
         <TextBox
             x:Name="TextBox_Search"
             Grid.Column="4"

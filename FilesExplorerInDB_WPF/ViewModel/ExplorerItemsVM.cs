@@ -7,10 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
+using static System.String;
 using static Resources.Properties.Settings.SettingType;
 using static Resources.Resource;
+using Cursors = System.Windows.Input.Cursors;
+using MessageBox = System.Windows.MessageBox;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -28,6 +33,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand ClickPathBack { get; }
         public ICommand ClickPathNext { get; }
         public ICommand ClickPathPrevious { get; }
+        public ICommand KeyDownPathCheck { get; }
         public ICommand ClickSearchCancel { get; }
         public ICommand ClickSearchEnter { get; }
         public ICommand LoadedContextMenu { get; }
@@ -44,6 +50,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand CommandSettings { get; }
         public ICommand CommandLostFocus { get; }
         public ICommand CommandPreviewKeyDown { get; }
+        public System.Windows.Media.ImageSource SettingImage => FilesDbManager.GetImage(cog_regular_24);
+        public System.Windows.Media.ImageSource RefreshAllImage => FilesDbManager.GetImage(cog_solid_24);
 
         #endregion
 
@@ -76,6 +84,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             ClickPathBack = new DelegateCommand(Button_PathBack_Click);
             ClickPathNext = new DelegateCommand(Button_PathNext_Click);
             ClickPathPrevious = new DelegateCommand(Button_PathPrevious_Click);
+            KeyDownPathCheck = new DelegateCommand(PathCheck);
             ClickSearchCancel = new DelegateCommand(CancelSearch);
             ClickSearchEnter = new DelegateCommand(SearchExplorer);
             LoadedContextMenu = new DelegateCommand<object>(CheckContextMenu, m => true);
@@ -92,9 +101,35 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandRename = new DelegateCommand(Rename);
             CommandLostFocus = new DelegateCommand(LostFocus);
             CommandPreviewKeyDown = new DelegateCommand(PreviewKeyDown);
+            PathViewVM.SetPathString(GetSetting(RootFolderId).ToString());
         }
 
         #endregion
+
+        private void PathCheck()
+        {
+            var path = PathViewVM.PathViewModel.PathString;
+            if (IsNullOrWhiteSpace(path)) return;
+            var matches = Regex.Matches(path, @"[^\\\/]+");
+            if (matches.Count <= 0) return;
+            var lastFolderLocalId = App_RootLocalFolderId;
+            foreach (Match match in matches)
+            {
+                var folderName = match.ToString();
+                var id = lastFolderLocalId;
+                if (!(FilesDbManager.LoadFoldersEntities(f => f.FolderLocalId == id)
+                    .Find(n => n.FolderName == folderName) is Folders folder))
+                {
+                    MessageBox.Show(Message_PathCheckError, Caption_Error, MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    return;
+                }
+
+                lastFolderLocalId = folder.FolderId;
+            }
+
+            OpenFolder(lastFolderLocalId);
+        }
 
         private void MouseLeftButtonDown(object parameter)
         {
