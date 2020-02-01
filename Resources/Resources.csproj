@@ -188,5 +188,38 @@
   <ItemGroup>
     <None Include="Resources\plus-square-solid-24.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder-open-solid-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder-open-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\revision-regular-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\revision-regular-240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\revision-regular-120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog-regular-120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog-solid-120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog-solid-240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog-regular-240.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

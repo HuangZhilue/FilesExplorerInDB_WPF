@@ -50,8 +50,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand CommandSettings { get; }
         public ICommand CommandLostFocus { get; }
         public ICommand CommandPreviewKeyDown { get; }
-        public System.Windows.Media.ImageSource SettingImage => FilesDbManager.GetImage(cog_regular_24);
-        public System.Windows.Media.ImageSource RefreshAllImage => FilesDbManager.GetImage(cog_solid_24);
+        public System.Windows.Media.ImageSource SettingImage => FilesDbManager.GetImage(cog_regular_120);
+        public System.Windows.Media.ImageSource RefreshAllImage => FilesDbManager.GetImage(revision_regular_120);
 
         #endregion
 

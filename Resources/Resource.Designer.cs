@@ -148,6 +148,16 @@ namespace Resources {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        public static System.Drawing.Bitmap cog_regular_120 {
+            get {
+                object obj = ResourceManager.GetObject("cog_regular_120", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         public static System.Drawing.Bitmap cog_regular_24 {
             get {
                 object obj = ResourceManager.GetObject("cog_regular_24", resourceCulture);
@@ -158,9 +168,39 @@ namespace Resources {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        public static System.Drawing.Bitmap cog_regular_240 {
+            get {
+                object obj = ResourceManager.GetObject("cog_regular_240", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap cog_solid_120 {
+            get {
+                object obj = ResourceManager.GetObject("cog_solid_120", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         public static System.Drawing.Bitmap cog_solid_24 {
             get {
                 object obj = ResourceManager.GetObject("cog_solid_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap cog_solid_240 {
+            get {
+                object obj = ResourceManager.GetObject("cog_solid_240", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -281,6 +321,26 @@ namespace Resources {
         public static System.Drawing.Bitmap folder {
             get {
                 object obj = ResourceManager.GetObject("folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap folder_open_regular_24 {
+            get {
+                object obj = ResourceManager.GetObject("folder_open_regular_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap folder_open_solid_24 {
+            get {
+                object obj = ResourceManager.GetObject("folder_open_solid_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -525,6 +585,56 @@ namespace Resources {
         public static string Property_Type_Folder {
             get {
                 return ResourceManager.GetString("Property_Type_Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap rename_regular_24 {
+            get {
+                object obj = ResourceManager.GetObject("rename_regular_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap rename_solid_24 {
+            get {
+                object obj = ResourceManager.GetObject("rename_solid_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap revision_regular_120 {
+            get {
+                object obj = ResourceManager.GetObject("revision_regular_120", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap revision_regular_24 {
+            get {
+                object obj = ResourceManager.GetObject("revision_regular_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap revision_regular_240 {
+            get {
+                object obj = ResourceManager.GetObject("revision_regular_240", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

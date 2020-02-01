@@ -1,6 +1,8 @@
 ﻿using FilesExplorerInDB_Models.Models;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
+using static Resources.Resource;
 
 namespace FilesExplorerInDB_WPF.Models
 {
@@ -16,17 +18,15 @@ namespace FilesExplorerInDB_WPF.Models
         private Visibility _isVisibleRename = Visibility.Collapsed;
         private Visibility _isVisibleProperty = Visibility.Collapsed;
 
-        /*
-        public System.Windows.Media.ImageSource OpenImage => FilesDbManager.GetImage(right_arrow_solid_24);
-        public System.Windows.Media.ImageSource RefreshImage => FilesDbManager.GetImage(chevron_right_regular_24);
-        public System.Windows.Media.ImageSource CutImage => FilesDbManager.GetImage(cut_regular_24);
-        public System.Windows.Media.ImageSource CopyImage => FilesDbManager.GetImage(copy_alt_regular_24);
-        public System.Windows.Media.ImageSource PasteImage => FilesDbManager.GetImage(paste_regular_24);
-        public System.Windows.Media.ImageSource CreateImage => FilesDbManager.GetImage(plus_regular_24);
-        public System.Windows.Media.ImageSource DeleteImage => FilesDbManager.GetImage(trash_regular_24);
-        public System.Windows.Media.ImageSource RenameImage => FilesDbManager.GetImage(search_alt_2_regular_24);
-        public System.Windows.Media.ImageSource PropertyImage => FilesDbManager.GetImage(detail_regular_24);
-        */
+        public ImageSource OpenImage => FilesDbManager.GetImage(folder_open_solid_24);
+        public ImageSource RefreshImage => FilesDbManager.GetImage(revision_regular_24);
+        public ImageSource CutImage => FilesDbManager.GetImage(cut_regular_24);
+        public ImageSource CopyImage => FilesDbManager.GetImage(copy_alt_regular_24);
+        public ImageSource PasteImage => FilesDbManager.GetImage(paste_regular_24);
+        public ImageSource CreateImage => FilesDbManager.GetImage(plus_regular_24);
+        public ImageSource DeleteImage => FilesDbManager.GetImage(trash_regular_24);
+        public ImageSource RenameImage => FilesDbManager.GetImage(rename_regular_24);
+        public ImageSource PropertyImage => FilesDbManager.GetImage(detail_regular_24);
 
         public Visibility IsVisibleOpen
         {
