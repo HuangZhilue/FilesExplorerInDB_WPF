@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:FilesExplorerInDB_WPF.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-    d:DesignHeight="450"
+    d:DesignHeight="200"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid Background="#FFE5E5E5">
@@ -16,6 +16,193 @@
             <ColumnDefinition Width="66" />
             <ColumnDefinition Width="66" />
         </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Border BorderBrush="#FF818181" BorderThickness="0,0,1,0">
+                    <Grid>
+                        <StackPanel Margin="5,5,5,20" Orientation="Horizontal">
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="复制"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.CopyImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="粘贴"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.PasteImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="剪切"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.CutImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <Label
+                            Height="20"
+                            Padding="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="剪贴板"
+                            FontSize="12"
+                            IsEnabled="False" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid>
+                <Border BorderBrush="#FF818181" BorderThickness="0,0,1,0">
+                    <Grid>
+                        <StackPanel Margin="5,5,5,20" Orientation="Horizontal">
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="删除"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.DeleteImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="重命名"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.RenameImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <Label
+                            Height="20"
+                            Padding="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="组织"
+                            FontSize="12"
+                            IsEnabled="False" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid>
+                <Border BorderBrush="#FF818181" BorderThickness="0,0,1,0">
+                    <Grid>
+                        <StackPanel Margin="5,5,5,20" Orientation="Horizontal">
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="新建文件夹"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.CopyImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <Label
+                            Height="20"
+                            Padding="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="新建"
+                            FontSize="12"
+                            IsEnabled="False" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid>
+                <Border BorderBrush="#FF818181" BorderThickness="0,0,1,0">
+                    <Grid>
+                        <StackPanel Margin="5,5,5,20" Orientation="Horizontal">
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="属性"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.PropertyImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Content="打开"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding ContextMenuModel.OpenImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <Label
+                            Height="20"
+                            Padding="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="打开"
+                            FontSize="12"
+                            IsEnabled="False" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </StackPanel>
 
         <GroupBox
             Grid.Column="1"

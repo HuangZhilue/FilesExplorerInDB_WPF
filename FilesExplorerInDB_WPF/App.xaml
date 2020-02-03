@@ -47,5 +47,69 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
+
+        <ControlTemplate x:Key="ImageButton" TargetType="{x:Type ButtonBase}">
+            <Border
+                x:Name="border"
+                Width="42"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="{Binding Height, ElementName=contentPresenter}" />
+                    </Grid.RowDefinitions>
+                    <Grid
+                        Width="25"
+                        Height="25"
+                        Margin="7,7,7,2"
+                        Background="{TemplateBinding Background}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Text="{TemplateBinding Content}"
+                        TextWrapping="Wrap" />
+                    <ContentPresenter
+                        x:Name="contentPresenter"
+                        Grid.Row="1"
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Content=""
+                        ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Focusable="False"
+                        Opacity="0"
+                        RecognizesAccessKey="True"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        Visibility="Hidden" />
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#FFBEE6FD" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="#FF3C7FB1" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#FFC4E5F6" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="#FF2C628B" />
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#FFBCDDEE" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="#FF245A83" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="border" Property="Background" Value="#FFF4F4F4" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="#FFADB2B5" />
+                    <Setter Property="Foreground" Value="#FF838383" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Application.Resources>
 </Application>

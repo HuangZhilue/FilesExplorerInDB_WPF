@@ -9,12 +9,12 @@
     xmlns:view="clr-namespace:FilesExplorerInDB_WPF.View"
     xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
     Title="MainWindow"
-    Width="800"
-    Height="450"
-    mc:Ignorable="d">
+    Width="1000"
+    Height="600"
+    mc:Ignorable="d" MinWidth="600" MinHeight="400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="130" />
             <RowDefinition Height="25" />
             <RowDefinition Height="100*" />
             <RowDefinition Height="20" />
