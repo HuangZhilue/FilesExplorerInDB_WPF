@@ -31,10 +31,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="复制"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleCopy, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.CopyImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandCopy, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                             <Button
                                 Width="42"
@@ -45,10 +51,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="粘贴"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisiblePaste, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.PasteImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandPaste, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                             <Button
                                 Width="42"
@@ -59,10 +71,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="剪切"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleCut, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.CutImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandCut, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                         </StackPanel>
                         <Label
@@ -91,10 +109,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="删除"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleDelete, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.DeleteImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandDelete, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                             <Button
                                 Width="42"
@@ -105,10 +129,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="重命名"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleRename, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.RenameImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandRename, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                         </StackPanel>
                         <Label
@@ -137,10 +167,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="新建文件夹"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleCreate, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.CopyImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandCreate, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                         </StackPanel>
                         <Label
@@ -169,10 +205,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="属性"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleProperty, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.PropertyImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandProperty, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                             <Button
                                 Width="42"
@@ -183,10 +225,16 @@
                                 VerticalContentAlignment="Bottom"
                                 Content="打开"
                                 FontSize="12"
+                                IsEnabled="{Binding ContextMenuModel.IsVisibleOpen, Mode=TwoWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverter}}"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="{Binding ContextMenuModel.OpenImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
                                 </Button.Background>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CommandOpen, Mode=OneWay, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </Button>
                         </StackPanel>
                         <Label

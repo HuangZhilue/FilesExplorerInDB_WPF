@@ -197,6 +197,7 @@
     <Compile Include="Helper\FileDragDropTarget.cs" />
     <Compile Include="Helper\FocusExtension.cs" />
     <Compile Include="Helper\FolderDialog.cs" />
+    <Compile Include="Helper\ValueConverter.cs" />
     <Compile Include="Helper\WindowManager.cs" />
     <Compile Include="Models\BaseModels.cs" />
     <Compile Include="Models\ContextMenuModel.cs" />
