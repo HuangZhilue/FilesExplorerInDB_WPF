@@ -72,9 +72,6 @@
     <None Include="Resources\fileNotFount.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\folder.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
@@ -220,6 +217,45 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\cog-regular-240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\property.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll%281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll%28253%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shell32.dll%2816802%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

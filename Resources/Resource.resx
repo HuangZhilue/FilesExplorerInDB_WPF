@@ -164,17 +164,29 @@
   <data name="cog_solid_240" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\cog-solid-240.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="copy_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\copy-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="copy_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\copy-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="create" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\create.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="cut_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\cut-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DEFAULT" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\DEFAULT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="detail_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\detail-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -269,8 +281,17 @@
   <data name="Messgae_ArgumentOutOfRangeException" xml:space="preserve">
     <value>ArgumentOutOfRangeException</value>
   </data>
+  <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="paste_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\paste-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="plus_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\plus-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -278,11 +299,17 @@
   <data name="plus_square_solid_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\plus-square-solid-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="property" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\property.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Property_Type_File" xml:space="preserve">
     <value>文件</value>
   </data>
   <data name="Property_Type_Folder" xml:space="preserve">
     <value>文件夹</value>
+  </data>
+  <data name="rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rename_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\rename-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -322,6 +349,15 @@
   </data>
   <data name="Settings_IsLocal_True" xml:space="preserve">
     <value>数据库在当前计算机中</value>
+  </data>
+  <data name="shell32_dll_16802_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\shell32.dll(16802).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shell32_dll_1_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\shell32.dll(1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shell32_dll_253_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\shell32.dll(253).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="slider_alt_regular_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\slider-alt-regular-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
