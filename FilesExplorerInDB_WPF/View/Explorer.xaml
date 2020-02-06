@@ -169,6 +169,9 @@
                 <i:EventTrigger EventName="MouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding ClickMouseLeftButtonDown, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
                 </i:EventTrigger>
+                <i:EventTrigger EventName="MouseRightButtonDown">
+                    <i:InvokeCommandAction Command="{Binding ClickMouseLeftButtonDown, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
+                </i:EventTrigger>
                 <i:EventTrigger>
                     <i:InvokeCommandAction Command="{Binding Click, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
                 </i:EventTrigger>

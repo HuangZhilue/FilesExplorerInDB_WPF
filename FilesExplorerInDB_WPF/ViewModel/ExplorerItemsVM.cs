@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using static System.String;
 using static Resources.Properties.Settings.SettingType;
@@ -137,8 +136,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             GetProperty(parameter);
             ExplorerItems.SelectIndex = -1;
             LostFocus();
-            SelectItem.Clear();
-            ContextMenuModel.SetViewTabItems(SelectItem, IsCopying, IsCutting);
+            ContextMenuModel.SetViewTabItems(null, IsCopying, IsCutting);
             Debug.WriteLine("MouseLeftButtonDown");
         }
 
@@ -161,10 +159,9 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     Debug.WriteLine("OpenFolder3");
                     break;
             }
-            SelectItem.Clear();
             PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
             PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
-            ContextMenuModel.SetViewTabItems(SelectItem, IsCopying, IsCutting);
+            ContextMenuModel.SetViewTabItems(null, IsCopying, IsCutting);
         }
 
         private void GetProperty(object parameter)
@@ -175,16 +172,15 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 case ExplorerProperty explorerProperty:
                     PropertyItemVM.SetProperty(explorerProperty);
                     SelectItem = new List<ExplorerProperty> {explorerProperty};
-                    ContextMenuModel.SetViewTabItems(SelectItem, IsCopying, IsCutting);
+                    Debug.WriteLine("GetProperty1");
                     break;
                 case List<ExplorerProperty> exList:
                     SelectItem = exList;
-                    ContextMenuModel.SetViewTabItems(SelectItem, IsCopying, IsCutting);
                     PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
+                    Debug.WriteLine("GetProperty2");
                     break;
             }
-            //ContextMenuModel.SetViewTabItems(SelectItem, IsCopying, IsCutting);
-            Debug.WriteLine("GetProperty");
+            ContextMenuModel.SetViewTabItems(SelectItem, IsCopying, IsCutting);
         }
 
         private static bool IsProperty(object parameter)
@@ -252,9 +248,10 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void CheckContextMenu(object obj)
         {
-            System.Collections.IList items = (System.Collections.IList) obj;
+            System.Collections.IList items = (System.Collections.IList)obj;
             SelectItem = items.Cast<ExplorerProperty>().ToList();
             ContextMenuModel.SetMenuItems(SelectItem, IsCopying, IsCutting);
+            Debug.WriteLine("CheckContextMenu");
         }
 
         private void Open()
@@ -272,7 +269,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                     var path = files.RealName;
                     if (File.Exists(path))
                     {
-                        System.Diagnostics.Process.Start(path);
+                        Process.Start(path);
                     }
                     else
                     {
@@ -299,6 +296,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             SelectItemForPaste = SelectItem;
             IsCopying = false;
             IsCutting = true;
+            ContextMenuModel.IsVisiblePaste = Visibility.Visible;
         }
 
         private void Copy()
@@ -306,6 +304,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             SelectItemForPaste = SelectItem;
             IsCopying = true;
             IsCutting = false;
+            ContextMenuModel.IsVisiblePaste = Visibility.Visible;
         }
 
         private void Paste()

@@ -11,12 +11,6 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid Background="#FFE5E5E5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="66" />
-            <ColumnDefinition Width="66" />
-        </Grid.ColumnDefinitions>
-
         <StackPanel Orientation="Horizontal">
             <Grid>
                 <Border BorderBrush="#FF818181" BorderThickness="0,0,1,0">
@@ -250,35 +244,54 @@
                     </Grid>
                 </Border>
             </Grid>
+            <Grid>
+                <Border BorderBrush="#FF818181" BorderThickness="0,0,1,0">
+                    <Grid>
+                        <StackPanel Margin="5,5,5,20" Orientation="Horizontal">
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Command="{Binding CommandRefreshAll, Mode=OneWay}"
+                                Content="全部刷新"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding RefreshAllImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                            <Button
+                                Width="42"
+                                Padding="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Bottom"
+                                Command="{Binding CommandSettings, Mode=OneWay}"
+                                Content="全部刷新"
+                                FontSize="12"
+                                Template="{DynamicResource ImageButton}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="{Binding SettingImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                        <Label
+                            Height="20"
+                            Padding="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="系统"
+                            FontSize="12"
+                            IsEnabled="False" />
+                    </Grid>
+                </Border>
+            </Grid>
         </StackPanel>
-
-        <GroupBox
-            Grid.Column="1"
-            HorizontalContentAlignment="Center"
-            Header="刷新">
-            <Button
-                x:Name="Button_Refresh"
-                BorderBrush="{x:Null}"
-                Command="{Binding CommandRefreshAll, Mode=OneWay}"
-                Template="{DynamicResource Button}">
-                <Button.Background>
-                    <ImageBrush ImageSource="{Binding RefreshAllImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
-                </Button.Background>
-            </Button>
-        </GroupBox>
-        <GroupBox
-            Grid.Column="2"
-            HorizontalContentAlignment="Center"
-            Header="系统设置">
-            <Button
-                x:Name="Button_Setting"
-                BorderBrush="{x:Null}"
-                Command="{Binding CommandSettings, Mode=OneWay}"
-                Template="{DynamicResource Button}">
-                <Button.Background>
-                    <ImageBrush ImageSource="{Binding SettingImage, Source={x:Static viewModel:ExplorerItemsVM.GetInstance}}" />
-                </Button.Background>
-            </Button>
-        </GroupBox>
     </Grid>
 </UserControl>

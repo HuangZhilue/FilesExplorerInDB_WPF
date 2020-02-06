@@ -168,44 +168,7 @@ namespace FilesExplorerInDB_WPF.Models
 
         public void SetViewTabItems(List<ExplorerProperty> explorerList, bool isCopying, bool isCutting)
         {
-            ReSetVisibility();
-            if (explorerList != null && explorerList.Count > 0)
-            {
-                //打开
-                //剪切
-                //复制
-                //删除
-                //重命名
-                //属性
-                if (explorerList.Count == 1)
-                {
-                    IsVisibleOpen = Visibility.Visible;
-                    IsVisibleRename = Visibility.Visible;
-                    IsVisibleProperty = Visibility.Visible;
-                    if (isCutting || isCopying)
-                    {
-                        IsVisiblePaste = Visibility.Visible;
-                    }
-                }
-
-                IsVisibleDelete = Visibility.Visible;
-                IsVisibleCut = Visibility.Visible;
-                IsVisibleCopy = Visibility.Visible;
-            }
-            else
-            {
-                //刷新
-                //新建
-                //属性
-                if (isCutting || isCopying)
-                {
-                    IsVisiblePaste = Visibility.Visible;
-                }
-
-                IsVisibleRefresh = Visibility.Visible;
-                IsVisibleCreate = Visibility.Visible;
-                IsVisibleProperty = Visibility.Visible;
-            }
+            SetMenuItems(explorerList, isCopying, isCutting);
         }
 
         private void ReSetVisibility()
