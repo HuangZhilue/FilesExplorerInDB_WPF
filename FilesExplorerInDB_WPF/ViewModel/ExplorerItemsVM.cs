@@ -161,6 +161,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
             PropertyItemVM.SetProperty(ExplorerItems.FolderNow.FolderId);
             PathViewVM.SetPathString(ExplorerItems.FolderNow.FolderId);
+            //SelectItem.Clear();
             ContextMenuModel.SetViewTabItems(null, IsCopying, IsCutting);
         }
 
@@ -309,15 +310,9 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Paste()
         {
-            string folderIdForPaste;
-            if (SelectItem != null && SelectItem.Count == 1)
-            {
-                folderIdForPaste = SelectItemForPaste[0].Id;
-            }
-            else
-            {
-                folderIdForPaste = ExplorerItems.FolderNow.FolderId;
-            }
+            var folderIdForPaste = ExplorerItems.SelectIndex > -1
+                ? ExplorerItems.ExplorerList[ExplorerItems.SelectIndex].Id
+                : ExplorerItems.FolderNow.FolderId;
 
             FilesDbManager.Paste(folderIdForPaste, SelectItemForPaste, IsCutting);
             if (IsCutting) MouseLeftButtonDown(SelectItemForPaste);
@@ -397,7 +392,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void Property()
         {
-            if (SelectItem == null || SelectItem.Count < 1)
+            if (ExplorerItems.SelectIndex < 0)
             {
                 var f = ExplorerItems.FolderNow;
                 var e = FilesDbManager.SetExplorerItem(f);

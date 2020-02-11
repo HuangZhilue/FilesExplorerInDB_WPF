@@ -271,7 +271,7 @@
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Bottom"
                                 Command="{Binding CommandSettings, Mode=OneWay}"
-                                Content="全部刷新"
+                                Content="设置"
                                 FontSize="12"
                                 Template="{DynamicResource ImageButton}">
                                 <Button.Background>
