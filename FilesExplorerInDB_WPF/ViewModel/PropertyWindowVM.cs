@@ -27,13 +27,17 @@ namespace FilesExplorerInDB_WPF.ViewModel
         private Files Files { get; set; }
 
         public static PropertyWindowVM GetInstance { get; } = new PropertyWindowVM();
+        public static PropertyWindowVM GetTrashInstance { get; } = new PropertyWindowVM();
 
         private PropertyWindowVM()
         {
             CommandClose = new DelegateCommand(Close);
             CommandEnter = new DelegateCommand(Enter);
             CommandRefresh = new DelegateCommand(Refresh);
-            CommandKeyDown = new DelegateCommand(Rename);
+            CommandKeyDown = new DelegateCommand(Enter);
+
+            PropertyWindowModel.IsVisibilityEnter = Visibility.Visible;
+            PropertyWindowModel.IsVisibilityRefresh = Visibility.Visible;
         }
 
         public void SetProperty(ExplorerProperty explorerProperty)
@@ -53,6 +57,13 @@ namespace FilesExplorerInDB_WPF.ViewModel
             }
 
             PropertyWindowModel.ImageSource = explorerProperty.ImageSource;
+        }
+
+        public void SetTrashProperty(ExplorerProperty explorerProperty)
+        {
+            SetProperty(explorerProperty);
+            PropertyWindowModel.IsVisibilityEnter = Visibility.Collapsed;
+            PropertyWindowModel.IsVisibilityRefresh = Visibility.Collapsed;
         }
 
         private void SetText_Folders(Folders folders)

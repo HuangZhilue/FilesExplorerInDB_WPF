@@ -518,6 +518,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 清空回收站？ 的本地化字符串。
+        /// </summary>
+        public static string Message_DeleteAllItem {
+            get {
+                return ResourceManager.GetString("Message_DeleteAllItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否删除？ 的本地化字符串。
+        /// </summary>
+        public static string Message_DeleteItem {
+            get {
+                return ResourceManager.GetString("Message_DeleteItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 文件名不能为包含以下任何字符： \ / : &quot; ? * &lt; &gt; | 的本地化字符串。
         /// </summary>
         public static string Message_NameCheckError {

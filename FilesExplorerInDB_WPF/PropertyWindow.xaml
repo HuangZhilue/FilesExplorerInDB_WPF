@@ -1,16 +1,17 @@
-﻿<Window x:Class="FilesExplorerInDB_WPF.PropertyWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:FilesExplorerInDB_WPF"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-        Title="PropertyWindow"
-        Width="300"
-        ResizeMode="NoResize"
-        SizeToContent="Height"
-        Topmost="True"
-        mc:Ignorable="d">
+﻿<Window
+    x:Class="FilesExplorerInDB_WPF.PropertyWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FilesExplorerInDB_WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
+    Title="PropertyWindow"
+    Width="300"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    Topmost="True"
+    mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,213 +30,244 @@
                 <ColumnDefinition Width="90" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Rectangle Width="50"
-                       Height="50"
-                       Margin="10,10,0,10"
-                       HorizontalAlignment="Left"
-                       Stroke="#7F000000" />
-            <Image x:Name="ImageBox"
-                   Grid.Column="0"
-                   Width="50"
-                   Height="50"
-                   Margin="10,10,0,11"
-                   HorizontalAlignment="Left"
-                   Source="{Binding PropertyWindowModel.ImageSource, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Rectangle
+                Width="50"
+                Height="50"
+                Margin="10,10,0,10"
+                HorizontalAlignment="Left"
+                Stroke="#7F000000" />
+            <Image
+                x:Name="ImageBox"
+                Grid.Column="0"
+                Width="50"
+                Height="50"
+                Margin="10,10,0,11"
+                HorizontalAlignment="Left"
+                Source="{Binding PropertyWindowModel.ImageSource, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
             <!--  这里设置下边距为11的目的是因为，上一个矩形元素自带边框宽度1PX  -->
-            <TextBox x:Name="TextBox_Name"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10,0"
-                     VerticalContentAlignment="Center"
-                     Text="{Binding PropertyWindowModel.Name, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}">
+            <TextBox
+                x:Name="TextBox_Name"
+                Grid.Column="1"
+                Height="25"
+                Margin="10,0"
+                VerticalContentAlignment="Center"
+                IsReadOnly="{Binding PropertyWindowModel.IsVisibilityRefresh, Mode=TwoWay, Source={x:Static viewModel:PropertyWindowVM.GetInstance}, Converter={StaticResource VisibilityToBoolConverterReverse}}"
+                Text="{Binding PropertyWindowModel.Name, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding CommandKeyDown, Mode=OneWay, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
                 </TextBox.InputBindings>
             </TextBox>
-            <Rectangle Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Height="1"
-                       Margin="10,0"
-                       VerticalAlignment="Bottom"
-                       Stroke="#7F000000" />
-        </Grid>
-        <Grid Grid.Row="1"
-              Grid.Column="0"
-              Grid.ColumnSpan="2"
-              Margin="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Margin="10"
-                   VerticalAlignment="Top"
-                   Content="类型：" />
-            <TextBox x:Name="TextBox_Type"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.Type, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <Rectangle Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Height="1"
-                       Margin="10,0"
-                       VerticalAlignment="Bottom"
-                       Stroke="#7F000000" />
-        </Grid>
-        <Grid Grid.Row="2"
-              Grid.Column="0"
-              Grid.ColumnSpan="2"
-              Margin="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Margin="10"
-                   VerticalAlignment="Top"
-                   Content="位置：" />
-            <TextBox x:Name="TextBox_Location"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.Location, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <Label Grid.Column="0"
-                   Margin="10,45,10,10"
-                   VerticalAlignment="Top"
-                   Content="大小：" />
-            <TextBox x:Name="TextBox_Size"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10,45,10,10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.Size, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <Rectangle Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Height="1"
-                       Margin="10,0"
-                       VerticalAlignment="Bottom"
-                       Stroke="#7F000000" />
-        </Grid>
-        <Grid Grid.Row="3"
-              Grid.Column="0"
-              Grid.ColumnSpan="2"
-              Margin="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label Margin="10"
-                   VerticalAlignment="Top"
-                   Content="创建时间：" />
-            <TextBox x:Name="TextBox_CreationTime"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.CreationTime, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <Label Grid.Column="0"
-                   Margin="10,45,10,10"
-                   VerticalAlignment="Top"
-                   Content="修改时间：" />
-            <TextBox x:Name="TextBox_ModifyTime"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10,45,10,10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.ModifyTime, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <Label x:Name="Label_AccessTime"
-                   Grid.Column="0"
-                   Margin="10,80,10,10"
-                   VerticalAlignment="Top"
-                   Content="访问时间："
-                   Visibility="{Binding PropertyWindowModel.IsVisibilityAccessTime, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <TextBox x:Name="TextBox_AccessTime"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10,80,10,10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.AccessTime, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
-                     Visibility="{Binding PropertyWindowModel.IsVisibilityAccessTime, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <Rectangle Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       Height="1"
-                       Margin="10,0"
-                       VerticalAlignment="Bottom"
-                       Stroke="#7F000000" />
-        </Grid>
-        <Grid Grid.Row="4"
-              Grid.Column="0"
-              Grid.ColumnSpan="2"
-              Margin="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Label x:Name="Label_Include"
-                   Margin="10"
-                   VerticalAlignment="Top"
-                   Content="包含："
-                   Visibility="{Binding PropertyWindowModel.IsVisibilityInclude, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-            <TextBox x:Name="TextBox_Include"
-                     Grid.Column="1"
-                     Height="25"
-                     Margin="10"
-                     VerticalAlignment="Top"
-                     VerticalContentAlignment="Center"
-                     BorderThickness="0"
-                     IsReadOnly="True"
-                     Text="{Binding PropertyWindowModel.Include, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
-                     Visibility="{Binding PropertyWindowModel.IsVisibilityInclude, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
-        </Grid>
-        <Grid Grid.Row="5"
-              Grid.Column="0"
-              Grid.ColumnSpan="2"
-              Height="50"
-              VerticalAlignment="Bottom" />
-        <Button x:Name="Button_Refresh"
-                Grid.Row="5"
+            <Rectangle
                 Grid.Column="0"
-                Width="75"
-                Margin="10,0,0,10"
-                HorizontalAlignment="Left"
+                Grid.ColumnSpan="2"
+                Height="1"
+                Margin="10,0"
                 VerticalAlignment="Bottom"
-                Command="{Binding CommandRefresh, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
-                Content="刷新" />
-        <Button Grid.Row="5"
+                Stroke="#7F000000" />
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Margin="10"
+                VerticalAlignment="Top"
+                Content="类型：" />
+            <TextBox
+                x:Name="TextBox_Type"
                 Grid.Column="1"
-                Width="75"
-                Margin="0,0,90,10"
-                HorizontalAlignment="Right"
+                Height="25"
+                Margin="10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.Type, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Rectangle
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="1"
+                Margin="10,0"
                 VerticalAlignment="Bottom"
-                Command="{Binding CommandEnter, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
-                Content="确定" />
-        <Button Grid.Row="5"
+                Stroke="#7F000000" />
+        </Grid>
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Margin="10"
+                VerticalAlignment="Top"
+                Content="位置：" />
+            <TextBox
+                x:Name="TextBox_Location"
                 Grid.Column="1"
-                Width="75"
-                Margin="0,0,10,10"
-                HorizontalAlignment="Right"
+                Height="25"
+                Margin="10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.Location, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Label
+                Grid.Column="0"
+                Margin="10,45,10,10"
+                VerticalAlignment="Top"
+                Content="大小：" />
+            <TextBox
+                x:Name="TextBox_Size"
+                Grid.Column="1"
+                Height="25"
+                Margin="10,45,10,10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.Size, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Rectangle
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="1"
+                Margin="10,0"
                 VerticalAlignment="Bottom"
-                Command="{Binding CommandClose, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
-                Content="取消" />
-
+                Stroke="#7F000000" />
+        </Grid>
+        <Grid
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Margin="10"
+                VerticalAlignment="Top"
+                Content="创建时间：" />
+            <TextBox
+                x:Name="TextBox_CreationTime"
+                Grid.Column="1"
+                Height="25"
+                Margin="10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.CreationTime, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Label
+                Grid.Column="0"
+                Margin="10,45,10,10"
+                VerticalAlignment="Top"
+                Content="修改时间：" />
+            <TextBox
+                x:Name="TextBox_ModifyTime"
+                Grid.Column="1"
+                Height="25"
+                Margin="10,45,10,10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.ModifyTime, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Label
+                x:Name="Label_AccessTime"
+                Grid.Column="0"
+                Margin="10,80,10,10"
+                VerticalAlignment="Top"
+                Content="访问时间："
+                Visibility="{Binding PropertyWindowModel.IsVisibilityAccessTime, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <TextBox
+                x:Name="TextBox_AccessTime"
+                Grid.Column="1"
+                Height="25"
+                Margin="10,80,10,10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.AccessTime, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
+                Visibility="{Binding PropertyWindowModel.IsVisibilityAccessTime, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <Rectangle
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="1"
+                Margin="10,0"
+                VerticalAlignment="Bottom"
+                Stroke="#7F000000" />
+        </Grid>
+        <Grid
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                x:Name="Label_Include"
+                Margin="10"
+                VerticalAlignment="Top"
+                Content="包含："
+                Visibility="{Binding PropertyWindowModel.IsVisibilityInclude, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+            <TextBox
+                x:Name="TextBox_Include"
+                Grid.Column="1"
+                Height="25"
+                Margin="10"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                IsReadOnly="True"
+                Text="{Binding PropertyWindowModel.Include, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
+                Visibility="{Binding PropertyWindowModel.IsVisibilityInclude, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+        </Grid>
+        <Grid
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="50"
+            VerticalAlignment="Bottom" />
+        <Button
+            x:Name="Button_Refresh"
+            Grid.Row="5"
+            Grid.Column="0"
+            Width="75"
+            Margin="10,0,0,10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Command="{Binding CommandRefresh, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
+            Content="刷新"
+            Visibility="{Binding PropertyWindowModel.IsVisibilityRefresh, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+        <Button
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="75"
+            Margin="0,0,90,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding CommandEnter, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
+            Content="确定"
+            Visibility="{Binding PropertyWindowModel.IsVisibilityEnter, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}" />
+        <Button
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="75"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding CommandClose, Source={x:Static viewModel:PropertyWindowVM.GetInstance}}"
+            Content="取消" />
     </Grid>
 </Window>

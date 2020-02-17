@@ -263,6 +263,12 @@
   <data name="Message_ArgumentOutOfRangeException_DBType" xml:space="preserve">
     <value>找不到对应的数据库类型</value>
   </data>
+  <data name="Message_DeleteAllItem" xml:space="preserve">
+    <value>清空回收站？</value>
+  </data>
+  <data name="Message_DeleteItem" xml:space="preserve">
+    <value>是否删除？</value>
+  </data>
   <data name="Message_NameCheckError" xml:space="preserve">
     <value>文件名不能为包含以下任何字符： \ / : " ? * &lt; &gt; |</value>
   </data>

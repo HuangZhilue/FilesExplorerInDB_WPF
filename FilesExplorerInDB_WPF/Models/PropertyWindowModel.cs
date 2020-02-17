@@ -16,6 +16,8 @@ namespace FilesExplorerInDB_WPF.Models
         private string _include;
         private Visibility _isVisibilityAccessTime;
         private Visibility _isVisibilityInclude;
+        private Visibility _isVisibilityRefresh = Visibility.Visible;
+        private Visibility _isVisibilityEnter = Visibility.Visible;
         private ImageSource _imageSource;
 
         public ImageSource ImageSource
@@ -125,6 +127,26 @@ namespace FilesExplorerInDB_WPF.Models
             {
                 _isVisibilityInclude = value;
                 OnPropertyChanged(nameof(IsVisibilityInclude));
+            }
+        }
+
+        public Visibility IsVisibilityRefresh
+        {
+            get => _isVisibilityRefresh;
+            set
+            {
+                _isVisibilityRefresh = value;
+                OnPropertyChanged(nameof(IsVisibilityRefresh));
+            }
+        }
+
+        public Visibility IsVisibilityEnter
+        {
+            get => _isVisibilityEnter;
+            set
+            {
+                _isVisibilityEnter = value;
+                OnPropertyChanged(nameof(IsVisibilityEnter));
             }
         }
 

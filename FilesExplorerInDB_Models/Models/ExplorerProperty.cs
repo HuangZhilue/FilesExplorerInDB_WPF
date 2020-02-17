@@ -23,6 +23,7 @@ namespace FilesExplorerInDB_Models.Models
         private string _creationTime;
         private string _modifyTime;
         private string _accessTime;
+        private string _originSite;
         private ImageSource _imageSource;
         private Thickness _borderThickness = new Thickness(0);
         private Cursor _cursor = Cursors.Arrow;
@@ -123,6 +124,16 @@ namespace FilesExplorerInDB_Models.Models
             {
                 _accessTime = value;
                 OnPropertyChanged(nameof(AccessTime));
+            }
+        }
+
+        public string OriginSite
+        {
+            get => _originSite;
+            set
+            {
+                _originSite = value;
+                OnPropertyChanged(nameof(OriginSite));
             }
         }
 

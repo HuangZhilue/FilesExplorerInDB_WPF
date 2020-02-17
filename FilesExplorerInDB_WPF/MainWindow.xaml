@@ -11,7 +11,9 @@
     Title="MainWindow"
     Width="1000"
     Height="600"
-    mc:Ignorable="d" MinWidth="600" MinHeight="400">
+    MinWidth="600"
+    MinHeight="400"
+    mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="130" />
@@ -23,22 +25,44 @@
             <TabItem Header="主页">
                 <view:IndexTabView DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}" />
             </TabItem>
-            <TabItem Header="查看">
-                <view:ViewTabView DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}" />
+            <TabItem Header="回收站">
+                <view:TrashTabView DataContext="{x:Static viewModel:TrashExplorerVM.GetInstance}" />
             </TabItem>
+            <TabItem Header="日志">
+                <view:LogTabView DataContext="{x:Static viewModel:LogExplorerVM.GetInstance}" />
+            </TabItem>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding CommandTabChange, Mode=OneWay, Source={x:Static viewModel:WindowsVM.GetInstance}}" CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </TabControl>
         <Grid Grid.Row="1">
-            <view:PathView DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}" />
+            <view:PathView
+                DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}"
+                IsEnabled="{Binding WindowsModel.ShowExplorer1, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                Visibility="{Binding WindowsModel.ShowExplorer1, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="{Binding WindowsModel.FolderTreeWidth, Source={x:Static viewModel:WindowsVM.GetInstance}}" />
                 <ColumnDefinition Width="100*" />
                 <ColumnDefinition Width="205" />
             </Grid.ColumnDefinitions>
             <view:FolderTree DataContext="{x:Static viewModel:FolderTreeVM.GetInstance}" />
-            <Grid x:Name="Grid_ListView_Explorer" Grid.Column="1">
-                <view:Explorer DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}" />
+            <Grid Grid.Column="1">
+                <view:Explorer
+                    DataContext="{x:Static viewModel:ExplorerItemsVM.GetInstance}"
+                    IsEnabled="{Binding WindowsModel.ShowExplorer1, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                    Visibility="{Binding WindowsModel.ShowExplorer1, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <view:TrashExplorer
+                    DataContext="{x:Static viewModel:TrashExplorerVM.GetInstance}"
+                    IsEnabled="{Binding WindowsModel.ShowExplorer2, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                    Visibility="{Binding WindowsModel.ShowExplorer2, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <view:LogExplorer
+                    DataContext="{x:Static viewModel:LogExplorerVM.GetInstance}"
+                    IsEnabled="{Binding WindowsModel.ShowExplorer3, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                    Visibility="{Binding WindowsModel.ShowExplorer3, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
             </Grid>
             <Grid Grid.Column="2">
                 <view:PropertyView DataContext="{x:Static viewModel:PropertyItemVM.GetInstance}" />

@@ -15,8 +15,12 @@ namespace FilesExplorerInDB_WPF.Models
         private Visibility _isVisiblePaste = Visibility.Collapsed;
         private Visibility _isVisibleCreate = Visibility.Collapsed;
         private Visibility _isVisibleDelete = Visibility.Collapsed;
+        private Visibility _isVisibleAllDelete = Visibility.Collapsed;
+        private Visibility _isVisibleCompleteDelete = Visibility.Collapsed;
         private Visibility _isVisibleRename = Visibility.Collapsed;
         private Visibility _isVisibleProperty = Visibility.Collapsed;
+        private Visibility _isVisibleTrashProperty = Visibility.Collapsed;
+        private Visibility _isVisibleRestore = Visibility.Collapsed;
 
         public ImageSource OpenImage => FilesDbManager.GetImage(open);
         public ImageSource RefreshImage => FilesDbManager.GetImage(revision_regular_24);
@@ -98,6 +102,26 @@ namespace FilesExplorerInDB_WPF.Models
             }
         }
 
+        public Visibility IsVisibleAllDelete
+        {
+            get => _isVisibleAllDelete;
+            set
+            {
+                _isVisibleAllDelete = value;
+                OnPropertyChanged(nameof(IsVisibleAllDelete));
+            }
+        }
+
+        public Visibility IsVisibleCompleteDelete
+        {
+            get => _isVisibleCompleteDelete;
+            set
+            {
+                _isVisibleCompleteDelete = value;
+                OnPropertyChanged(nameof(IsVisibleCompleteDelete));
+            }
+        }
+
         public Visibility IsVisibleRename
         {
             get => _isVisibleRename;
@@ -118,7 +142,29 @@ namespace FilesExplorerInDB_WPF.Models
             }
         }
 
+        public Visibility IsVisibleTrashProperty
+        {
+            get => _isVisibleTrashProperty;
+            set
+            {
+                _isVisibleTrashProperty = value;
+                OnPropertyChanged(nameof(IsVisibleTrashProperty));
+            }
+        }
+
+        public Visibility IsVisibleRestore
+        {
+            get => _isVisibleRestore;
+            set
+            {
+                _isVisibleRestore = value;
+                OnPropertyChanged(nameof(IsVisibleRestore));
+            }
+        }
+
         public static ContextMenuModel GetInstance { get; } = new ContextMenuModel();
+        public static ContextMenuModel GetTrashInstance { get; } = new ContextMenuModel();
+        public static ContextMenuModel GetLogInstance { get; } = new ContextMenuModel();
 
         private ContextMenuModel()
         {
@@ -171,6 +217,36 @@ namespace FilesExplorerInDB_WPF.Models
             SetMenuItems(explorerList, isCopying, isCutting);
         }
 
+        public void SetTrashMenuItems(List<ExplorerProperty> explorerList)
+        {
+            ReSetTrashVisibility();
+            //清空
+            IsVisibleAllDelete = Visibility.Visible;
+            if (explorerList != null && explorerList.Count > 0)
+            {
+                //还原
+                //删除
+                //属性
+                IsVisibleRestore = Visibility.Visible;
+                IsVisibleCompleteDelete = Visibility.Visible;
+                if (explorerList.Count == 1)
+                {
+                    IsVisibleTrashProperty = Visibility.Visible;
+                }
+            }
+            else
+            {
+                //刷新
+                IsVisibleRefresh = Visibility.Visible;
+                //IsVisibleTrashProperty = Visibility.Visible;
+            }
+        }
+
+        public void SetTrashTabItem(List<ExplorerProperty> trashList)
+        {
+            SetTrashMenuItems(trashList);
+        }
+
         private void ReSetVisibility()
         {
             IsVisibleOpen = Visibility.Collapsed;
@@ -182,6 +258,28 @@ namespace FilesExplorerInDB_WPF.Models
             IsVisibleDelete = Visibility.Collapsed;
             IsVisibleRename = Visibility.Collapsed;
             IsVisibleProperty = Visibility.Collapsed;
+        }
+
+        private void ReSetTrashVisibility()
+        {
+            IsVisibleRestore = Visibility.Collapsed;
+            IsVisibleRefresh = Visibility.Collapsed;
+            IsVisibleCompleteDelete = Visibility.Collapsed;
+            IsVisibleTrashProperty = Visibility.Collapsed;
+            IsVisibleAllDelete = Visibility.Visible;
+        }
+
+        public void SetLogMenuItems(List<LogProperty> selectItem)
+        {
+            IsVisibleRefresh = Visibility.Visible;
+            if (selectItem != null && selectItem.Count > 0)
+            {
+                IsVisibleOpen = Visibility.Visible;
+            }
+            else
+            {
+                IsVisibleOpen = Visibility.Collapsed;
+            }
         }
     }
 }

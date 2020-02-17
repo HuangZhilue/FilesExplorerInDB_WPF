@@ -12,6 +12,7 @@ namespace FilesExplorerInDB_WPF.Models
     public class BaseModels : INotifyPropertyChanged
     {
         protected static IFilesDbManager FilesDbManager { get; } = GetServer<IFilesDbManager>();
+        protected static IMonitorManager MonitorManager { get; } = GetServer<IMonitorManager>();
         protected static AssemblyInformation AppInformation { get; } = GetAssemblyInformation();
 
         public event PropertyChangedEventHandler PropertyChanged;

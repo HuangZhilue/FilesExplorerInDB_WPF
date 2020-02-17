@@ -2,11 +2,12 @@
 using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
+using FilesExplorerInDB_Models.Models;
 using Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using static System.Activator;
 
@@ -49,12 +50,28 @@ namespace FilesExplorerInDB_Manager.Implements
 
         #endregion
 
+        public List<LogProperty> GetMessageList()
+        {
+            var mList = LoadMonitorEntities(l => l.Time > DateTime.MinValue);
+            var logList = mList.Select(l => new LogProperty
+            {
+                Message = l.Message,
+                MessageType = l.MessageType,
+                ObjectName = l.ObjectName,
+                Operator = l.Operator,
+                OperationType = l.OperationType,
+                Time = l.Time
+            }).OrderByDescending(l => l.Time).ToList();
+            return logList;
+        }
+
         #region 定义的操作类别、信息类别、用户类别
 
         public enum OpType
         {
             AddFile,
             AddFolder,
+            SetRestoreState,
             SetDeleteState,
             CompleteDeleted,
             RenameFile,
@@ -70,6 +87,7 @@ namespace FilesExplorerInDB_Manager.Implements
         {
             "添加文件", //AddFile,
             "新建文件夹", //AddFolder,
+            "还原", //SetDeleteState,
             "标记为删除", //SetDeleteState,
             "完全删除", //CompleteDeleted,
             "重命名文件", //RenameFile,
@@ -199,6 +217,20 @@ namespace FilesExplorerInDB_Manager.Implements
         }
 
         /// <summary>
+        /// 监控 - 还原 - 文件
+        /// </summary>
+        /// <param name="files">目标文件</param>
+        public void RestoreFileRecord(Files files)
+        {
+            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
+            message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Warning, OpType.SetRestoreState, OperatorName.User, files.FileName, message);
+        }
+
+        /// <summary>
         /// 监控 - 删除 - 文件
         /// </summary>
         /// <param name="files">目标文件</param>
@@ -210,6 +242,20 @@ namespace FilesExplorerInDB_Manager.Implements
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
             message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
             AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, OperatorName.User, files.FileName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 还原 - 文件夹
+        /// </summary>
+        /// <param name="folders">目标文件夹</param>
+        public void RestoreFolderRecord(Folders folders)
+        {
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            var message = Environment.NewLine;
+            message += "目标文件夹：" + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Warning, OpType.SetRestoreState, OperatorName.User, folders.FolderName, message);
         }
 
         /// <summary>
@@ -230,17 +276,29 @@ namespace FilesExplorerInDB_Manager.Implements
         /// 监控 - 完全删除文件
         /// </summary>
         /// <param name="files">目标文件</param>
-        /// <param name="fileInfo">物理文件信息</param>
-        public void DeleteCompleteRecord(Files files, FileInfo fileInfo)
+        public void DeleteFileCompleteRecord(Files files)
         {
             if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
-            if (fileInfo == null) throw new Exception(Resource.Message_ArgumentNullException_FileInfo);
             var message = Environment.NewLine;
             message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
             message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
-            message += "物理文件：" + fileInfo.FullName;
+            message += "物理文件：" + files.RealName;
             AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, OperatorName.User, files.FileName, message);
+        }
+
+        /// <summary>
+        /// 监控 - 完全删除文件夹
+        /// </summary>
+        /// <param name="folders">目标文件夹</param>
+        public void DeleteFolderCompleteRecord(Folders folders)
+        {
+            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            var message = Environment.NewLine;
+            message += "目标文件夹：" + folders.FolderName + "；" + Environment.NewLine;
+            message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
+            message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
+            AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, OperatorName.User, folders.FolderName, message);
         }
 
         /// <summary>

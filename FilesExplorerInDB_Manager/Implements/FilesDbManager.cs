@@ -126,6 +126,18 @@ namespace FilesExplorerInDB_Manager.Implements
             return list;
         }
 
+        public List<ExplorerProperty> SetTrashItemsList()
+        {
+            var foldersTrashList = LoadFoldersEntities(f => f.IsDelete);
+            var filesTrashList = LoadFilesEntities(f => f.IsDelete);
+            var list = foldersTrashList.Select(folder => SetExplorerItems_Folders(folder, GetImage(Resource.folder), true))
+                .ToList();
+            //TODO 获取图标的操作过于频繁
+            list.AddRange(from file in filesTrashList select SetExplorerItems_Files(file, true));
+
+            return list;
+        }
+
         public ExplorerProperty SetExplorerItem(Folders folderNow)
         {
             if (folderNow == null) throw new Exception(Message_ArgumentNullException_Folders);
@@ -138,13 +150,14 @@ namespace FilesExplorerInDB_Manager.Implements
         /// 设置文件信息
         /// </summary>
         /// <param name="file">文件</param>
+        /// <param name="forTrash"></param>
         /// <returns>文件信息</returns>
         //// <param name="defaultBitmap">默认的文件类型图标</param>
-        private ExplorerProperty SetExplorerItems_Files(Files file)
+        private ExplorerProperty SetExplorerItems_Files(Files file, bool forTrash = false)
         {
             Property = (ExplorerProperty) CreateInstance(typeof(ExplorerProperty));
             Property.Id = file.FileId;
-            Property.FolderLocalId = file.FolderLocalId;
+            if (!forTrash) Property.FolderLocalId = file.FolderLocalId;
             Property.IsFolder = false;
             Property.Name = file.FileName;
             Property.AccessTime = file.AccessTime.ToString(CultureInfo.CurrentCulture);
@@ -163,7 +176,11 @@ namespace FilesExplorerInDB_Manager.Implements
                 //SetFilesProperty(file.FileId);
                 Property.ImageSource = GetImage(fileNotFount);
             }
+            if (!forTrash) return Property;
 
+            var stack = GetRelativePath_Folder(file.FolderLocalId);
+            var pathString = stack.Aggregate("", (current, f) => current + (f.FolderName + "/"));
+            Property.OriginSite = pathString;
             return Property;
         }
 
@@ -172,12 +189,14 @@ namespace FilesExplorerInDB_Manager.Implements
         /// </summary>
         /// <param name="folder">文件夹</param>
         /// <param name="imageSource">文件夹图标</param>
+        /// <param name="forTrash"></param>
         /// <returns>文件夹信息</returns>
-        private ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource)
+        private ExplorerProperty SetExplorerItems_Folders(Folders folder, ImageSource imageSource,
+            bool forTrash = false)
         {
             Property = (ExplorerProperty) CreateInstance(typeof(ExplorerProperty));
             Property.Id = folder.FolderId;
-            Property.FolderLocalId = folder.FolderLocalId;
+            if (!forTrash) Property.FolderLocalId = folder.FolderLocalId;
             Property.IsFolder = true;
             Property.Name = folder.FolderName;
             Property.AccessTime = "";
@@ -186,6 +205,11 @@ namespace FilesExplorerInDB_Manager.Implements
             Property.Size = folder.Size;
             Property.Type = Property_Type_Folder;
             Property.ImageSource = imageSource;
+            if (!forTrash) return Property;
+
+            var stack = GetRelativePath_Folder(folder.FolderId);
+            var pathString = stack.Aggregate("", (current, f) => current + (f.FolderName + "/"));
+            Property.OriginSite = pathString;
             return Property;
         }
 
@@ -207,6 +231,41 @@ namespace FilesExplorerInDB_Manager.Implements
 
             return mainFolders;
         }
+
+        #region 还原回收站中的项目
+
+        /// <summary>
+        /// 还原回收站中的的项目
+        /// </summary>
+        /// <param name="items">要还原的项目</param>
+        /// <returns>成功状态</returns>
+        public bool Restore(List<ExplorerProperty> items)
+        {
+            if (items == null) throw new Exception(Message_ArgumentNullException_ExplorerPropertyList);
+            foreach (var item in items)
+            {
+                if (item.IsFolder)
+                {
+                    Folders folder = FoldersFind(item.Id);
+                    if (folder == null) continue;
+                    folder.IsDelete = false;
+                    FoldersModified(folder);
+                    MonitorManager.RestoreFolderRecord(folder);
+                }
+                else
+                {
+                    Files file = FilesFind(item.Id);
+                    if (file == null) continue;
+                    file.IsDelete = false;
+                    FilesModified(file);
+                    MonitorManager.RestoreFileRecord(file);
+                }
+            }
+
+            return SaveChanges() > 0;
+        }
+
+        #endregion
 
         #region 搜索
 
@@ -394,6 +453,35 @@ namespace FilesExplorerInDB_Manager.Implements
             int s = SaveChanges();
             SetParentFoldersProperty(lid);
             return s > 0;
+        }
+
+        /// <summary>
+        /// 完全删除项目
+        /// </summary>
+        /// <param name="items">要删除的项目</param>
+        /// <returns>成功状态</returns>
+        public bool CompleteDelete(List<ExplorerProperty> items)
+        {
+            if (items == null) throw new Exception(Message_ArgumentNullException_ExplorerPropertyList);
+            foreach (var item in items)
+            {
+                if (item.IsFolder)
+                {
+                    Folders folder = FoldersFind(item.Id);
+                    if (folder == null) continue;
+                    DBService.FoldersRemove(folder);
+                    MonitorManager.DeleteFolderCompleteRecord(folder);
+                }
+                else
+                {
+                    Files file = FilesFind(item.Id);
+                    if (file == null) continue;
+                    DBService.FilesRemove(file);
+                    MonitorManager.DeleteFileCompleteRecord(file);
+                }
+            }
+
+            return SaveChanges() > 0;
         }
 
         /// <summary>
@@ -653,6 +741,7 @@ namespace FilesExplorerInDB_Manager.Implements
             while (folderId != App_RootLocalFolderId)
             {
                 Folders folders = FoldersFind(folderId);
+                if (folders == null) break;
                 stack.Push(folders);
                 folderId = folders.FolderLocalId;
             }

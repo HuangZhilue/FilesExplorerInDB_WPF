@@ -24,6 +24,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         #region 构造函数
 
         public static PropertyItemVM GetInstance { get; } = new PropertyItemVM();
+        public static PropertyItemVM GetTrashInstance { get; } = new PropertyItemVM();
 
         private PropertyItemVM()
         {

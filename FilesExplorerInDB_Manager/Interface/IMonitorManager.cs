@@ -1,12 +1,15 @@
 ﻿using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_Manager.Implements;
 using System;
-using System.IO;
+using System.Collections.Generic;
+using FilesExplorerInDB_Models.Models;
 
 namespace FilesExplorerInDB_Manager.Interface
 {
     public interface IMonitorManager
     {
+        List<LogProperty> GetMessageList();
+
         string GetOperation(MonitorManager.OpType op);
 
         string GetMessageTypeName(MonitorManager.MessageType op);
@@ -24,9 +27,15 @@ namespace FilesExplorerInDB_Manager.Interface
 
         void AddFolderRecord(Folders folders);
 
+        void RestoreFileRecord(Files files);
+
         void DeleteFolderRecord(Folders folders);
 
-        void DeleteCompleteRecord(Files files, FileInfo fileInfo);
+        void RestoreFolderRecord(Folders folders);
+
+        void DeleteFileCompleteRecord(Files files);
+
+        void DeleteFolderCompleteRecord(Folders folders);
 
         void RenameFolderRecord(Folders folders, string oldName);
 

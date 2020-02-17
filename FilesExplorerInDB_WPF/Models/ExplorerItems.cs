@@ -42,6 +42,7 @@ namespace FilesExplorerInDB_WPF.Models
         }
 
         public static ExplorerItems GetInstance { get; } = new ExplorerItems();
+        public static ExplorerItems GetTrashInstance { get; } = new ExplorerItems();
 
         private ExplorerItems()
         {
@@ -52,6 +53,11 @@ namespace FilesExplorerInDB_WPF.Models
         {
             ExplorerList = FilesDbManager.SetExplorerItemsList(folderId, out Folders folderNow);
             FolderNow = folderNow;
+        }
+
+        public void GetTrash()
+        {
+            ExplorerList = FilesDbManager.SetTrashItemsList();
         }
     }
 }

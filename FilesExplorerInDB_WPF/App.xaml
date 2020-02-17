@@ -8,6 +8,7 @@
     <Application.Resources>
         <helper:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <helper:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
+        <helper:VisibilityToBoolConverterReverse x:Key="VisibilityToBoolConverterReverse" />
 
         <ControlTemplate x:Key="Button" TargetType="{x:Type ButtonBase}">
             <Border

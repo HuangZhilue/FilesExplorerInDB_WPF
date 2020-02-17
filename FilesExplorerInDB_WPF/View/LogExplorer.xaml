@@ -1,0 +1,78 @@
+﻿<UserControl
+    x:Class="FilesExplorerInDB_WPF.View.LogExplorer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="clr-namespace:FilesExplorerInDB_WPF.Helper"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
+    x:Name="userControl"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid AllowDrop="True">
+        <ListView
+            x:Name="ListView_Explorer"
+            VerticalContentAlignment="Center"
+            ItemsSource="{Binding LogItems.LogList, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{Binding LogItems.SelectIndex, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="查看" Visibility="{Binding ContextMenuModel.IsVisibleOpen, Mode=TwoWay, Source={x:Static viewModel:LogExplorerVM.GetInstance}}">
+                        <MenuItem.Icon>
+                            <Image Source="{Binding ContextMenuModel.OpenImage, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+                        </MenuItem.Icon>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding CommandOpen, Mode=OneWay, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <MenuItem Header="刷新" Visibility="{Binding ContextMenuModel.IsVisibleRefresh, Mode=TwoWay, Source={x:Static viewModel:LogExplorerVM.GetInstance}}">
+                        <MenuItem.Icon>
+                            <Image Source="{Binding ContextMenuModel.RefreshImage, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+                        </MenuItem.Icon>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding CommandRefresh, Mode=OneWay, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger>
+                            <i:InvokeCommandAction Command="{Binding LoadedContextMenu, Mode=OneWay}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Time, StringFormat=\{0:G\}}" Header="时间" />
+                    <GridViewColumn DisplayMemberBinding="{Binding MessageType}" Header="消息类型" />
+                    <GridViewColumn DisplayMemberBinding="{Binding OperationType}" Header="操作类型" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Operator}" Header="操作员" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ObjectName}" Header="对象名称" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Message}" Header="详细信息" />
+                </GridView>
+            </ListView.View>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DblClick, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=ListView_Explorer}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Click, Mode=OneWay}" CommandParameter="{Binding SelectedItem, ElementName=ListView_Explorer}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding ClickMouseLeftButtonDown, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseRightButtonDown">
+                    <i:InvokeCommandAction Command="{Binding ClickMouseLeftButtonDown, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
+                </i:EventTrigger>
+                <i:EventTrigger>
+                    <i:InvokeCommandAction Command="{Binding Click, Mode=OneWay}" CommandParameter="{Binding ItemsSource, ElementName=ListView_Explorer}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+    </Grid>
+</UserControl>

@@ -167,7 +167,6 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void GetProperty(object parameter)
         {
-            //TODO 在这里开始，做“主页”工具栏
             switch (parameter)
             {
                 case ExplorerProperty explorerProperty:

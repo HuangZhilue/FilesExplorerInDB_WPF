@@ -25,7 +25,11 @@ namespace FilesExplorerInDB_Manager.Interface
 
         List<ExplorerProperty> SetExplorerItemsList(string localFolderId, out Folders folderNow);
 
+        List<ExplorerProperty> SetTrashItemsList();
+
         List<Folders> GetFoldersTree(string folderId, List<Folders> folders);
+
+        bool Restore(List<ExplorerProperty> items);
 
         List<ExplorerProperty> SearchResultList(string name, Folders folderNow);
 
@@ -34,6 +38,8 @@ namespace FilesExplorerInDB_Manager.Interface
         bool SetDeleteState(List<ExplorerProperty> items);
 
         bool SetDeleteState(string filesForDelete);
+
+        bool CompleteDelete(List<ExplorerProperty> items);
 
         bool Rename(List<ExplorerProperty> items, string newName);
 

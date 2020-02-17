@@ -3,11 +3,11 @@
 namespace FilesExplorerInDB_WPF.View
 {
     /// <summary>
-    /// ViewTabView.xaml 的交互逻辑
+    /// TrashTabView.xaml 的交互逻辑
     /// </summary>
-    public partial class ViewTabView : UserControl
+    public partial class TrashTabView : UserControl
     {
-        public ViewTabView()
+        public TrashTabView()
         {
             InitializeComponent();
         }
