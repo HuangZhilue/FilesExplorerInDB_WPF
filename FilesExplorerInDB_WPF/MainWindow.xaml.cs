@@ -41,6 +41,7 @@ namespace FilesExplorerInDB_WPF
 
                 WindowManager.Register<PropertyWindow>(nameof(PropertyWindow));
                 WindowManager.Register<SettingsWindow>(nameof(SettingsWindow));
+                WindowManager.Register<LogWindow>(nameof(LogWindow));
             }
             catch
             {

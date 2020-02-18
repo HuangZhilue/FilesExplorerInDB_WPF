@@ -1,0 +1,170 @@
+﻿<Window
+    x:Class="FilesExplorerInDB_WPF.LogWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FilesExplorerInDB_WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
+    Title="PropertyWindow"
+    Width="500"
+    Height="235"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    Topmost="True"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Grid Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Margin="2" Content="消息类型：" HorizontalContentAlignment="Right" />
+            <TextBox
+                Grid.Column="1"
+                Height="25"
+                Margin="2"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LogWindowModel.MessageType, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+        </Grid>
+        <Grid Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Margin="2" Content="操作类型：" HorizontalContentAlignment="Right" />
+            <TextBox
+                Grid.Column="1"
+                Height="25"
+                Margin="2"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LogWindowModel.OperationType, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+            <Rectangle
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="1"
+                VerticalAlignment="Bottom"
+                Stroke="#7F000000" />
+        </Grid>
+        <Grid Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Margin="2" Content="操作员：" HorizontalContentAlignment="Right" />
+            <TextBox
+                x:Name="TextBox_Location"
+                Grid.Column="1"
+                Height="25"
+                Margin="2"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LogWindowModel.Operator, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+            <Rectangle
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="1"
+                VerticalAlignment="Bottom"
+                Stroke="#7F000000" />
+        </Grid>
+        <Grid Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Margin="2"
+                VerticalAlignment="Top"
+                Content="时间：" HorizontalContentAlignment="Right" />
+            <TextBox
+                x:Name="TextBox_CreationTime"
+                Grid.Column="1"
+                Height="25"
+                Margin="2"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LogWindowModel.Time, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+        </Grid>
+        <Grid Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Column="0"
+                Margin="2"
+                VerticalAlignment="Top"
+                Content="操作对象：" HorizontalContentAlignment="Right" />
+            <TextBox
+                x:Name="TextBox_ModifyTime"
+                Grid.Column="1"
+                Height="25"
+                Margin="2"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LogWindowModel.ObjectName, StringFormat={}{0:yyyy年M月d日，HH:mm:ss}, Source={x:Static viewModel:LogExplorerVM.GetInstance}}" />
+        </Grid>
+        <Grid Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                x:Name="Label_AccessTime"
+                Grid.Column="0"
+                Margin="2"
+                VerticalAlignment="Top"
+                Content="具体消息：" HorizontalContentAlignment="Right" />
+            <TextBox
+                x:Name="TextBox_AccessTime"
+                Grid.Column="1"
+                Height="Auto"
+                MinHeight="25"
+                Margin="2"
+                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LogWindowModel.Message, Source={x:Static viewModel:LogExplorerVM.GetInstance}}"
+                TextWrapping="Wrap" />
+        </Grid>
+        <Grid Margin="10,0" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Rectangle
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="1"
+                VerticalAlignment="Top"
+                Stroke="#7F000000" />
+            <Button
+                Grid.Column="1"
+                Width="75"
+                Margin="2,5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding CommandClose, Source={x:Static viewModel:LogExplorerVM.GetInstance}}"
+                Content="取消" />
+        </Grid>
+    </StackPanel>
+</Window>

@@ -4,7 +4,10 @@ using Prism.Commands;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Documents;
 using System.Windows.Input;
+using FilesExplorerInDB_WPF.Helper;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -22,12 +25,13 @@ namespace FilesExplorerInDB_WPF.ViewModel
         public ICommand DblClick { get; }
         public ICommand Click { get; }
         public ICommand ClickMouseLeftButtonDown { get; }
+        public ICommand CommandClose { get; }
 
         #endregion
 
         #region 非公共字段
 
-        //private PropertyItemVM PropertyItemVM { get; } = PropertyItemVM.GetLogInstance;
+        public LogWindowModel LogWindowModel { get; } = LogWindowModel.GetInstance;
         //private PropertyWindowVM PropertyWindowVM { get; } = PropertyWindowVM.GetLogInstance;
         private List<LogProperty> SelectItem { get; set; } = new List<LogProperty>();
 
@@ -47,7 +51,9 @@ namespace FilesExplorerInDB_WPF.ViewModel
             DblClick = new DelegateCommand(Property);
             Click = new DelegateCommand<object>(GetProperty, IsProperty);
             ClickMouseLeftButtonDown = new DelegateCommand<object>(MouseLeftButtonDown, IsProperty);
+            CommandClose = new DelegateCommand(Close);
             Refresh();
+            LogItems.SelectIndex = -1;
         }
 
         #endregion
@@ -68,7 +74,27 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         private void OpenLog()
         {
+            SetLogWindows();
             Debug.WriteLine("OpenLog");
+        }
+
+        private void Close()
+        {
+            WindowManager.Remove(nameof(LogWindow));
+        }
+
+        private void SetLogWindows()
+        {
+            if (LogItems.SelectIndex > -1 && SelectItem.Count != 0)
+            {
+                LogWindowModel.MessageType = SelectItem[0].MessageType;
+                LogWindowModel.ObjectName = SelectItem[0].ObjectName;
+                LogWindowModel.OperationType = SelectItem[0].OperationType;
+                LogWindowModel.Operator = SelectItem[0].Operator;
+                LogWindowModel.Time = SelectItem[0].Time;
+                LogWindowModel.Message = SelectItem[0].Message;
+                WindowManager.Show(nameof(LogWindow), true);
+            }
         }
 
         private void MouseLeftButtonDown(object parameter)
@@ -106,7 +132,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
                 //PropertyWindowVM.SetTrashProperty(SelectItem[0]);
                 //bool? result = WindowManager.Show(nameof(PropertyWindow), true);
                 //if (result != null && result == true)
-                    Refresh();
+                OpenLog();
             }
         }
 
