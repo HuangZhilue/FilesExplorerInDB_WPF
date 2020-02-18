@@ -9,7 +9,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         #region 公共字段
 
-        public PropertyItems PropertyItems { get; } = PropertyItems.GetInstance;
+        public PropertyItems PropertyItems { get; set; } = PropertyItems.GetInstance;
 
         #endregion
 
@@ -23,8 +23,11 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         #region 构造函数
 
-        public static PropertyItemVM GetInstance { get; } = new PropertyItemVM();
-        public static PropertyItemVM GetTrashInstance { get; } = new PropertyItemVM();
+        public static PropertyItemVM GetInstance { get; } =
+            new PropertyItemVM {PropertyItems = PropertyItems.GetInstance};
+
+        public static PropertyItemVM GetTrashInstance { get; } =
+            new PropertyItemVM {PropertyItems = PropertyItems.GetTrashInstance};
 
         private PropertyItemVM()
         {

@@ -65,7 +65,14 @@
                     Visibility="{Binding WindowsModel.ShowExplorer3, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
             </Grid>
             <Grid Grid.Column="2">
-                <view:PropertyView DataContext="{x:Static viewModel:PropertyItemVM.GetInstance}" />
+                <view:PropertyView
+                    DataContext="{x:Static viewModel:PropertyItemVM.GetInstance}"
+                    IsEnabled="{Binding WindowsModel.ShowExplorer1, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                    Visibility="{Binding WindowsModel.ShowExplorer1, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <view:PropertyView
+                    DataContext="{x:Static viewModel:PropertyItemVM.GetTrashInstance}"
+                    IsEnabled="{Binding WindowsModel.ShowExplorer2, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                    Visibility="{Binding WindowsModel.ShowExplorer2, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
             </Grid>
         </Grid>
         <Border

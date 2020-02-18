@@ -101,6 +101,7 @@ namespace FilesExplorerInDB_WPF.Models
         }
 
         public static PropertyItems GetInstance = new PropertyItems();
+        public static PropertyItems GetTrashInstance = new PropertyItems();
 
         private PropertyItems()
         {
