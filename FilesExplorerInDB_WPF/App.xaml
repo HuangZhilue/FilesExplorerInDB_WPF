@@ -116,5 +116,6 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
     </Application.Resources>
 </Application>

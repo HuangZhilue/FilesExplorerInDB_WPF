@@ -239,6 +239,21 @@
   <data name="MessageBoxResult" xml:space="preserve">
     <value>MessageBoxResult</value>
   </data>
+  <data name="MessageType_Danger" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="MessageType_Info" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="MessageType_Primary" xml:space="preserve">
+    <value>主要</value>
+  </data>
+  <data name="MessageType_Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="MessageType_Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
   <data name="Message_ArgumentNullException_DbModelBuilder" xml:space="preserve">
     <value>参数DbModelBuilder不能为NULL</value>
   </data>
@@ -289,6 +304,48 @@
   </data>
   <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operation_AddFile" xml:space="preserve">
+    <value>添加文件</value>
+  </data>
+  <data name="Operation_AddFolder" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Operation_CompleteDelete" xml:space="preserve">
+    <value>完全删除</value>
+  </data>
+  <data name="Operation_CopyPath" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Operation_CutPath" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="Operation_RenameFile" xml:space="preserve">
+    <value>重命名文件</value>
+  </data>
+  <data name="Operation_RenameFolder" xml:space="preserve">
+    <value>重命名文件夹</value>
+  </data>
+  <data name="Operation_Restore" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="Operation_ScanSystem" xml:space="preserve">
+    <value>扫描系统</value>
+  </data>
+  <data name="Operation_SetDeleteState" xml:space="preserve">
+    <value>标记为还原</value>
+  </data>
+  <data name="Operation_SetMissState" xml:space="preserve">
+    <value>标记为丢失</value>
+  </data>
+  <data name="Operation_SystemError" xml:space="preserve">
+    <value>系统错误</value>
+  </data>
+  <data name="OperatorName_System" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="OperatorName_User" xml:space="preserve">
+    <value>用户</value>
   </data>
   <data name="paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

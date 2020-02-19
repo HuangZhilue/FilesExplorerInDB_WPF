@@ -73,6 +73,10 @@
                     DataContext="{x:Static viewModel:PropertyItemVM.GetTrashInstance}"
                     IsEnabled="{Binding WindowsModel.ShowExplorer2, Source={x:Static viewModel:WindowsVM.GetInstance}}"
                     Visibility="{Binding WindowsModel.ShowExplorer2, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <view:LogToolView
+                    DataContext="{x:Static viewModel:LogExplorerVM.GetInstance}"
+                    IsEnabled="{Binding WindowsModel.ShowExplorer3, Source={x:Static viewModel:WindowsVM.GetInstance}}"
+                    Visibility="{Binding WindowsModel.ShowExplorer3, Source={x:Static viewModel:WindowsVM.GetInstance}, Converter={StaticResource BoolToVisibilityConverter}}" />
             </Grid>
         </Grid>
         <Border

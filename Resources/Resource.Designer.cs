@@ -590,6 +590,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   查找类似 错误 的本地化字符串。
+        /// </summary>
+        public static string MessageType_Danger {
+            get {
+                return ResourceManager.GetString("MessageType_Danger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提示 的本地化字符串。
+        /// </summary>
+        public static string MessageType_Info {
+            get {
+                return ResourceManager.GetString("MessageType_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主要 的本地化字符串。
+        /// </summary>
+        public static string MessageType_Primary {
+            get {
+                return ResourceManager.GetString("MessageType_Primary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功 的本地化字符串。
+        /// </summary>
+        public static string MessageType_Success {
+            get {
+                return ResourceManager.GetString("MessageType_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 警告 的本地化字符串。
+        /// </summary>
+        public static string MessageType_Warning {
+            get {
+                return ResourceManager.GetString("MessageType_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ArgumentOutOfRangeException 的本地化字符串。
         /// </summary>
         public static string Messgae_ArgumentOutOfRangeException {
@@ -605,6 +650,132 @@ namespace Resources {
             get {
                 object obj = ResourceManager.GetObject("open", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加文件 的本地化字符串。
+        /// </summary>
+        public static string Operation_AddFile {
+            get {
+                return ResourceManager.GetString("Operation_AddFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建文件夹 的本地化字符串。
+        /// </summary>
+        public static string Operation_AddFolder {
+            get {
+                return ResourceManager.GetString("Operation_AddFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完全删除 的本地化字符串。
+        /// </summary>
+        public static string Operation_CompleteDelete {
+            get {
+                return ResourceManager.GetString("Operation_CompleteDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 复制 的本地化字符串。
+        /// </summary>
+        public static string Operation_CopyPath {
+            get {
+                return ResourceManager.GetString("Operation_CopyPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 剪切 的本地化字符串。
+        /// </summary>
+        public static string Operation_CutPath {
+            get {
+                return ResourceManager.GetString("Operation_CutPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重命名文件 的本地化字符串。
+        /// </summary>
+        public static string Operation_RenameFile {
+            get {
+                return ResourceManager.GetString("Operation_RenameFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重命名文件夹 的本地化字符串。
+        /// </summary>
+        public static string Operation_RenameFolder {
+            get {
+                return ResourceManager.GetString("Operation_RenameFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 还原 的本地化字符串。
+        /// </summary>
+        public static string Operation_Restore {
+            get {
+                return ResourceManager.GetString("Operation_Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 扫描系统 的本地化字符串。
+        /// </summary>
+        public static string Operation_ScanSystem {
+            get {
+                return ResourceManager.GetString("Operation_ScanSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 标记为还原 的本地化字符串。
+        /// </summary>
+        public static string Operation_SetDeleteState {
+            get {
+                return ResourceManager.GetString("Operation_SetDeleteState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 标记为丢失 的本地化字符串。
+        /// </summary>
+        public static string Operation_SetMissState {
+            get {
+                return ResourceManager.GetString("Operation_SetMissState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 系统错误 的本地化字符串。
+        /// </summary>
+        public static string Operation_SystemError {
+            get {
+                return ResourceManager.GetString("Operation_SystemError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 系统 的本地化字符串。
+        /// </summary>
+        public static string OperatorName_System {
+            get {
+                return ResourceManager.GetString("OperatorName_System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 的本地化字符串。
+        /// </summary>
+        public static string OperatorName_User {
+            get {
+                return ResourceManager.GetString("OperatorName_User", resourceCulture);
             }
         }
         

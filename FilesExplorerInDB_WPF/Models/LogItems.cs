@@ -7,6 +7,7 @@ namespace FilesExplorerInDB_WPF.Models
     {
         private List<LogProperty> _explorerList;
         private int _selectIndex;
+        private LogToolModel LogToolModel { get; } = LogToolModel.GetInstance;
 
         public int SelectIndex
         {
@@ -37,7 +38,15 @@ namespace FilesExplorerInDB_WPF.Models
 
         public void GetLog()
         {
-            LogList = MonitorManager.GetMessageList();
+            LogList = MonitorManager.GetMessageList(
+                LogToolModel.TimeStart,
+                LogToolModel.TimeEnd,
+                LogToolModel.Message,
+                LogToolModel.MessageTypeItem[
+                    LogToolModel.MessageTypeItemIndex < 0 ? 0 : LogToolModel.MessageTypeItemIndex],
+                LogToolModel.ObjectName,
+                LogToolModel.OperatorItem[LogToolModel.OperatorItemIndex < 0 ? 0 : LogToolModel.OperatorItemIndex],
+                LogToolModel.OperationType);
         }
     }
 }

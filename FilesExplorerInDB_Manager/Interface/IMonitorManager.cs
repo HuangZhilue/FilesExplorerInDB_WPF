@@ -8,13 +8,18 @@ namespace FilesExplorerInDB_Manager.Interface
 {
     public interface IMonitorManager
     {
-        List<LogProperty> GetMessageList();
+        List<LogProperty> GetMessageList(DateTime startTime, DateTime endTime, string message, string messageType,
+            string objectName, string operatorName, string operationType);
 
         string GetOperation(MonitorManager.OpType op);
 
         string GetMessageTypeName(MonitorManager.MessageType op);
 
+        string GetMessageTypeName(int messageTypeIndex);
+
         string GetOperatorType(MonitorManager.OperatorName op);
+
+        string GetOperatorType(int operatorNameIndex);
 
         void AddMonitorRecord(MonitorManager.MessageType messageType, MonitorManager.OpType opType,
             MonitorManager.OperatorName operatorName, string objectName, string message);

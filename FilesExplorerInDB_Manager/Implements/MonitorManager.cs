@@ -3,13 +3,14 @@ using FilesExplorerInDB_EF.EFModels;
 using FilesExplorerInDB_EF.Interface;
 using FilesExplorerInDB_Manager.Interface;
 using FilesExplorerInDB_Models.Models;
-using Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using static Resources.Resource;
 using static System.Activator;
+using static System.String;
 
 namespace FilesExplorerInDB_Manager.Implements
 {
@@ -22,7 +23,7 @@ namespace FilesExplorerInDB_Manager.Implements
 
         private Monitor MonitorAdd(Monitor entity, bool isSave, bool autoId = false)
         {
-            entity = DBService.MonitorAdd(entity,autoId);
+            entity = DBService.MonitorAdd(entity, autoId);
             if (isSave) SaveChanges();
             return entity;
         }
@@ -50,9 +51,20 @@ namespace FilesExplorerInDB_Manager.Implements
 
         #endregion
 
-        public List<LogProperty> GetMessageList()
+        public List<LogProperty> GetMessageList(DateTime startTime, DateTime endTime, string message, string messageType,
+            string objectName, string operatorName, string operationType)
         {
-            var mList = LoadMonitorEntities(l => l.Time > DateTime.MinValue);
+            var opType = IsNullOrWhiteSpace(operationType) ? new[] {""} : operationType.Split(';');
+            var mList = LoadMonitorEntities(l => l.Time >= startTime && l.Time <= endTime);
+            if (!IsNullOrEmpty(message))
+                mList = mList.Where(m => m.Message.Contains(message)).ToList();
+            if(!IsNullOrWhiteSpace(messageType))
+                mList = mList.Where(m => m.MessageType==messageType).ToList();
+            if(!IsNullOrEmpty(objectName))
+                mList = mList.Where(m => m.ObjectName.Contains(objectName)).ToList();
+            if(!IsNullOrWhiteSpace(operatorName))
+                mList = mList.Where(m => m.Operator == operatorName).ToList();
+            mList = opType.Where(o => !IsNullOrWhiteSpace(o)).Aggregate(mList, (current, o) => current.Where(m => m.OperationType.Contains(o)).ToList());
             var logList = mList.Select(l => new LogProperty
             {
                 Message = l.Message,
@@ -73,7 +85,7 @@ namespace FilesExplorerInDB_Manager.Implements
             AddFolder,
             SetRestoreState,
             SetDeleteState,
-            CompleteDeleted,
+            CompleteDelete,
             RenameFile,
             RenameFolder,
             CopyPath,
@@ -85,23 +97,23 @@ namespace FilesExplorerInDB_Manager.Implements
 
         private string[] Operation { get; } =
         {
-            "添加文件", //AddFile,
-            "新建文件夹", //AddFolder,
-            "还原", //SetDeleteState,
-            "标记为删除", //SetDeleteState,
-            "完全删除", //CompleteDeleted,
-            "重命名文件", //RenameFile,
-            "重命名文件夹", //RenameFolder,
-            "复制", //CopyPath,
-            "剪切", //CutPath,
-            "扫描系统", //ScanSystem,
-            "标记为丢失", //SetMissState,
-            "系统错误" //SystemError
+            Operation_AddFile,
+            Operation_AddFolder,
+            Operation_Restore,
+            Operation_SetDeleteState,
+            Operation_CompleteDelete,
+            Operation_RenameFile,
+            Operation_RenameFolder,
+            Operation_CopyPath,
+            Operation_CutPath,
+            Operation_ScanSystem,
+            Operation_SetMissState,
+            Operation_SystemError
         };
 
         public string GetOperation(OpType op)
         {
-            return Operation[Convert.ToInt32(op,CultureInfo.CurrentCulture)];
+            return Operation[Convert.ToInt32(op, CultureInfo.CurrentCulture)];
         }
 
         public enum MessageType
@@ -115,16 +127,21 @@ namespace FilesExplorerInDB_Manager.Implements
 
         private string[] MessageTypeName { get; } =
         {
-            "主要", //Primary,
-            "成功", //Success,
-            "提示", //Info,
-            "警告", //Warning,
-            "错误" //Danger
+            MessageType_Primary,
+            MessageType_Success,
+            MessageType_Info,
+            MessageType_Warning,
+            MessageType_Danger
         };
 
         public string GetMessageTypeName(MessageType op)
         {
             return MessageTypeName[Convert.ToInt32(op, CultureInfo.CurrentCulture)];
+        }
+
+        public string GetMessageTypeName(int messageTypeIndex)
+        {
+            return messageTypeIndex < MessageTypeName.Length ? MessageTypeName[messageTypeIndex] : null;
         }
 
         public enum OperatorName
@@ -135,13 +152,18 @@ namespace FilesExplorerInDB_Manager.Implements
 
         private string[] OperatorType { get; } =
         {
-            "用户", //User,
-            "系统" //System
+            OperatorName_User,
+            OperatorName_System
         };
 
         public string GetOperatorType(OperatorName op)
         {
             return OperatorType[Convert.ToInt32(op, CultureInfo.CurrentCulture)];
+        }
+
+        public string GetOperatorType(int operatorNameIndex)
+        {
+            return operatorNameIndex < OperatorType.Length ? OperatorType[operatorNameIndex] : null;
         }
 
         #endregion
@@ -154,7 +176,8 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="operatorName">操作员</param>
         /// <param name="objectName">操作对象</param>
         /// <param name="message">消息</param>
-        public void AddMonitorRecord(MessageType messageType, OpType opType, OperatorName operatorName, string objectName,
+        public void AddMonitorRecord(MessageType messageType, OpType opType, OperatorName operatorName,
+            string objectName,
             string message)
         {
             _monitor = (Monitor) CreateInstance(typeof(Monitor));
@@ -207,7 +230,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">目标文件</param>
         public void AddFileRecord(string objectName, Files files)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "原文件：" + objectName + "；" + Environment.NewLine;
             message += "复制到：" + files.RealName + "；" + Environment.NewLine;
@@ -222,7 +245,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">目标文件</param>
         public void RestoreFileRecord(Files files)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
@@ -236,7 +259,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">目标文件</param>
         public void DeleteFileRecord(Files files)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
@@ -250,12 +273,13 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folders">目标文件夹</param>
         public void RestoreFolderRecord(Folders folders)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Folders);
             var message = Environment.NewLine;
             message += "目标文件夹：" + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
             message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
-            AddMonitorRecord(MessageType.Warning, OpType.SetRestoreState, OperatorName.User, folders.FolderName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.SetRestoreState, OperatorName.User, folders.FolderName,
+                message);
         }
 
         /// <summary>
@@ -264,12 +288,13 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folders">目标文件夹</param>
         public void DeleteFolderRecord(Folders folders)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Folders);
             var message = Environment.NewLine;
             message += "目标文件夹：" + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
             message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
-            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, OperatorName.User, folders.FolderName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.SetDeleteState, OperatorName.User, folders.FolderName,
+                message);
         }
 
         /// <summary>
@@ -278,13 +303,13 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">目标文件</param>
         public void DeleteFileCompleteRecord(Files files)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "目标文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
             message += "父文件夹标识ID：" + files.FolderLocalId + "；" + Environment.NewLine;
             message += "物理文件：" + files.RealName;
-            AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, OperatorName.User, files.FileName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.CompleteDelete, OperatorName.User, files.FileName, message);
         }
 
         /// <summary>
@@ -293,12 +318,13 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folders">目标文件夹</param>
         public void DeleteFolderCompleteRecord(Folders folders)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "目标文件夹：" + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
             message += "父文件夹标识ID：" + folders.FolderLocalId + "；" + Environment.NewLine;
-            AddMonitorRecord(MessageType.Warning, OpType.CompleteDeleted, OperatorName.User, folders.FolderName, message);
+            AddMonitorRecord(MessageType.Warning, OpType.CompleteDelete, OperatorName.User, folders.FolderName,
+                message);
         }
 
         /// <summary>
@@ -307,7 +333,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="folders">新建文件夹</param>
         public void AddFolderRecord(Folders folders)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Folders);
             var message = Environment.NewLine;
             message += "新建文件夹：" + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
@@ -322,7 +348,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="oldName">旧文件夹名称</param>
         public void RenameFolderRecord(Folders folders, string oldName)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Folders);
             var message = Environment.NewLine;
             message += "重命名文件夹：" + oldName + " --> " + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
@@ -337,7 +363,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="oldName">旧文件名称</param>
         public void RenameFileRecord(Files files, string oldName)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "重命名文件：" + oldName + " --> " + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
@@ -352,7 +378,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="oldFolderLocalId">原父文件夹标识ID</param>
         public void CopyFileRecord(Files files, string oldFolderLocalId)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
@@ -367,7 +393,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="newFolderLocalId">新父文件夹标识ID</param>
         public void CopyFolderRecord(Folders folders, string newFolderLocalId)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Folders);
             var message = Environment.NewLine;
             message += "文件夹：" + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
@@ -382,7 +408,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="oldFolderLocalId">原父文件夹标识ID</param>
         public void CutFileRecord(Files files, string oldFolderLocalId)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;
@@ -397,7 +423,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="oldFolderLocalId">原父文件夹标识ID</param>
         public void CutFolderRecord(Folders folders, string oldFolderLocalId)
         {
-            if (folders == null) throw new Exception(Resource.Message_ArgumentNullException_Folders);
+            if (folders == null) throw new Exception(Message_ArgumentNullException_Folders);
             var message = Environment.NewLine;
             message += "文件夹：" + folders.FolderName + "；" + Environment.NewLine;
             message += "文件夹标识ID：" + folders.FolderId + "；" + Environment.NewLine;
@@ -411,7 +437,7 @@ namespace FilesExplorerInDB_Manager.Implements
         /// <param name="files">丢失的文件</param>
         public void SetMissStateRecord(Files files)
         {
-            if (files == null) throw new Exception(Resource.Message_ArgumentNullException_Files);
+            if (files == null) throw new Exception(Message_ArgumentNullException_Files);
             var message = Environment.NewLine;
             message += "文件：" + files.FileName + "；" + Environment.NewLine;
             message += "文件标识ID：" + files.FileId + "；" + Environment.NewLine;

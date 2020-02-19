@@ -1,13 +1,11 @@
 ﻿using FilesExplorerInDB_Models.Models;
+using FilesExplorerInDB_WPF.Helper;
 using FilesExplorerInDB_WPF.Models;
 using Prism.Commands;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Documents;
 using System.Windows.Input;
-using FilesExplorerInDB_WPF.Helper;
 
 namespace FilesExplorerInDB_WPF.ViewModel
 {
@@ -19,8 +17,11 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         public LogItems LogItems { get; } = LogItems.GetInstance;
         public ContextMenuModel ContextMenuModel { get; } = ContextMenuModel.GetLogInstance;
+        public LogWindowModel LogWindowModel { get; } = LogWindowModel.GetInstance;
+        public LogToolModel LogToolModel { get; } = LogToolModel.GetInstance;
         public ICommand CommandOpen { get; }
         public ICommand CommandRefresh { get; }
+        public ICommand CommandReset { get; }
         public ICommand LoadedContextMenu { get; }
         public ICommand DblClick { get; }
         public ICommand Click { get; }
@@ -31,7 +32,6 @@ namespace FilesExplorerInDB_WPF.ViewModel
 
         #region 非公共字段
 
-        public LogWindowModel LogWindowModel { get; } = LogWindowModel.GetInstance;
         //private PropertyWindowVM PropertyWindowVM { get; } = PropertyWindowVM.GetLogInstance;
         private List<LogProperty> SelectItem { get; set; } = new List<LogProperty>();
 
@@ -47,6 +47,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
         {
             LoadedContextMenu = new DelegateCommand<object>(CheckContextMenu, m => true);
             CommandRefresh = new DelegateCommand(Refresh);
+            CommandReset = new DelegateCommand(Reset);
             CommandOpen = new DelegateCommand(OpenLog);
             DblClick = new DelegateCommand(Property);
             Click = new DelegateCommand<object>(GetProperty, IsProperty);
@@ -70,6 +71,11 @@ namespace FilesExplorerInDB_WPF.ViewModel
         {
             LogItems.GetLog();
             Debug.WriteLine("Refresh");
+        }
+
+        private void Reset()
+        {
+            LogToolModel.Reset();
         }
 
         private void OpenLog()
