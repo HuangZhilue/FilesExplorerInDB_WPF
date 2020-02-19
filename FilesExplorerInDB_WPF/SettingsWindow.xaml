@@ -24,7 +24,7 @@
                         <ColumnDefinition Width="480" />
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <Grid Height="30">
+                        <Grid Height="30" Visibility="Collapsed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition />
