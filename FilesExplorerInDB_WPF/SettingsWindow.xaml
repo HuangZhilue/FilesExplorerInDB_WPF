@@ -8,7 +8,7 @@
     xmlns:local="clr-namespace:FilesExplorerInDB_WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-    Title="SettingsWindow"
+    Title="设置"
     Width="500"
     d:DesignHeight="400"
     mc:Ignorable="d">

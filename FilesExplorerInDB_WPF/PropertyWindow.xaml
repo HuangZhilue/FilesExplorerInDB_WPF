@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:FilesExplorerInDB_WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-    Title="PropertyWindow"
+    Title="属性"
     Width="300"
     ResizeMode="NoResize"
     SizeToContent="Height"

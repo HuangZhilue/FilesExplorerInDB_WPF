@@ -102,6 +102,7 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandLostFocus = new DelegateCommand(LostFocus);
             CommandPreviewKeyDown = new DelegateCommand(PreviewKeyDown);
             PathViewVM.SetPathString(GetSetting(RootFolderId).ToString());
+            GetProperty(null);
         }
 
         #endregion

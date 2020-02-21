@@ -51,12 +51,14 @@ namespace FilesExplorerInDB_WPF.Models
 
         public void GetFolder(string folderId)
         {
+            SelectIndex = -1;
             ExplorerList = FilesDbManager.SetExplorerItemsList(folderId, out Folders folderNow);
             FolderNow = folderNow;
         }
 
         public void GetTrash()
         {
+            SelectIndex = -1;
             ExplorerList = FilesDbManager.SetTrashItemsList();
         }
     }

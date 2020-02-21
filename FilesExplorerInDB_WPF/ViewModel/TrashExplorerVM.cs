@@ -60,6 +60,8 @@ namespace FilesExplorerInDB_WPF.ViewModel
             CommandProperty = new DelegateCommand(Property);
             CommandRefresh = new DelegateCommand(Refresh);
             ExplorerItems.GetTrash();
+            PropertyItemVM.SetProperty(string.Empty);
+            GetProperty(null);
         }
 
         #endregion

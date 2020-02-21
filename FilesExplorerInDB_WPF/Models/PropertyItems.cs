@@ -105,6 +105,7 @@ namespace FilesExplorerInDB_WPF.Models
 
         private PropertyItems()
         {
+            GetPropertyFromExplorerBlock(null);
         }
 
         #region 设置属性窗口
@@ -141,7 +142,7 @@ namespace FilesExplorerInDB_WPF.Models
         /// </summary>
         public void GetPropertyFromExplorerBlock(string nowFolderId)
         {
-            if (nowFolderId != GetSetting(RootFolderId).ToString())
+            if (!string.IsNullOrWhiteSpace(nowFolderId) && nowFolderId != GetSetting(RootFolderId).ToString())
             {
                 Folders folder = FilesDbManager.FoldersFind(nowFolderId);
                 TxtLabelName = folder.FolderName;

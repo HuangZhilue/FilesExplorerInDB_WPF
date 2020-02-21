@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:FilesExplorerInDB_WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-    Title="PropertyWindow"
+    Title="日志详情"
     Width="500"
     Height="235"
     ResizeMode="NoResize"
@@ -19,7 +19,10 @@
                 <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Margin="2" Content="消息类型：" HorizontalContentAlignment="Right" />
+            <Label
+                Margin="2"
+                HorizontalContentAlignment="Right"
+                Content="消息类型：" />
             <TextBox
                 Grid.Column="1"
                 Height="25"
@@ -36,7 +39,10 @@
                 <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Margin="2" Content="操作类型：" HorizontalContentAlignment="Right" />
+            <Label
+                Margin="2"
+                HorizontalContentAlignment="Right"
+                Content="操作类型：" />
             <TextBox
                 Grid.Column="1"
                 Height="25"
@@ -59,7 +65,10 @@
                 <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Margin="2" Content="操作员：" HorizontalContentAlignment="Right" />
+            <Label
+                Margin="2"
+                HorizontalContentAlignment="Right"
+                Content="操作员：" />
             <TextBox
                 x:Name="TextBox_Location"
                 Grid.Column="1"
@@ -86,7 +95,8 @@
             <Label
                 Margin="2"
                 VerticalAlignment="Top"
-                Content="时间：" HorizontalContentAlignment="Right" />
+                HorizontalContentAlignment="Right"
+                Content="时间：" />
             <TextBox
                 x:Name="TextBox_CreationTime"
                 Grid.Column="1"
@@ -108,7 +118,8 @@
                 Grid.Column="0"
                 Margin="2"
                 VerticalAlignment="Top"
-                Content="操作对象：" HorizontalContentAlignment="Right" />
+                HorizontalContentAlignment="Right"
+                Content="操作对象：" />
             <TextBox
                 x:Name="TextBox_ModifyTime"
                 Grid.Column="1"
@@ -131,7 +142,8 @@
                 Grid.Column="0"
                 Margin="2"
                 VerticalAlignment="Top"
-                Content="具体消息：" HorizontalContentAlignment="Right" />
+                HorizontalContentAlignment="Right"
+                Content="具体消息：" />
             <TextBox
                 x:Name="TextBox_AccessTime"
                 Grid.Column="1"

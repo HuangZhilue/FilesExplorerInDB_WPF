@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:FilesExplorerInDB_WPF.View"
     xmlns:viewModel="clr-namespace:FilesExplorerInDB_WPF.ViewModel"
-    Title="MainWindow"
+    Title="文件管理系统"
     Width="1000"
     Height="600"
     MinWidth="600"
