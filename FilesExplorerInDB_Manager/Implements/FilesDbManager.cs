@@ -111,6 +111,11 @@ namespace FilesExplorerInDB_Manager.Implements
 
         public List<ExplorerProperty> SetExplorerItemsList(string localFolderId, out Folders folderNow)
         {
+            return SetExplorerItemsList(localFolderId, out folderNow, false);
+        }
+
+        private List<ExplorerProperty> SetExplorerItemsList(string localFolderId, out Folders folderNow, bool includeDelete = false)
+        {
             if (IsNullOrWhiteSpace(localFolderId) || localFolderId == App_RootLocalFolderId)
                 localFolderId = GetSetting(SettingType.RootFolderId).ToString();
 
@@ -118,10 +123,12 @@ namespace FilesExplorerInDB_Manager.Implements
 
             if (folderNow == null) throw new Exception(Message_ResultIsNull_Folders);
             Debug.WriteLine(folderNow);
-            folderNow.FolderNodes = LoadFoldersEntities(f => f.FolderLocalId == localFolderId && f.IsDelete == false);
+            folderNow.FolderNodes = LoadFoldersEntities(f => f.FolderLocalId == localFolderId);// && f.IsDelete == false);
+            if (!includeDelete) folderNow.FolderNodes = folderNow.FolderNodes.Where(f => f.IsDelete == false).ToList();
             var list = folderNow.FolderNodes.Select(folder => SetExplorerItems_Folders(folder, GetImage(Resource.folder))).ToList();
             //TODO 获取图标的操作过于频繁
-            list.AddRange(from file in folderNow.Files where !file.IsDelete select SetExplorerItems_Files(file));
+            if (!includeDelete) list.AddRange(from file in folderNow.Files where !file.IsDelete select SetExplorerItems_Files(file));
+            else list.AddRange(from file in folderNow.Files select SetExplorerItems_Files(file));
 
             return list;
         }
@@ -468,6 +475,8 @@ namespace FilesExplorerInDB_Manager.Implements
                 if (item.IsFolder)
                 {
                     Folders folder = FoldersFind(item.Id);
+                    var child4Delete = SetExplorerItemsList(item.Id, out _, true);
+                    CompleteDelete(child4Delete);
                     if (folder == null) continue;
                     DBService.FoldersRemove(folder);
                     MonitorManager.DeleteFolderCompleteRecord(folder);

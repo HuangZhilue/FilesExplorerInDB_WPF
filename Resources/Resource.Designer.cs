@@ -735,7 +735,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   查找类似 标记为还原 的本地化字符串。
+        ///   查找类似 标记为删除 的本地化字符串。
         /// </summary>
         public static string Operation_SetDeleteState {
             get {

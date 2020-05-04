@@ -333,7 +333,7 @@
     <value>扫描系统</value>
   </data>
   <data name="Operation_SetDeleteState" xml:space="preserve">
-    <value>标记为还原</value>
+    <value>标记为删除</value>
   </data>
   <data name="Operation_SetMissState" xml:space="preserve">
     <value>标记为丢失</value>
